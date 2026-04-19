@@ -9,3 +9,257 @@
 .page-products .product-card .card-body {
   min-height: 260px;
 }
+
+/* ================================================
+   VET CTA BUTTON — Scoped styles
+   Add to your main stylesheet or a separate file
+   All classes prefixed .vet-cta-btn to avoid
+   conflicts with your existing project styles
+================================================ */
+
+/* ── Core Button / Link ── */
+.vet-cta-btn {
+  text-decoration: none; /* removes underline when used as <a> */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 28px 18px 20px;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  text-decoration: none;
+
+  background: linear-gradient(130deg, #f97316 0%, #ef4444 55%, #dc2626 100%);
+  box-shadow:
+    0 4px 20px rgba(239, 68, 68, 0.4),
+    0 1px 4px  rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+
+  transition:
+    transform    0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow   0.28s ease,
+    background   0.3s  ease;
+}
+
+/* ── Shimmer sweep ── */
+.vet-cta-btn__shimmer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    108deg,
+    transparent 30%,
+    rgba(255,255,255,0.16) 50%,
+    transparent 70%
+  );
+  background-size: 220% 100%;
+  background-position: -110% 0;
+  animation: vetShimmer 3.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes vetShimmer {
+  0%   { background-position: -110% 0; }
+  45%  { background-position: 210%  0; }
+  100% { background-position: 210%  0; }
+}
+
+/* ── Pulse rings ── */
+.vet-cta-btn__pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid rgba(239, 68, 68, 0.55);
+  animation: vetPulse 2.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  pointer-events: none;
+}
+
+.vet-cta-btn__pulse--late {
+  animation-delay: 1.3s;
+}
+
+@keyframes vetPulse {
+  0%   { transform: scale(1);    opacity: 0.7; }
+  70%  { transform: scale(1.09); opacity: 0;   }
+  100% { transform: scale(1.09); opacity: 0;   }
+}
+
+/* ── Icon circle ── */
+.vet-cta-btn__icon {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition:
+    transform  0.32s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.28s ease;
+}
+
+.vet-cta-btn__icon svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.28s ease;
+}
+
+/* ── Text block ── */
+.vet-cta-btn__text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  text-align: left;
+}
+
+.vet-cta-btn__line1 {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.vet-cta-btn__line2 {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #ffffff;
+  line-height: 1.25;
+  white-space: nowrap;
+  transition: letter-spacing 0.25s ease;
+}
+
+/* ── Arrow ── */
+.vet-cta-btn__arrow {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  color: rgba(255, 255, 255, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.vet-cta-btn__arrow svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ── Hover ── */
+.vet-cta-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  background: linear-gradient(130deg, #fb923c 0%, #f87171 55%, #ef4444 100%);
+  box-shadow:
+    0 10px 36px rgba(239, 68, 68, 0.52),
+    0 4px  12px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.vet-cta-btn:hover .vet-cta-btn__icon {
+  transform: rotate(-8deg) scale(1.1);
+  background: rgba(255, 255, 255, 0.26);
+}
+
+.vet-cta-btn:hover .vet-cta-btn__arrow {
+  transform: translateX(5px);
+}
+
+.vet-cta-btn:hover .vet-cta-btn__line1 {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.vet-cta-btn:hover .vet-cta-btn__line2 {
+  letter-spacing: 0.03em;
+}
+
+/* ── Active ── */
+.vet-cta-btn:active {
+  transform: translateY(1px) scale(0.975);
+  box-shadow:
+    0 2px 10px rgba(239, 68, 68, 0.35),
+    inset 0 2px 5px rgba(0, 0, 0, 0.15);
+  transition-duration: 0.08s;
+}
+
+/* ── Focus (keyboard) ── */
+.vet-cta-btn:focus-visible {
+  outline: 3px solid rgba(251, 146, 60, 0.85);
+  outline-offset: 4px;
+}
+
+/* ── Ripple ── */
+.vet-cta-btn .vet-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.32);
+  transform: scale(0);
+  animation: vetRipple 0.55s linear forwards;
+  pointer-events: none;
+}
+
+@keyframes vetRipple {
+  to { transform: scale(4.5); opacity: 0; }
+}
+
+/* ── Success / clicked state ── */
+.vet-cta-btn.vet--success {
+  background: linear-gradient(130deg, #22c55e 0%, #16a34a 100%);
+  box-shadow:
+    0 6px 26px rgba(34, 197, 94, 0.48),
+    0 1px 4px  rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  pointer-events: none;
+}
+
+/* ── Mobile ── */
+@media (max-width: 600px) {
+  .vet-cta-btn {
+    padding: 16px 22px 16px 16px;
+    gap: 11px;
+    border-radius: 18px;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .vet-cta-btn__icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .vet-cta-btn__line1 {
+    font-size: 10px;
+    white-space: normal;
+  }
+
+  .vet-cta-btn__line2 {
+    font-size: 15px;
+    white-space: normal;
+  }
+
+  /* Disable hover lift on touch devices */
+  .vet-cta-btn:hover {
+    transform: none;
+  }
+
+  .vet-cta-btn:active {
+    transform: scale(0.96);
+  }
+}
+
+@media (max-width: 360px) {
+  .vet-cta-btn__line2 {
+    font-size: 13.5px;
+  }
+}
