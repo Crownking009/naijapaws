@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="./">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NaijaPaws dog detail page built with full HTML, CSS, and JavaScript.">
+  <meta name="theme-color" content="#38607f">
+  <title>NaijaPaws | Dog Detail</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/dog.css">
+</head>
+<body class="page-dog">
+  <div class="fraud-banner" role="alert">Pay through NaijaPaws-admin-managed channels only. Never pay sellers directly.</div>
+
+  <nav class="navbar" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="nav-logo-text">Naija<span>Paws</span></span></a>
+      <ul class="nav-links">
+         <li><a href="index.html" class="nav-link-active">Home</a></li>
+        <li><a href="marketplace.html">Shop Dogs</a></li>
+        <li><a href="products.html">Dog Accessories</a></li>
+        <li><a href="services.html">Vet Services</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button type="button" class="nav-cart-btn" data-open-cart>Cart <span class="cart-badge" style="display:none"></span></button>
+        <div data-auth-guest>
+          <a href="login.html" class="btn btn-secondary btn-sm">Login</a>
+          <a href="register.html" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+        <div data-auth-user style="display:none;align-items:center;gap:0.75rem">
+          <a href="dashboard.html" class="btn btn-secondary btn-sm" data-user-link>Dashboard</a>
+          <button type="button" class="btn btn-sm" style="color:var(--text-muted)" data-logout>Log Out</button>
+        </div>
+        <button type="button" class="nav-mobile-toggle" aria-label="Open menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="nav-mobile" aria-label="Mobile navigation">
+    <div class="nav-mobile-drawer">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem">
+        <span class="nav-logo-text">Naija<span style="color:var(--forest)">Paws</span></span>
+        <button type="button" class="nav-mobile-close" style="font-size:1.5rem;color:var(--text-muted)">x</button>
+      </div>
+      <nav class="nav-mobile-links">
+        <a href="marketplace.html">Dogs</a>
+        <a href="products.html">Products</a>
+        <a href="services.html">Vet Services</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="cart-overlay" aria-label="Shopping cart">
+    <div class="cart-drawer">
+      <div class="cart-header">
+        <span class="display-sm">My Cart</span>
+        <button type="button" class="cart-close" style="font-size:1.5rem;color:var(--text-muted)">x</button>
+      </div>
+      <div class="cart-body"></div>
+      <div class="cart-footer" style="display:none"></div>
+    </div>
+  </div>
+
+  <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <main>
+    <section class="section" style="padding-top:2rem">
+      <div class="container">
+        <nav class="breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="breadcrumb-sep">&rsaquo;</span>
+          <a href="marketplace.html">Marketplace</a>
+          <span class="breadcrumb-sep">&rsaquo;</span>
+          <span>Champion Bloodline German Shepherd</span>
+        </nav>
+
+        <div style="display:grid;grid-template-columns:1fr 380px;gap:3rem;align-items:start" class="js-responsive-detail">
+          <div>
+            <div style="background:var(--sand);border-radius:var(--radius-xl);overflow:hidden;margin-bottom:1.5rem;position:relative">
+              <div style="aspect-ratio:4/3;overflow:hidden;position:relative">
+                <img id="dog-main-image" src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1200&q=80" alt="Champion Bloodline German Shepherd" style="width:100%;height:100%;object-fit:cover">
+                <div style="position:absolute;bottom:0;left:0;right:0;padding:0.875rem 1.25rem;background:linear-gradient(0deg,rgba(0,0,0,0.72) 0%,transparent 100%);color:white;font-size:0.78rem">
+                  Pay admins only. Never transfer directly to a seller.
+                </div>
+                <div style="position:absolute;top:1rem;left:1rem">
+                  <span class="card-badge badge-sale" style="position:static">Dogs for Sale</span>
+                  <span class="card-badge badge-featured" style="position:static;margin-left:0.5rem">Featured</span>
+                </div>
+              </div>
+
+              <div style="display:flex;gap:0.5rem;padding:0.875rem;overflow-x:auto;background:var(--warm-white)">
+                <button type="button" data-gallery-image="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1200&q=80" style="padding:0;border:2px solid var(--forest);border-radius:var(--radius-md);overflow:hidden">
+                  <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=300&q=80" alt="Dog photo 1" style="width:72px;height:72px;object-fit:cover">
+                </button>
+                <button type="button" data-gallery-image="https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=1200&q=80" style="padding:0;border:2px solid transparent;border-radius:var(--radius-md);overflow:hidden">
+                  <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=300&q=80" alt="Dog photo 2" style="width:72px;height:72px;object-fit:cover">
+                </button>
+                <button type="button" data-gallery-image="https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=1200&q=80" style="padding:0;border:2px solid transparent;border-radius:var(--radius-md);overflow:hidden">
+                  <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=300&q=80" alt="Dog photo 3" style="width:72px;height:72px;object-fit:cover">
+                </button>
+              </div>
+            </div>
+
+            <div style="background:var(--warm-white);border-radius:var(--radius-xl);padding:2rem;box-shadow:var(--shadow-xs);border:1.5px solid rgba(139,185,181,0.24);margin-bottom:1.5rem">
+              <h2 style="font-family:var(--font-display);font-size:1.25rem;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid rgba(139,185,181,0.28)">Dog Information</h2>
+              <div class="grid-2">
+                <div class="verification-card" style="padding:1rem"><div class="text-xs text-muted">Breed</div><div class="font-semibold">German Shepherd</div></div>
+                <div class="verification-card" style="padding:1rem"><div class="text-xs text-muted">Age</div><div class="font-semibold">1yr 2mo</div></div>
+                <div class="verification-card" style="padding:1rem"><div class="text-xs text-muted">Gender</div><div class="font-semibold">Male</div></div>
+                <div class="verification-card" style="padding:1rem"><div class="text-xs text-muted">Location</div><div class="font-semibold">Lekki, Lagos</div></div>
+                <div class="verification-card" style="padding:1rem"><div class="text-xs text-muted">Pedigree</div><div class="font-semibold">Yes</div></div>
+                <div class="verification-card" style="padding:1rem"><div class="text-xs text-muted">Vaccinated</div><div class="font-semibold">Yes</div></div>
+                <div class="verification-card" style="padding:1rem"><div class="text-xs text-muted">Temperament</div><div class="font-semibold">Friendly</div></div>
+                <div class="verification-card" style="padding:1rem"><div class="text-xs text-muted">Purpose</div><div class="font-semibold">Security, Family</div></div>
+              </div>
+              <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(139,185,181,0.28)">
+                <h3 style="font-family:var(--font-display);font-size:1rem;margin-bottom:0.75rem">About this dog</h3>
+                <p class="text-sm text-muted" style="line-height:1.8">
+                  A social and obedient working-line German Shepherd with strong structure, complete vaccinations, and clean lineage documentation.
+                  This listing is now presented as hand-written front-end HTML instead of a PHP-rendered detail template.
+                </p>
+              </div>
+            </div>
+
+            <div style="background:var(--warm-white);border-radius:var(--radius-xl);padding:2rem;box-shadow:var(--shadow-xs);border:1.5px solid rgba(139,185,181,0.24)">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.75rem">
+                <h3 style="font-family:var(--font-display);font-size:1.1rem">Reviews</h3>
+                <div style="display:flex;align-items:center;gap:0.5rem">
+                  <div class="stars"><span class="star-filled">&#9733;</span><span class="star-filled">&#9733;</span><span class="star-filled">&#9733;</span><span class="star-filled">&#9733;</span><span class="star-filled">&#9733;</span></div>
+                  <span class="text-sm text-muted">4.8 / 5</span>
+                </div>
+              </div>
+              <div class="verification-card" style="padding:1rem;margin-bottom:0.75rem">
+                <div class="font-semibold" style="margin-bottom:0.25rem">Verified buyer</div>
+                <p class="text-sm text-muted">The profile matched what I saw in person and the seller communication stayed clear.</p>
+              </div>
+              <div class="verification-card" style="padding:1rem">
+                <div class="font-semibold" style="margin-bottom:0.25rem">Repeat customer</div>
+                <p class="text-sm text-muted">Vaccination details and temperament notes made this page very easy to trust.</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="position:sticky;top:100px">
+            <div style="background:var(--warm-white);border-radius:var(--radius-xl);padding:2rem;box-shadow:var(--shadow-md);border:1.5px solid rgba(139,185,181,0.28);margin-bottom:1.5rem">
+              <h1 style="font-family:var(--font-display);font-size:1.5rem;margin-bottom:0.5rem">Champion Bloodline German Shepherd</h1>
+              <div class="card-tags" style="margin-bottom:0.75rem">
+                <span class="tag">Dogs for Sale</span>
+                <span class="tag tag-green">Vaccinated</span>
+                <span class="tag tag-orange">Pedigree</span>
+              </div>
+              <div class="card-price" style="margin-bottom:0.5rem">&#8358;850,000</div>
+              <p class="text-sm text-muted" style="margin-bottom:1.25rem">Rabies, DHPP, and deworming schedule current.</p>
+              <div class="verification-card" style="padding:1rem;margin-bottom:1rem">
+                <div class="card-seller">
+                  <div class="card-seller-avatar">AK</div>
+                  <div>
+                    <div class="font-semibold">Adeniyi Kennels</div>
+                    <div class="text-xs text-muted">Seller profile available in the static frontend demo</div>
+                  </div>
+                </div>
+              </div>
+              <button class="btn btn-primary btn-block" data-add-cart data-id="101" data-type="dog" data-name="Champion Bloodline German Shepherd" data-price="850000" data-image="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1200&q=80" data-seller="Adeniyi Kennels">Add To Cart</button>
+              <a href="services.html#request" class="btn btn-secondary btn-block" style="margin-top:0.75rem">Request Vet Advice</a>
+            </div>
+
+            <div class="verification-card">
+              <h3 style="font-family:var(--font-display);font-size:1rem;margin-bottom:0.75rem">Related listings</h3>
+              <div style="display:flex;flex-direction:column;gap:0.75rem">
+                <a href="marketplace.html" style="display:flex;gap:0.75rem;align-items:center;padding:0.75rem;border-radius:var(--radius-lg);background:var(--warm-white)">
+                  <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=300&q=80" alt="Labrador" style="width:72px;height:72px;object-fit:cover;border-radius:var(--radius-md)">
+                  <div><div class="font-semibold" style="font-size:0.9rem">Playful Labrador Retriever Puppy</div><div class="text-xs text-muted">Abuja • Labrador Retriever</div></div>
+                </a>
+                <a href="marketplace.html" style="display:flex;gap:0.75rem;align-items:center;padding:0.75rem;border-radius:var(--radius-lg);background:var(--warm-white)">
+                  <img src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=300&q=80" alt="Boerboel" style="width:72px;height:72px;object-fit:cover;border-radius:var(--radius-md)">
+                  <div><div class="font-semibold" style="font-size:0.9rem">Calm Boerboel Guard Prospect</div><div class="text-xs text-muted">Ogun • Boerboel</div></div>
+                </a>
+                <a href="marketplace.html?category=mating" style="display:flex;gap:0.75rem;align-items:center;padding:0.75rem;border-radius:var(--radius-lg);background:var(--warm-white)">
+                  <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80" alt="French Bulldog" style="width:72px;height:72px;object-fit:cover;border-radius:var(--radius-md)">
+                  <div><div class="font-semibold" style="font-size:0.9rem">Compact French Bulldog Stud</div><div class="text-xs text-muted">Lagos • French Bulldog</div></div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo-text">Naija<span>Paws</span></div>
+          <p class="footer-desc">This dog detail page now exists as a full HTML document with its own gallery, seller card, review section, and CTA area.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Marketplace</div>
+          <ul class="footer-links">
+            <li><a href="marketplace.html">Browse Dogs</a></li>
+            <li><a href="marketplace.html?category=adoption">Adoption</a></li>
+            <li><a href="marketplace.html?category=mating">Mating</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Support</div>
+          <ul class="footer-links">
+            <li><a href="services.html">Vet Services</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Account</div>
+          <ul class="footer-links">
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2026 NaijaPaws.</div>
+        <div>Dog detail page in full HTML, CSS, and JS.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/site-data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/dog.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+.page-dashboard .stats-grid {
+  margin-top: 1rem;
+}
+
+.page-dashboard #dashboard-cart-list:empty::before {
+  content: 'No cart activity yet.';
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}

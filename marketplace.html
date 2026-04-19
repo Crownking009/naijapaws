@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="./">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NaijaPaws marketplace page built with full HTML, CSS, and JavaScript.">
+  <meta name="theme-color" content="#38607f">
+  <title>NaijaPaws | Marketplace</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/marketplace.css">
+  <link rel="stylesheet" href="css/shop-hero.css">
+</head>
+<body class="page-marketplace">
+  <div class="fraud-banner" role="alert">Pay through NaijaPaws-admin-managed channels only. Never pay sellers directly.</div>
+
+  <nav class="navbar" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="nav-logo-text">Naija<span>Paws</span></span></a>
+      <ul class="nav-links">
+         <li><a href="index.html">Home</a></li>
+        <li><a href="marketplace.html" class="nav-link-active">Shop Dogs</a></li>
+        <li><a href="products.html">Dog Accessories</a></li>
+        <li><a href="services.html">Vet Services</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button type="button" class="nav-cart-btn" data-open-cart>Cart <span class="cart-badge" style="display:none"></span></button>
+        <div data-auth-guest>
+          <a href="login.html" class="btn btn-secondary btn-sm">Login</a>
+          <a href="register.html" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+        <div data-auth-user style="display:none;align-items:center;gap:0.75rem">
+          <a href="dashboard.html" class="btn btn-secondary btn-sm" data-user-link>Dashboard</a>
+          <button type="button" class="btn btn-sm" style="color:var(--text-muted)" data-logout>Log Out</button>
+        </div>
+        <button type="button" class="nav-mobile-toggle" aria-label="Open menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="nav-mobile" aria-label="Mobile navigation">
+    <div class="nav-mobile-drawer">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem">
+        <span class="nav-logo-text">Naija<span style="color:var(--forest)">Paws</span></span>
+        <button type="button" class="nav-mobile-close" style="font-size:1.5rem;color:var(--text-muted)">x</button>
+      </div>
+      <nav class="nav-mobile-links">
+        <a href="index.html">Home</a>
+        <a href="marketplace.html">Shop Dogs</a>
+        <a href="products.html">Dog Accessories</a>
+        <a href="services.html">Vet Services</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="cart-overlay" aria-label="Shopping cart">
+    <div class="cart-drawer">
+      <div class="cart-header">
+        <span class="display-sm">My Cart</span>
+        <button type="button" class="cart-close" style="font-size:1.5rem;color:var(--text-muted)">x</button>
+      </div>
+      <div class="cart-body"></div>
+      <div class="cart-footer" style="display:none"></div>
+    </div>
+  </div>
+
+  <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <main>
+
+
+<!-- =============================================
+         SHOP HERO SECTION
+    ============================================= -->
+    <!-- =============================================
+     SHOP HERO SECTION — shop-hero.html
+     Requires: shop-hero.css and shop-hero.js
+============================================= -->
+
+<section class="shp-hero" id="shpHero">
+
+  <!-- ── TOP HALF ── -->
+  <div class="shp-hero__top">
+
+    <!-- Left content -->
+    <div class="shp-hero__content">
+      <h1 class="shp-hero__headline" id="shpHeadline">
+        Shop Cute Dogs <br>Dog Accessories
+      </h1>
+
+      <p class="shp-hero__subtext" id="shpSubtext">
+        Discover adorable dogs and accessories from trusted<br>
+        breeders and shelters. Healthy, happy, and full of love—find<br>
+        your perfect furry companion today.
+      </p>
+
+      <button class="shp-hero__vet-btn" id="shpVetBtn">
+        <span class="shp-hero__vet-line1">FINDING IT DIFFICULT TO CHOOSE A DOG?</span>
+        <span class="shp-hero__vet-line2">TALK TO OUR VETERINARY</span>
+      </button>
+
+      <div class="shp-hero__counter" id="shpCounter">
+        <p class="shp-hero__counter-num">
+          <span id="shpCount">0</span><span class="shp-hero__counter-plus">+</span>
+        </p>
+        <p class="shp-hero__counter-label">HAPPY CUSTOMER</p>
+      </div>
+    </div>
+
+    <!-- Centre float: oval pet image -->
+    <div class="shp-hero__oval-wrap" id="shpOval">
+      <div class="shp-hero__oval">
+        <img
+          class="shp-hero__oval-img"
+          src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=320&q=80"
+          alt="Dog and cat"
+        />
+      </div>
+    </div>
+
+    <!-- Right: large dog image -->
+    <div class="shp-hero__dog-wrap" id="shpDogWrap">
+      <img
+        class="shp-hero__dog-img"
+        src="assets/images/heroimage.png"
+        alt="Dog in blue hoodie"
+      />
+    </div>
+
+  </div>
+
+  <!-- ── BOTTOM: Collection Cards ── -->
+  <div class="shp-hero__cards-wrapper">
+    <div class="shp-hero__cards" id="shpCards">
+
+      <!-- Card 1: no badge -->
+      <div class="shp-hero__card">
+        <div class="shp-hero__card-text">
+          <p class="shp-hero__card-title">Cute Dogs<br>Collections</p>
+          <button class="shp-hero__shop-btn">Shop Now</button>
+        </div>
+        <img
+          class="shp-hero__card-img"
+          src="assets/images/pomdog.png"
+          alt="Pomeranian Dog"
+        />
+      </div>
+
+      <!-- Card 2: with badge -->
+      <div class="shp-hero__card">
+        <div class="shp-hero__card-badge">Flat 25% Off</div>
+        <div class="shp-hero__card-text">
+          <p class="shp-hero__card-title">Security Dogs<br>collections</p>
+          <button class="shp-hero__shop-btn">Shop Now</button>
+        </div>
+        <img
+          class="shp-hero__card-img"
+          src="assets/images/ambully.png"
+          alt="American Bully Dog"
+        />
+      </div>
+
+      <!-- Card 3: with badge -->
+      <div class="shp-hero__card">
+        <div class="shp-hero__card-badge">Save 20% Today</div>
+        <div class="shp-hero__card-text">
+          <p class="shp-hero__card-title">Palour Dogs<br>Collections</p>
+          <button class="shp-hero__shop-btn">Shop Now</button>
+        </div>
+        <img
+          class="shp-hero__card-img"
+          src="assets/images/MALTESE.png"
+          alt="Maltese"
+        />
+      </div>
+
+    </div>
+  </div>
+
+</section>
+    <!-- END SHOP HERO -->
+
+
+
+    <div style="background-color:var(--forest);padding:3rem 0;color:white">
+      <div class="container">
+        <div class="breadcrumb" style="color:rgba(255,255,255,0.7)">
+          <a href="index.html" style="color:rgba(255,255,255,0.7)">Home</a>
+          <span class="breadcrumb-sep">&rsaquo;</span>
+          <span>Marketplace</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+          <div>
+            <h1 style="font-family:var(--font-display);font-size:clamp(1.9rem,4vw,3rem);margin-bottom:0.5rem">Dog Marketplace</h1>
+            <p style="color:rgba(255,255,255,0.78)"><span id="marketplace-results-count">6</span> matching listings</p>
+          </div>
+          <div style="display:flex;gap:0.5rem;background:rgba(255,255,255,0.1);padding:0.4rem;border-radius:var(--radius-full);flex-wrap:wrap">
+            <a href="marketplace.html?category=sale" style="padding:0.5rem 1rem;border-radius:var(--radius-full);font-size:0.85rem;font-weight:600;background:var(--warm-white);color:var(--dark-brown)">Dogs for Sale</a>
+            <a href="marketplace.html?category=adoption" style="padding:0.5rem 1rem;border-radius:var(--radius-full);font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.75)">Adoption</a>
+            <a href="marketplace.html?category=mating" style="padding:0.5rem 1rem;border-radius:var(--radius-full);font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.75)">Mating</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <div style="display:grid;grid-template-columns:280px 1fr;gap:2rem;align-items:start" class="js-responsive-split">
+          <aside style="position:sticky;top:100px">
+            <form id="marketplace-filter-form" style="background:var(--warm-white);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-xs);border:1.5px solid rgba(139,185,181,0.24)">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem">
+                <span style="font-family:var(--font-display);font-size:1rem;font-weight:600">Filters</span>
+                <a href="marketplace.html" class="text-sm text-muted">Clear</a>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="market-category">Category</label>
+                <select id="market-category" name="category" class="form-control">
+                  <option value="">All categories</option>
+                  <option value="sale">Sale</option>
+                  <option value="adoption">Adoption</option>
+                  <option value="mating">Mating</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="market-search">Search</label>
+                <div class="filter-search">
+                  <span class="filter-search-icon">&#128269;</span>
+                  <input id="market-search" type="search" name="search" class="form-control" placeholder="Breed, seller, state">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="market-breed">Breed</label>
+                <select id="market-breed" name="breed" class="form-control">
+                  <option value="">All breeds</option>
+                  <option value="German Shepherd">German Shepherd</option>
+                  <option value="Labrador Retriever">Labrador Retriever</option>
+                  <option value="Boerboel">Boerboel</option>
+                  <option value="Mixed Breed">Mixed Breed</option>
+                  <option value="Beagle">Beagle</option>
+                  <option value="French Bulldog">French Bulldog</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="market-gender">Gender</label>
+                  <select id="market-gender" name="gender" class="form-control">
+                    <option value="">Any</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="market-state">State</label>
+                  <select id="market-state" name="state" class="form-control">
+                    <option value="">All states</option>
+                    <option value="Lagos">Lagos</option>
+                    <option value="Abuja">Abuja</option>
+                    <option value="Ogun">Ogun</option>
+                    <option value="Enugu">Enugu</option>
+                    <option value="Rivers">Rivers</option>
+                  </select>
+                </div>
+              </div>
+
+              <label class="checkbox-group" style="margin-bottom:1rem">
+                <input type="checkbox" name="pedigree" value="1">
+                <label>Pedigree only</label>
+              </label>
+
+              <div class="form-group">
+                <label class="form-label" for="market-sort">Sort</label>
+                <select id="market-sort" name="sort" class="form-control">
+                  <option value="featured">Featured first</option>
+                  <option value="newest">Newest</option>
+                  <option value="price_asc">Price low to high</option>
+                  <option value="price_desc">Price high to low</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block">Apply Filters</button>
+            </form>
+          </aside>
+
+          <div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem">
+              <div class="text-sm text-muted">Showing hand-coded marketplace cards in full HTML.</div>
+              <a href="services.html" class="btn btn-secondary btn-sm">Need a vet first?</a>
+            </div>
+
+            <div class="grid-3">
+              <article class="listing-card fade-in-up" data-market-card data-category="sale" data-breed="German Shepherd" data-state="Lagos" data-gender="male" data-pedigree="1" data-search="champion bloodline german shepherd lagos adeniyi kennels">
+                <div class="card-image-wrap">
+                  <a href="dog.html"><img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1200&q=80" alt="Champion Bloodline German Shepherd"></a>
+                  <span class="card-badge badge-sale">Sale</span>
+                  <span class="card-badge badge-featured" style="left:auto;right:0.75rem;top:0.75rem">Featured</span>
+                  <button class="card-fav-btn" data-favorite-id="101" data-favorite-type="dog">&#9825;</button>
+                </div>
+                <div class="card-body">
+                  <div class="card-tags"><span class="tag">German Shepherd</span><span class="tag tag-green">male</span><span class="tag tag-orange">Pedigree</span></div>
+                  <h3 class="card-title"><a href="dog.html">Champion Bloodline German Shepherd</a></h3>
+                  <div class="card-meta"><span class="card-meta-item">Lagos</span><span class="card-meta-item">1yr 2mo</span><span class="card-meta-item">friendly</span></div>
+                  <div class="card-price">&#8358;850,000</div>
+                  <div class="card-footer">
+                    <div class="card-seller"><div class="card-seller-avatar">AK</div><div>Adeniyi Kennels</div></div>
+                    <button class="btn btn-primary btn-sm" data-add-cart data-id="101" data-type="dog" data-name="Champion Bloodline German Shepherd" data-price="850000" data-image="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1200&q=80" data-seller="Adeniyi Kennels">Add to Cart</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="listing-card fade-in-up" data-market-card data-category="sale" data-breed="Labrador Retriever" data-state="Abuja" data-gender="female" data-pedigree="0" data-search="playful labrador retriever puppy abuja golden trails pets">
+                <div class="card-image-wrap">
+                  <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=1200&q=80" alt="Playful Labrador Retriever Puppy">
+                  <span class="card-badge badge-sale">Sale</span>
+                  <button class="card-fav-btn" data-favorite-id="102" data-favorite-type="dog">&#9825;</button>
+                </div>
+                <div class="card-body">
+                  <div class="card-tags"><span class="tag">Labrador Retriever</span><span class="tag tag-green">female</span><span class="tag tag-green">Vaccinated</span></div>
+                  <h3 class="card-title">Playful Labrador Retriever Puppy</h3>
+                  <div class="card-meta"><span class="card-meta-item">Abuja</span><span class="card-meta-item">6 months</span><span class="card-meta-item">friendly</span></div>
+                  <div class="card-price">&#8358;420,000</div>
+                  <div class="card-footer">
+                    <div class="card-seller"><div class="card-seller-avatar">GT</div><div>Golden Trails Pets</div></div>
+                    <button class="btn btn-primary btn-sm" data-add-cart data-id="102" data-type="dog" data-name="Playful Labrador Retriever Puppy" data-price="420000" data-image="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=1200&q=80" data-seller="Golden Trails Pets">Add to Cart</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="listing-card fade-in-up" data-market-card data-category="sale" data-breed="Boerboel" data-state="Ogun" data-gender="male" data-pedigree="1" data-search="calm boerboel guard prospect ogun prime guard dogs">
+                <div class="card-image-wrap">
+                  <img src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=1200&q=80" alt="Calm Boerboel Guard Prospect">
+                  <span class="card-badge badge-sale">Sale</span>
+                  <button class="card-fav-btn" data-favorite-id="103" data-favorite-type="dog">&#9825;</button>
+                </div>
+                <div class="card-body">
+                  <div class="card-tags"><span class="tag">Boerboel</span><span class="tag tag-green">male</span><span class="tag tag-orange">Pedigree</span></div>
+                  <h3 class="card-title">Calm Boerboel Guard Prospect</h3>
+                  <div class="card-meta"><span class="card-meta-item">Ogun</span><span class="card-meta-item">1yr 4mo</span><span class="card-meta-item">moderate</span></div>
+                  <div class="card-price">&#8358;780,000</div>
+                  <div class="card-footer">
+                    <div class="card-seller"><div class="card-seller-avatar">PG</div><div>Prime Guard Dogs</div></div>
+                    <button class="btn btn-primary btn-sm" data-add-cart data-id="103" data-type="dog" data-name="Calm Boerboel Guard Prospect" data-price="780000" data-image="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=1200&q=80" data-seller="Prime Guard Dogs">Add to Cart</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="listing-card fade-in-up" data-market-card data-category="adoption" data-breed="Mixed Breed" data-state="Enugu" data-gender="female" data-pedigree="0" data-search="rescued indie pup ready for adoption enugu hope tails rescue">
+                <div class="card-image-wrap">
+                  <img src="https://images.unsplash.com/photo-1561037404-61cd46aa615b?auto=format&fit=crop&w=1200&q=80" alt="Rescued Indie Pup Ready For Adoption">
+                  <span class="card-badge badge-adoption">Adoption</span>
+                  <button class="card-fav-btn" data-favorite-id="104" data-favorite-type="dog">&#9825;</button>
+                </div>
+                <div class="card-body">
+                  <div class="card-tags"><span class="tag">Mixed Breed</span><span class="tag tag-green">female</span><span class="tag tag-green">Vaccinated</span></div>
+                  <h3 class="card-title">Rescued Indie Pup Ready For Adoption</h3>
+                  <div class="card-meta"><span class="card-meta-item">Enugu</span><span class="card-meta-item">8 months</span><span class="card-meta-item">friendly</span></div>
+                  <div class="card-price free">Free Adoption</div>
+                  <div class="card-footer">
+                    <div class="card-seller"><div class="card-seller-avatar">HT</div><div>Hope Tails Rescue</div></div>
+                    <a href="services.html" class="btn btn-primary btn-sm">Get Advice</a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="listing-card fade-in-up" data-market-card data-category="mating" data-breed="Beagle" data-state="Rivers" data-gender="male" data-pedigree="1" data-search="healthy beagle pair for mating rivers k9 house">
+                <div class="card-image-wrap">
+                  <img src="https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=1200&q=80" alt="Healthy Beagle Pair For Mating">
+                  <span class="card-badge badge-mating">Mating</span>
+                  <button class="card-fav-btn" data-favorite-id="105" data-favorite-type="dog">&#9825;</button>
+                </div>
+                <div class="card-body">
+                  <div class="card-tags"><span class="tag">Beagle</span><span class="tag tag-green">male</span><span class="tag tag-orange">Pedigree</span></div>
+                  <h3 class="card-title">Healthy Beagle Pair For Mating</h3>
+                  <div class="card-meta"><span class="card-meta-item">Rivers</span><span class="card-meta-item">2yrs</span><span class="card-meta-item">friendly</span></div>
+                  <div class="card-price">&#8358;150,000</div>
+                  <div class="card-footer">
+                    <div class="card-seller"><div class="card-seller-avatar">RK</div><div>Rivers K9 House</div></div>
+                    <a href="services.html" class="btn btn-primary btn-sm">Contact</a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="listing-card fade-in-up" data-market-card data-category="mating" data-breed="French Bulldog" data-state="Lagos" data-gender="male" data-pedigree="1" data-search="compact french bulldog stud lagos urban k9 loft">
+                <div class="card-image-wrap">
+                  <img src="assets/images/frenchbull.jpg" alt="Compact French Bulldog Stud">
+                  <span class="card-badge badge-mating">Mating</span>
+                  <span class="card-badge badge-featured" style="left:auto;right:0.75rem;top:0.75rem">Featured</span>
+                  <button class="card-fav-btn" data-favorite-id="108" data-favorite-type="dog">♡</button>
+                </div>
+
+                <div class="card-body">
+                  <div class="card-tags"><span class="tag">French Bulldog</span><span class="tag tag-green">male</span><span class="tag tag-orange">Pedigree</span></div>
+                  <h3 class="card-title">Compact French Bulldog Stud</h3>
+                  <div class="card-meta"><span class="card-meta-item">Lagos</span><span class="card-meta-item">1yr 8mo</span><span class="card-meta-item">friendly</span></div>
+                  <div class="card-price">&#8358;250,000</div>
+                  <div class="card-footer">
+                    <div class="card-seller"><div class="card-seller-avatar">UK</div><div>Urban K9 Loft</div></div>
+                    <a href="services.html" class="btn btn-primary btn-sm">Contact</a>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo-text">Naija<span>Paws</span></div>
+          <p class="footer-desc">This marketplace page now contains its own real HTML content and uses JavaScript only for interaction and filtering.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Marketplace</div>
+          <ul class="footer-links">
+            <li><a href="marketplace.html">Dogs for Sale</a></li>
+            <li><a href="marketplace.html?category=adoption">Dog Adoption</a></li>
+            <li><a href="marketplace.html?category=mating">Dog Mating</a></li>
+            <li><a href="dog.html">Dog Detail</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Support</div>
+          <ul class="footer-links">
+            <li><a href="services.html">Vet Services</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="seller-verification.html">Become a Seller</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Account</div>
+          <ul class="footer-links">
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2026 NaijaPaws.</div>
+        <div>Marketplace in full HTML, CSS, and JS.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/site-data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/marketplace.js"></script>
+  <script src="js/shop-hero.js"></script>
+</body>
+</html>

@@ -1,0 +1,388 @@
+/* =============================================
+   SHOP HERO SECTION STYLES — shop-hero.css
+============================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;600;700&display=swap');
+
+/* ── Tokens ── */
+.shp-hero {
+  --shp-yellow:     #D4960A;
+  --shp-yellow-bg:  #E8A910;
+  --shp-yellow-lt:  #F5C842;
+  --shp-dark:       #1A1A1A;
+  --shp-white:      #FFFFFF;
+  --shp-off-white:  #F8F6F2;
+  --shp-card-bg:    #EEEAE5;
+  --shp-oval-bg:    #EDE8E0;
+  --shp-radius:     18px;
+  --shp-ease:       cubic-bezier(0.4, 0, 0.2, 1);
+
+  font-family: 'DM Sans', sans-serif;
+  background: var(--shp-white);
+  overflow: hidden;
+}
+
+/* =============================================
+   TOP HALF
+============================================= */
+.shp-hero__top {
+  position: relative;
+  min-height: 520px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 4rem) 0;
+  overflow: hidden;
+}
+
+/* ── Content (left) ── */
+.shp-hero__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  max-width: 500px;
+  position: relative;
+  z-index: 2;
+}
+
+.shp-hero__headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.1rem, 4vw, 3rem);
+  font-weight: 900;
+  color: var(--shp-dark);
+  line-height: 1.08;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: shpFadeUp 0.75s var(--shp-ease) 0.1s forwards;
+}
+
+.shp-hero__subtext {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--shp-dark);
+  line-height: 1.65;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: shpFadeUp 0.65s var(--shp-ease) 0.3s forwards;
+}
+
+/* Vet button */
+.shp-hero__vet-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: var(--shp-yellow-bg);
+  border: none;
+  border-radius: 50px;
+  padding: 14px 28px;
+  cursor: pointer;
+  width: fit-content;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: shpFadeUp 0.6s var(--shp-ease) 0.45s forwards;
+}
+
+.shp-hero__vet-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(212,150,10,0.4);
+}
+
+.shp-hero__vet-btn:active { transform: scale(0.97); }
+
+.shp-hero__vet-line1 {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--shp-dark);
+  letter-spacing: 0.03em;
+  line-height: 1.3;
+}
+
+.shp-hero__vet-line2 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--shp-dark);
+  letter-spacing: 0.03em;
+}
+
+/* Counter */
+.shp-hero__counter {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: shpFadeUp 0.6s var(--shp-ease) 0.6s forwards;
+}
+
+.shp-hero__counter-num {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  font-weight: 900;
+  color: var(--shp-dark);
+  margin: 0;
+  line-height: 1;
+}
+
+.shp-hero__counter-plus {
+  color: var(--shp-yellow);
+}
+
+.shp-hero__counter-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--shp-yellow);
+  letter-spacing: 0.08em;
+  margin: 4px 0 0;
+}
+
+/* ── Oval (centre) ── */
+.shp-hero__oval-wrap {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  animation: shpScaleIn 0.8s var(--shp-ease) 0.5s forwards;
+}
+
+.shp-hero__oval {
+  width: 190px;
+  height: 230px;
+  border-radius: 50%;
+  background: var(--shp-oval-bg);
+  overflow: hidden;
+  position: relative;
+  outline: 2px solid var(--shp-yellow-bg);
+  outline-offset: 10px;
+  animation: shpOvalPulse 3s ease-in-out infinite;
+}
+
+@keyframes shpOvalPulse {
+  0%, 100% { outline-offset: 10px; outline-color: var(--shp-yellow-bg); }
+  50%       { outline-offset: 18px; outline-color: var(--shp-yellow-lt); }
+}
+
+.shp-hero__oval-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.5s ease;
+}
+
+.shp-hero__oval:hover .shp-hero__oval-img {
+  transform: scale(1.06);
+}
+
+/* ── Large dog (right) ── */
+.shp-hero__dog-wrap {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 55%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  animation: shpDogReveal 1s var(--shp-ease) 0.15s forwards;
+}
+
+@keyframes shpDogReveal {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.shp-hero__dog-img {
+  height: 100%;
+  max-height: 560px;
+  width: auto;
+  object-fit: contain;
+  object-position: bottom right;
+  display: block;
+  transition: transform 0.6s var(--shp-ease);
+}
+
+/* =============================================
+   BOTTOM: COLLECTION CARDS
+============================================= */
+
+/* Wrapper that gives overflow room for dog images */
+.shp-hero__cards-wrapper {
+  padding: 80px clamp(1.5rem, 5vw, 4rem) clamp(2rem, 4vw, 3rem);
+}
+
+.shp-hero__cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* Each card */
+.shp-hero__card {
+  position: relative;
+  background: var(--shp-card-bg);
+  border-radius: 16px;
+  /* enough bottom padding for content; top padding is less since dog overflows above */
+  padding: 1.4rem 1.4rem 1.6rem 1.6rem;
+  overflow: visible;          /* dog image allowed to poke above */
+  cursor: pointer;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;  /* content anchored to bottom-left */
+  transition: transform 0.3s var(--shp-ease), box-shadow 0.3s var(--shp-ease);
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.shp-hero__card.shp-card-visible {
+  animation: shpFadeUp 0.6s var(--shp-ease) forwards;
+}
+
+.shp-hero__card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.10);
+}
+
+/* Badge — small grey text above title */
+.shp-hero__card-badge {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #777;
+  margin-bottom: 0.45rem;
+  line-height: 1.2;
+}
+
+/* Text wrapper (left column content) */
+.shp-hero__card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 55%;           /* keeps text left so dog image has right-side space */
+  position: relative;
+  z-index: 2;
+}
+
+/* Title */
+.shp-hero__card-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--shp-dark);
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* Shop Now button — rounded rectangle, yellow */
+.shp-hero__shop-btn {
+  display: inline-block;
+  width: fit-content;
+  background: var(--shp-yellow-bg);
+  border: none;
+  border-radius: 10px;
+  padding: 11px 22px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--shp-dark);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.shp-hero__shop-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(212,150,10,0.38);
+}
+
+.shp-hero__shop-btn:active {
+  transform: scale(0.96);
+}
+
+/* Dog image — absolutely positioned on the right,
+   overflows above the card top */
+.shp-hero__card-img {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: calc(100% + 70px);   /* 70px overflow above card top */
+  width: auto;
+  max-width: 52%;
+  object-fit: contain;
+  object-position: bottom right;
+  pointer-events: none;
+  transition: transform 0.4s var(--shp-ease);
+  transform-origin: bottom right;
+  z-index: 1;
+}
+
+.shp-hero__card:hover .shp-hero__card-img {
+  transform: translateY(-10px) scale(1.04);
+}
+
+/* =============================================
+   KEYFRAMES
+============================================= */
+@keyframes shpFadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shpScaleIn {
+  from { opacity: 0; transform: scale(0.7); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* =============================================
+   RESPONSIVE — Tablet
+============================================= */
+@media (max-width: 960px) {
+  .shp-hero__top {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding-bottom: 2rem;
+  }
+
+  .shp-hero__dog-wrap {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    order: -1;
+    justify-content: center;
+  }
+
+  .shp-hero__dog-img { max-height: 300px; }
+
+  .shp-hero__oval-wrap { display: none; }
+
+  .shp-hero__content { max-width: 100%; }
+
+  .shp-hero__cards-wrapper { padding-top: 60px; }
+}
+
+/* =============================================
+   RESPONSIVE — Mobile
+============================================= */
+@media (max-width: 600px) {
+  .shp-hero__cards {
+    grid-template-columns: 1fr;
+    gap: 56px;           /* vertical gap accounts for overflow */
+  }
+
+  .shp-hero__cards-wrapper { padding-top: 50px; }
+
+  .shp-hero__card {
+    min-height: 160px;
+  }
+
+  .shp-hero__card-img {
+    height: calc(100% + 50px);
+    max-width: 48%;
+  }
+
+  .shp-hero__card-text {
+    max-width: 60%;
+  }
+}

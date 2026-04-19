@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="./">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NaijaPaws products page built with full HTML, CSS, and JavaScript.">
+  <meta name="theme-color" content="#38607f">
+  <title>NaijaPaws | Products</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/products.css">
+  <link rel="stylesheet" href="css/shop-hero.css">
+</head>
+<body class="page-products">
+  <div class="fraud-banner" role="alert">Pay through NaijaPaws-admin-managed channels only. Never pay sellers directly.</div>
+
+  <nav class="navbar" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="nav-logo-text">Naija<span>Paws</span></span></a>
+      <ul class="nav-links">
+         <li><a href="index.html" class="nav-link-active">Home</a></li>
+        <li><a href="marketplace.html">Shop Dogs</a></li>
+        <li><a href="products.html">Dog Accessories</a></li>
+        <li><a href="services.html">Vet Services</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button type="button" class="nav-cart-btn" data-open-cart>Cart <span class="cart-badge" style="display:none"></span></button>
+        <div data-auth-guest>
+          <a href="login.html" class="btn btn-secondary btn-sm">Login</a>
+          <a href="register.html" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+        <div data-auth-user style="display:none;align-items:center;gap:0.75rem">
+          <a href="dashboard.html" class="btn btn-secondary btn-sm" data-user-link>Dashboard</a>
+          <button type="button" class="btn btn-sm" style="color:var(--text-muted)" data-logout>Log Out</button>
+        </div>
+        <button type="button" class="nav-mobile-toggle" aria-label="Open menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="nav-mobile" aria-label="Mobile navigation">
+    <div class="nav-mobile-drawer">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem">
+        <span class="nav-logo-text">Naija<span style="color:var(--forest)">Paws</span></span>
+        <button type="button" class="nav-mobile-close" style="font-size:1.5rem;color:var(--text-muted)">x</button>
+      </div>
+      <nav class="nav-mobile-links">
+        <a href="index.html">Home</a>
+        <a href="marketplace.html">Shop Dogs</a>
+        <a href="products.html" class="nav-link-active">Dog Accessories</a>
+        <a href="services.html">Vet Services</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="cart-overlay" aria-label="Shopping cart">
+    <div class="cart-drawer">
+      <div class="cart-header">
+        <span class="display-sm">My Cart</span>
+        <button type="button" class="cart-close" style="font-size:1.5rem;color:var(--text-muted)">x</button>
+      </div>
+      <div class="cart-body"></div>
+      <div class="cart-footer" style="display:none"></div>
+    </div>
+  </div>
+
+  <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <main>
+
+    <!-- =============================================
+         SHOP HERO SECTION
+    ============================================= -->
+    <!-- =============================================
+     SHOP HERO SECTION — shop-hero.html
+     Requires: shop-hero.css and shop-hero.js
+============================================= -->
+
+<section class="shp-hero" id="shpHero">
+
+  <!-- ── TOP HALF ── -->
+  <div class="shp-hero__top">
+
+    <!-- Left content -->
+    <div class="shp-hero__content">
+      <h1 class="shp-hero__headline" id="shpHeadline">
+        Shop Cute Dogs <br>Dog Accessories
+      </h1>
+
+      <p class="shp-hero__subtext" id="shpSubtext">
+        Discover adorable dogs and accessories from trusted<br>
+        breeders and shelters. Healthy, happy, and full of love—find<br>
+        your perfect furry companion today.
+      </p>
+
+      <button class="shp-hero__vet-btn" id="shpVetBtn">
+        <span class="shp-hero__vet-line1">FINDING IT DIFFICULT TO CHOOSE A DOG?</span>
+        <span class="shp-hero__vet-line2">TALK TO OUR VETERINARY</span>
+      </button>
+
+      <div class="shp-hero__counter" id="shpCounter">
+        <p class="shp-hero__counter-num">
+          <span id="shpCount">0</span><span class="shp-hero__counter-plus">+</span>
+        </p>
+        <p class="shp-hero__counter-label">HAPPY CUSTOMER</p>
+      </div>
+    </div>
+
+    <!-- Centre float: oval pet image -->
+    <div class="shp-hero__oval-wrap" id="shpOval">
+      <div class="shp-hero__oval">
+        <img
+          class="shp-hero__oval-img"
+          src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=320&q=80"
+          alt="Dog and cat"
+        />
+      </div>
+    </div>
+
+    <!-- Right: large dog image -->
+    <div class="shp-hero__dog-wrap" id="shpDogWrap">
+      <img
+        class="shp-hero__dog-img"
+        src="https://images.unsplash.com/photo-1558788353-f76d92427f16?w=700&q=80"
+        alt="Jack Russell Terrier"
+      />
+    </div>
+
+  </div>
+
+  <!-- ── BOTTOM: Collection Cards ── -->
+  <div class="shp-hero__cards-wrapper">
+    <div class="shp-hero__cards" id="shpCards">
+
+      <!-- Card 1: no badge -->
+      <div class="shp-hero__card">
+        <div class="shp-hero__card-text">
+          <p class="shp-hero__card-title">Cute Dogs<br>Collections</p>
+          <button class="shp-hero__shop-btn">Shop Now</button>
+        </div>
+        <img
+          class="shp-hero__card-img"
+          src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=300&q=80"
+          alt="Pug"
+        />
+      </div>
+
+      <!-- Card 2: with badge -->
+      <div class="shp-hero__card">
+        <div class="shp-hero__card-badge">Flat 25% Off</div>
+        <div class="shp-hero__card-text">
+          <p class="shp-hero__card-title">Security Dogs<br>collections</p>
+          <button class="shp-hero__shop-btn">Shop Now</button>
+        </div>
+        <img
+          class="shp-hero__card-img"
+          src="https://images.unsplash.com/photo-1546975490-e8b92a360b24?w=300&q=80"
+          alt="Rottweiler"
+        />
+      </div>
+
+      <!-- Card 3: with badge -->
+      <div class="shp-hero__card">
+        <div class="shp-hero__card-badge">Save 20% Today</div>
+        <div class="shp-hero__card-text">
+          <p class="shp-hero__card-title">Palour Dogs<br>Collections</p>
+          <button class="shp-hero__shop-btn">Shop Now</button>
+        </div>
+        <img
+          class="shp-hero__card-img"
+          src="https://images.unsplash.com/photo-1561037404-61cd46aa615b?w=300&q=80"
+          alt="Maltese"
+        />
+      </div>
+
+    </div>
+  </div>
+
+</section>
+    <!-- END SHOP HERO -->
+
+    <section class="section">
+      <div class="container">
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2rem">
+          <a href="products.html" class="btn btn-secondary btn-sm">All Products</a>
+          <a href="products.html?category=food" class="btn btn-secondary btn-sm">Dog Food</a>
+          <a href="products.html?category=vitamins" class="btn btn-secondary btn-sm">Vitamins</a>
+          <a href="products.html?category=grooming" class="btn btn-secondary btn-sm">Grooming</a>
+          <a href="products.html?category=beds_cages" class="btn btn-secondary btn-sm">Beds and Cages</a>
+        </div>
+
+        <form id="product-filter-form" style="display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap">
+          <select name="category" class="form-control" style="width:auto;padding:0.75rem 1rem">
+            <option value="all">All categories</option>
+            <option value="food">Dog Food</option>
+            <option value="vitamins">Vitamins</option>
+            <option value="leash_collars">Leash and Collars</option>
+            <option value="tick_flea">Tick and Flea</option>
+            <option value="grooming">Grooming</option>
+            <option value="beds_cages">Beds and Cages</option>
+            <option value="medical_cards">Medical Cards</option>
+          </select>
+          <div style="position:relative;flex:1;min-width:220px">
+            <span style="position:absolute;left:0.875rem;top:50%;transform:translateY(-50%);color:var(--text-muted)">&#128269;</span>
+            <input type="search" name="search" class="form-control" style="padding-left:2.75rem" placeholder="Search products">
+          </div>
+          <select name="sort" class="form-control" style="width:auto;padding:0.75rem 1rem">
+            <option value="featured">Featured first</option>
+            <option value="newest">Newest</option>
+            <option value="price_asc">Price low to high</option>
+            <option value="price_desc">Price high to low</option>
+          </select>
+          <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
+        <div class="grid-4">
+          <article class="product-card fade-in-up" data-product-card data-category="food" data-search="premium puppy growth meal canis gold nutrition">
+            <div class="card-image-wrap">
+              <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=900&q=80" alt="Premium Puppy Growth Meal">
+              <span class="card-badge badge-featured">Featured</span>
+              <span class="product-discount">-16%</span>
+              <button class="card-fav-btn" data-favorite-id="201" data-favorite-type="product">&#9825;</button>
+            </div>
+            <div class="card-body">
+              <div style="font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem">Canis Gold</div>
+              <h3 class="card-title">Premium Puppy Growth Meal</h3>
+              <div style="display:flex;align-items:baseline;gap:0.5rem;margin-bottom:0.875rem"><span style="font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:var(--forest)">&#8358;32,000</span><span class="compare-price">&#8358;38,000</span></div>
+              <p class="text-sm text-muted" style="margin-bottom:0.875rem">Protein-rich dry meal formulated for strong puppy development.</p>
+              <div class="card-footer"><div class="card-seller"><div class="card-seller-avatar">PP</div><div>Pet Pantry NG</div></div><button class="btn btn-primary btn-sm" data-add-cart data-id="201" data-type="product" data-name="Premium Puppy Growth Meal" data-price="32000" data-image="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=900&q=80" data-seller="Pet Pantry NG">Add to Cart</button></div>
+            </div>
+          </article>
+
+          <article class="product-card fade-in-up" data-product-card data-category="vitamins" data-search="joint support vitamins pawlabs mobility">
+            <div class="card-image-wrap">
+              <img src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=900&q=80" alt="Joint Support Vitamins">
+              <span class="card-badge badge-featured">Featured</span>
+              <button class="card-fav-btn" data-favorite-id="202" data-favorite-type="product">&#9825;</button>
+            </div>
+            <div class="card-body">
+              <div style="font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem">PawLabs</div>
+              <h3 class="card-title">Joint Support Vitamins</h3>
+              <div style="display:flex;align-items:baseline;gap:0.5rem;margin-bottom:0.875rem"><span style="font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:var(--forest)">&#8358;18,500</span></div>
+              <p class="text-sm text-muted" style="margin-bottom:0.875rem">Daily soft chews for mobility, bone strength, and recovery support.</p>
+              <div class="card-footer"><div class="card-seller"><div class="card-seller-avatar">VE</div><div>Vet Essentials</div></div><button class="btn btn-primary btn-sm" data-add-cart data-id="202" data-type="product" data-name="Joint Support Vitamins" data-price="18500" data-image="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=900&q=80" data-seller="Vet Essentials">Add to Cart</button></div>
+            </div>
+          </article>
+
+          <article class="product-card fade-in-up" data-product-card data-category="leash_collars" data-search="heavy duty leather collar trail lead">
+            <div class="card-image-wrap">
+              <img src="https://images.unsplash.com/photo-1518715308788-de9717d6b2b4?auto=format&fit=crop&w=900&q=80" alt="Heavy Duty Leather Collar">
+              <span class="product-discount">-17%</span>
+              <button class="card-fav-btn" data-favorite-id="203" data-favorite-type="product">&#9825;</button>
+            </div>
+            <div class="card-body">
+              <div style="font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem">Trail Lead</div>
+              <h3 class="card-title">Heavy Duty Leather Collar</h3>
+              <div style="display:flex;align-items:baseline;gap:0.5rem;margin-bottom:0.875rem"><span style="font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:var(--forest)">&#8358;14,500</span><span class="compare-price">&#8358;17,500</span></div>
+              <p class="text-sm text-muted" style="margin-bottom:0.875rem">Padded collar for medium and large breeds with reinforced buckle.</p>
+              <div class="card-footer"><div class="card-seller"><div class="card-seller-avatar">UT</div><div>Urban Tails Store</div></div><button class="btn btn-primary btn-sm" data-add-cart data-id="203" data-type="product" data-name="Heavy Duty Leather Collar" data-price="14500" data-image="https://images.unsplash.com/photo-1518715308788-de9717d6b2b4?auto=format&fit=crop&w=900&q=80" data-seller="Urban Tails Store">Add to Cart</button></div>
+            </div>
+          </article>
+
+          <article class="product-card fade-in-up" data-product-card data-category="tick_flea" data-search="flea tick shield spray guardpet">
+            <div class="card-image-wrap">
+              <img src="https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=900&q=80" alt="Flea And Tick Shield Spray">
+              <span class="product-discount">-20%</span>
+              <button class="card-fav-btn" data-favorite-id="204" data-favorite-type="product">&#9825;</button>
+            </div>
+            <div class="card-body">
+              <div style="font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem">GuardPet</div>
+              <h3 class="card-title">Flea And Tick Shield Spray</h3>
+              <div style="display:flex;align-items:baseline;gap:0.5rem;margin-bottom:0.875rem"><span style="font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:var(--forest)">&#8358;9,600</span><span class="compare-price">&#8358;12,000</span></div>
+              <p class="text-sm text-muted" style="margin-bottom:0.875rem">Weekly protection spray for grooming and parasite prevention.</p>
+              <div class="card-footer"><div class="card-seller"><div class="card-seller-avatar">PP</div><div>Pet Pantry NG</div></div><button class="btn btn-primary btn-sm" data-add-cart data-id="204" data-type="product" data-name="Flea And Tick Shield Spray" data-price="9600" data-image="https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=900&q=80" data-seller="Pet Pantry NG">Add to Cart</button></div>
+            </div>
+          </article>
+
+          <article class="product-card fade-in-up" data-product-card data-category="grooming" data-search="shedding control grooming kit clean coat">
+            <div class="card-image-wrap">
+              <img src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=900&q=80" alt="Shedding Control Grooming Kit">
+              <span class="card-badge badge-featured">Featured</span>
+              <button class="card-fav-btn" data-favorite-id="205" data-favorite-type="product">&#9825;</button>
+            </div>
+            <div class="card-body">
+              <div style="font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem">Clean Coat</div>
+              <h3 class="card-title">Shedding Control Grooming Kit</h3>
+              <div style="display:flex;align-items:baseline;gap:0.5rem;margin-bottom:0.875rem"><span style="font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:var(--forest)">&#8358;22,500</span></div>
+              <p class="text-sm text-muted" style="margin-bottom:0.875rem">Brush, comb, shampoo, and nail clipper set for home grooming.</p>
+              <div class="card-footer"><div class="card-seller"><div class="card-seller-avatar">GL</div><div>Groom Lab</div></div><button class="btn btn-primary btn-sm" data-add-cart data-id="205" data-type="product" data-name="Shedding Control Grooming Kit" data-price="22500" data-image="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=900&q=80" data-seller="Groom Lab">Add to Cart</button></div>
+            </div>
+          </article>
+
+          <article class="product-card fade-in-up" data-product-card data-category="bowls_feeders" data-search="slow feed bowl set calm chow">
+            <div class="card-image-wrap">
+              <img src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=900&q=80" alt="Slow Feed Bowl Set">
+              <button class="card-fav-btn" data-favorite-id="206" data-favorite-type="product">&#9825;</button>
+            </div>
+            <div class="card-body">
+              <div style="font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem">Calm Chow</div>
+              <h3 class="card-title">Slow Feed Bowl Set</h3>
+              <div style="display:flex;align-items:baseline;gap:0.5rem;margin-bottom:0.875rem"><span style="font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:var(--forest)">&#8358;11,000</span></div>
+              <p class="text-sm text-muted" style="margin-bottom:0.875rem">Twin bowl design that reduces messy feeding and fast eating.</p>
+              <div class="card-footer"><div class="card-seller"><div class="card-seller-avatar">UT</div><div>Urban Tails Store</div></div><button class="btn btn-primary btn-sm" data-add-cart data-id="206" data-type="product" data-name="Slow Feed Bowl Set" data-price="11000" data-image="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=900&q=80" data-seller="Urban Tails Store">Add to Cart</button></div>
+            </div>
+          </article>
+
+          <article class="product-card fade-in-up" data-product-card data-category="beds_cages" data-search="orthopedic dog bed restwell">
+            <div class="card-image-wrap">
+              <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=900&q=80" alt="Orthopedic Dog Bed">
+              <span class="card-badge badge-featured">Featured</span>
+              <span class="product-discount">-13%</span>
+              <button class="card-fav-btn" data-favorite-id="207" data-favorite-type="product">&#9825;</button>
+            </div>
+            <div class="card-body">
+              <div style="font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem">RestWell</div>
+              <h3 class="card-title">Orthopedic Dog Bed</h3>
+              <div style="display:flex;align-items:baseline;gap:0.5rem;margin-bottom:0.875rem"><span style="font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:var(--forest)">&#8358;54,000</span><span class="compare-price">&#8358;62,000</span></div>
+              <p class="text-sm text-muted" style="margin-bottom:0.875rem">Supportive memory-foam bed built for large breeds and senior dogs.</p>
+              <div class="card-footer"><div class="card-seller"><div class="card-seller-avatar">RK</div><div>Rest Kennels</div></div><button class="btn btn-primary btn-sm" data-add-cart data-id="207" data-type="product" data-name="Orthopedic Dog Bed" data-price="54000" data-image="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=900&q=80" data-seller="Rest Kennels">Add to Cart</button></div>
+            </div>
+          </article>
+
+          <article class="product-card fade-in-up" data-product-card data-category="medical_cards" data-search="travel medical record folder vetfile">
+            <div class="card-image-wrap">
+              <img src="https://images.unsplash.com/photo-1583512603806-077998240c7a?auto=format&fit=crop&w=900&q=80" alt="Travel Medical Record Folder">
+              <button class="card-fav-btn" data-favorite-id="208" data-favorite-type="product">&#9825;</button>
+            </div>
+            <div class="card-body">
+              <div style="font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem">VetFile</div>
+              <h3 class="card-title">Travel Medical Record Folder</h3>
+              <div style="display:flex;align-items:baseline;gap:0.5rem;margin-bottom:0.875rem"><span style="font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:var(--forest)">&#8358;7,800</span></div>
+              <p class="text-sm text-muted" style="margin-bottom:0.875rem">Document wallet for vaccination cards and treatment records.</p>
+              <div class="card-footer"><div class="card-seller"><div class="card-seller-avatar">VE</div><div>Vet Essentials</div></div><button class="btn btn-primary btn-sm" data-add-cart data-id="208" data-type="product" data-name="Travel Medical Record Folder" data-price="7800" data-image="https://images.unsplash.com/photo-1583512603806-077998240c7a?auto=format&fit=crop&w=900&q=80" data-seller="Vet Essentials">Add to Cart</button></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo-text">Naija<span>Paws</span></div>
+          <p class="footer-desc">This product page is now fully written as actual HTML instead of being assembled at runtime.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Store</div>
+          <ul class="footer-links">
+            <li><a href="products.html">All Products</a></li>
+            <li><a href="products.html?category=food">Dog Food</a></li>
+            <li><a href="products.html?category=grooming">Grooming</a></li>
+            <li><a href="products.html?category=beds_cages">Beds and Cages</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">More</div>
+          <ul class="footer-links">
+            <li><a href="marketplace.html">Marketplace</a></li>
+            <li><a href="services.html">Vet Services</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Account</div>
+          <ul class="footer-links">
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2026 NaijaPaws.</div>
+        <div>Products page in full HTML, CSS, and JS.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/site-data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/shop-hero.js"></script>
+</body>
+</html>

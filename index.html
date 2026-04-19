@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="./">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NaijaPaws static front-end homepage built with HTML, CSS, and JavaScript.">
+  <meta name="theme-color" content="#38607f">
+  <title>NaijaPaws | Home</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/hero.css">
+</head>
+<body class="page-home">
+  <div class="fraud-banner" role="alert">
+    Pay through NaijaPaws-admin-managed channels only. Never pay sellers directly.
+  </div>
+
+  <nav class="navbar" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="NaijaPaws home">
+        
+        <span class="nav-logo-text">Naija<span>Paws</span></span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link-active">Home</a></li>
+        <li><a href="marketplace.html">Shop Dogs</a></li>
+        <li><a href="products.html">Dog Accessories</a></li>
+        <li><a href="services.html">Vet Services</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button type="button" class="nav-cart-btn" data-open-cart aria-label="Open cart">
+          Cart
+          <span class="cart-badge" style="display:none"></span>
+        </button>
+
+        <div data-auth-guest>
+          <a href="login.html" class="btn btn-secondary btn-sm">Login</a>
+          <a href="register.html" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+
+        <div data-auth-user style="display:none;align-items:center;gap:0.75rem">
+          <a href="dashboard.html" class="btn btn-secondary btn-sm" data-user-link>Dashboard</a>
+          <button type="button" class="btn btn-sm" style="color:var(--text-muted)" data-logout>Log Out</button>
+        </div>
+
+        <button type="button" class="nav-mobile-toggle" aria-label="Open menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="nav-mobile" aria-label="Mobile navigation">
+    <div class="nav-mobile-drawer">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem">
+        <span class="nav-logo-text">Naija<span style="color:var(--forest)">Paws</span></span>
+        <button type="button" class="nav-mobile-close" aria-label="Close menu" style="font-size:1.5rem;color:var(--text-muted)">x</button>
+      </div>
+      <nav class="nav-mobile-links">
+        <a href="index.html" class="nav-link-active">Home</a>
+        <a href="marketplace.html">Shop Dogs</a>
+        <a href="products.html">Dog Accessories</a>
+        <a href="services.html">Vet Services</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+
+        <div data-auth-guest>
+          <hr style="border-color:rgba(139,185,181,0.28);margin:0.75rem 0">
+          <a href="login.html">Login</a>
+          <a href="register.html">Register</a>
+        </div>
+        <div data-auth-user style="display:none">
+          <hr style="border-color:rgba(139,185,181,0.28);margin:0.75rem 0">
+          <a href="dashboard.html" data-user-link>Dashboard</a>
+          <a href="index.html" data-logout>Log Out</a>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <div class="cart-overlay" aria-label="Shopping cart">
+    <div class="cart-drawer">
+      <div class="cart-header">
+        <span class="display-sm">My Cart</span>
+        <button type="button" class="cart-close" aria-label="Close cart" style="font-size:1.5rem;color:var(--text-muted)">x</button>
+      </div>
+      <div class="cart-body"></div>
+      <div class="cart-footer" style="display:none"></div>
+    </div>
+  </div>
+
+  <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <main>
+   <!-- =============================================
+     HERO SECTION — paste inside your <body>
+     Requires: hero.css and hero.js linked
+============================================= -->
+
+<section class="pup-hero" id="pupHero">
+
+  <!-- LEFT: Image Panel -->
+  <div class="pup-hero__left">
+
+    <img
+  class="pup-hero__dog-img"
+  src="assets/images/hero1.png"
+  alt="Dog in blue hoodie"
+/>
+
+    <!-- <img
+      class="pup-hero__dog-img"
+      src="https://images.unsplash.com/photo-1517849845537-4d257902454a?w=600&q=80"
+      alt="Dog in blue hoodie"
+    /> -->
+
+    <!-- Overlay text -->
+    <div class="pup-hero__overlay-text" id="pupOverlayText">
+      <span>PAWS,</span>
+      <span>LOVE,</span>
+      <span>REPEAT.</span>
+    </div>
+
+    <!-- Bottom CTA pill -->
+    <div class="pup-hero__sell-pill" id="pupSellPill">
+      <div>
+        <p class="pup-hero__sell-title">POST YOUR DOGS FOR SALE</p>
+        <p class="pup-hero__sell-sub">Fast and Reliable</p>
+      </div>
+      <button class="pup-hero__arrow-btn" aria-label="Sell dogs">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 13L13 3M13 3H6M13 3V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- RIGHT: Content Panel -->
+  <div class="pup-hero__right">
+
+    <!-- Logo badge -->
+    
+
+    <!-- Headline -->
+    <h1 class="pup-hero__headline" id="pupHeadline">
+      Find Your Perfect<br>Pup Today!
+    </h1>
+
+    <!-- Subtext -->
+    <p class="pup-hero__subtext" id="pupSubtext">
+      Browse healthy, happy puppies from trusted<br>
+      breeders and verified shelters. All tails welcome!
+    </p>
+
+    <!-- Buttons -->
+    <div class="pup-hero__btns" id="pupBtns">
+      
+      <a href="marketplace.html">
+  <button class="pup-hero__btn pup-hero__btn--primary">Explore Puppies</button>
+</a>
+      <a href="services.html">
+  <button class="pup-hero__btn pup-hero__btn--outline">Talk to a Vet</button>
+</a>
+    </div>
+
+    <!-- Popular Pets -->
+    <div class="pup-hero__popular" id="pupPopular">
+      <div class="pup-hero__popular-header">
+        <h2 class="pup-hero__popular-title">Our Popular Pets</h2>
+        <a href="marketplace.html" class="pup-hero__view-all">View all</a>
+      </div>
+
+      <div class="pup-hero__cards">
+
+        <div class="pup-hero__card pup-hero__card--blue">
+          <span class="pup-hero__card-name">Siberian<br>Husky</span>
+          <button class="pup-hero__card-arrow" aria-label="View Alaskan Malamute">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M3 13L13 3M13 3H6M13 3V10" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          <img
+  class="pup-hero__card-img"
+  src="assets/images/dogcardd.png"
+  alt="Husky with blue eyes"
+/>
+          <!-- <img
+            class="pup-hero__card-img"
+            src="https://images.unsplash.com/photo-1605568427561-40dd23c2acea?w=300&q=80"
+            alt="Alaskan Malamute"
+          /> -->
+        </div>
+
+        <div class="pup-hero__card pup-hero__card--red">
+          <span class="pup-hero__card-name">Bulldog</span>
+          <button class="pup-hero__card-arrow" aria-label="View Affenpinscher">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M3 13L13 3M13 3H6M13 3V10" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <img
+            class="pup-hero__card-img"
+  src="assets/images/bulldog.png"
+  alt="bulldog with tongue out"
+          />
+        </div>
+
+        <div class="pup-hero__card pup-hero__card--teal">
+          <span class="pup-hero__card-name">Golden<br>Retriever</span>
+          <button class="pup-hero__card-arrow" aria-label="View American Bulldog">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M3 13L13 3M13 3H6M13 3V10" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <img
+            class="pup-hero__card-img"
+  src="assets/images/golden.png"
+  alt="Golden Retriever"
+          />
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+    <section class="section" style="background:var(--warm-white)">
+      <div class="container">
+        <div class="section-header text-center">
+          <div class="section-eyebrow">Explore Faster</div>
+          <h2 class="display-lg">Everything users need in one clear storefront</h2>
+        </div>
+
+        <div class="categories-grid fade-in-up">
+          <a href="marketplace.html?category=sale" class="category-card">
+            <div class="category-icon">1</div>
+            <div class="category-name">Dogs for Sale</div>
+            <div class="category-count">Premium listings</div>
+          </a>
+          <a href="marketplace.html?category=adoption" class="category-card">
+            <div class="category-icon">2</div>
+            <div class="category-name">Dog Adoption</div>
+            <div class="category-count">Rescue-ready dogs</div>
+          </a>
+          <a href="marketplace.html?category=mating" class="category-card">
+            <div class="category-icon">3</div>
+            <div class="category-name">Dog Mating</div>
+            <div class="category-count">Stud and pairing options</div>
+          </a>
+          <a href="products.html?category=food" class="category-card">
+            <div class="category-icon">4</div>
+            <div class="category-name">Dog Food</div>
+            <div class="category-count">Nutrition essentials</div>
+          </a>
+          <a href="products.html?category=grooming" class="category-card">
+            <div class="category-icon">5</div>
+            <div class="category-name">Grooming</div>
+            <div class="category-count">Home care tools</div>
+          </a>
+          <a href="services.html" class="category-card">
+            <div class="category-icon">6</div>
+            <div class="category-name">Vet Services</div>
+            <div class="category-count">Professional support</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header flex justify-between items-center" style="flex-wrap:wrap;gap:1rem">
+          <div>
+            <div class="section-eyebrow">Featured Dogs</div>
+            <h2 class="display-lg">Popular listings this week</h2>
+          </div>
+          <a href="marketplace.html" class="btn btn-secondary">View Marketplace</a>
+        </div>
+
+        <div class="grid-3">
+          <article class="listing-card fade-in-up">
+            <div class="card-image-wrap">
+              <a href="dog.html">
+                <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1200&q=80" alt="Champion Bloodline German Shepherd">
+              </a>
+              <span class="card-badge badge-sale">Dogs for Sale</span>
+              <span class="card-badge badge-featured" style="left:auto;right:0.75rem;top:0.75rem">Featured</span>
+              <button class="card-fav-btn" data-favorite-id="101" data-favorite-type="dog" aria-label="Save listing">&#9825;</button>
+            </div>
+            <div class="card-body">
+              <div class="card-tags">
+                <span class="tag">German Shepherd</span>
+                <span class="tag tag-green">male</span>
+                <span class="tag tag-green">Vaccinated</span>
+                <span class="tag tag-orange">Pedigree</span>
+              </div>
+              <h3 class="card-title"><a href="dog.html">Champion Bloodline German Shepherd</a></h3>
+              <div class="card-meta">
+                <span class="card-meta-item">Lagos</span>
+                <span class="card-meta-item">1yr 2mo</span>
+                <span class="card-meta-item">friendly</span>
+              </div>
+              <div class="card-price">&#8358;850,000</div>
+              <div class="card-footer">
+                <div class="card-seller">
+                  <div class="card-seller-avatar">AK</div>
+                  <div>Adeniyi Kennels <span class="verified-badge">Verified</span></div>
+                </div>
+                <button class="btn btn-primary btn-sm" data-add-cart data-id="101" data-type="dog" data-name="Champion Bloodline German Shepherd" data-price="850000" data-image="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1200&q=80" data-seller="Adeniyi Kennels">Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="listing-card fade-in-up">
+            <div class="card-image-wrap">
+              <a href="marketplace.html?category=adoption">
+                <img src="https://images.unsplash.com/photo-1561037404-61cd46aa615b?auto=format&fit=crop&w=1200&q=80" alt="Rescued Indie Pup Ready For Adoption">
+              </a>
+              <span class="card-badge badge-adoption">Dog Adoption</span>
+              <button class="card-fav-btn" data-favorite-id="104" data-favorite-type="dog" aria-label="Save listing">&#9825;</button>
+            </div>
+            <div class="card-body">
+              <div class="card-tags">
+                <span class="tag">Mixed Breed</span>
+                <span class="tag tag-green">female</span>
+                <span class="tag tag-green">Vaccinated</span>
+              </div>
+              <h3 class="card-title"><a href="marketplace.html?category=adoption">Rescued Indie Pup Ready For Adoption</a></h3>
+              <div class="card-meta">
+                <span class="card-meta-item">Enugu</span>
+                <span class="card-meta-item">8 months</span>
+                <span class="card-meta-item">friendly</span>
+              </div>
+              <div class="card-price free">Free Adoption</div>
+              <div class="card-footer">
+                <div class="card-seller">
+                  <div class="card-seller-avatar">HT</div>
+                  <div>Hope Tails Rescue <span class="verified-badge">Verified</span></div>
+                </div>
+                <a href="marketplace.html?category=adoption" class="btn btn-primary btn-sm">View Dog</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="listing-card fade-in-up">
+            <div class="card-image-wrap">
+              <a href="marketplace.html?category=mating">
+                <img src="assets/images/frenchbull.jpg" alt="Compact French Bulldog Stud">
+              </a>
+
+              <span class="card-badge badge-mating">Dog Mating</span>
+              <button class="card-fav-btn" data-favorite-id="108" data-favorite-type="dog" aria-label="Save listing">&#9825;</button>
+            </div>
+            <div class="card-body">
+              <div class="card-tags">
+                <span class="tag">French Bulldog</span>
+                <span class="tag tag-green">male</span>
+                <span class="tag tag-orange">Pedigree</span>
+              </div>
+              <h3 class="card-title"><a href="marketplace.html?category=mating">Compact French Bulldog Stud</a></h3>
+              <div class="card-meta">
+                <span class="card-meta-item">Lagos</span>
+                <span class="card-meta-item">1yr 8mo</span>
+                <span class="card-meta-item">friendly</span>
+              </div>
+              <div class="card-price">&#8358;250,000</div>
+              <div class="card-footer">
+                <div class="card-seller">
+                  <div class="card-seller-avatar">UK</div>
+                  <div>Urban K9 Loft <span class="verified-badge">Verified</span></div>
+                </div>
+                <a href="marketplace.html?category=mating" class="btn btn-primary btn-sm">View Dog</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="background:var(--warm-white)">
+      <div class="container">
+        <div class="section-header text-center">
+          <div class="section-eyebrow">Care Access</div>
+          <h2 class="display-lg">Professional support without old template clutter</h2>
+        </div>
+
+        <div class="grid-4">
+          <article class="testimonial-card fade-in-up">
+            <h3 class="display-sm" style="font-size:1.15rem;margin-bottom:0.75rem">Home Visits</h3>
+            <p class="text-sm text-muted">Request veterinary home visits for dogs that should not travel or owners who need faster support.</p>
+          </article>
+          <article class="testimonial-card fade-in-up">
+            <h3 class="display-sm" style="font-size:1.15rem;margin-bottom:0.75rem">Vaccination Plans</h3>
+            <p class="text-sm text-muted">Give buyers and adopters a clearer path to vaccination history and upcoming care routines.</p>
+          </article>
+          <article class="testimonial-card fade-in-up">
+            <h3 class="display-sm" style="font-size:1.15rem;margin-bottom:0.75rem">Diagnostics</h3>
+            <p class="text-sm text-muted">Use the front-end request flow to collect symptoms before escalating to WhatsApp and field support.</p>
+          </article>
+          <article class="testimonial-card fade-in-up">
+            <h3 class="display-sm" style="font-size:1.15rem;margin-bottom:0.75rem">Emergency Triage</h3>
+            <p class="text-sm text-muted">A cleaner service page makes it easier for owners to submit urgent issues quickly and clearly.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header flex justify-between items-center" style="flex-wrap:wrap;gap:1rem">
+          <div>
+            <div class="section-eyebrow">Products</div>
+            <h2 class="display-lg">Best-selling essentials</h2>
+          </div>
+          <a href="products.html" class="btn btn-secondary">Open Store</a>
+        </div>
+
+        <div class="grid-4">
+          <article class="product-card fade-in-up">
+            <div class="card-image-wrap">
+              <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=900&q=80" alt="Premium Puppy Growth Meal">
+              <span class="card-badge badge-featured">Featured</span>
+              <span class="product-discount">-16%</span>
+              <button class="card-fav-btn" data-favorite-id="201" data-favorite-type="product" aria-label="Save product">&#9825;</button>
+            </div>
+            <div class="card-body">
+              <div style="font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem">Canis Gold</div>
+              <h3 class="card-title">Premium Puppy Growth Meal</h3>
+              <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem">
+                <div class="stars"><span class="star-filled">&#9733;</span><span class="star-filled">&#9733;</span><span class="star-filled">&#9733;</span><span class="star-filled">&#9733;</span><span class="star-filled">&#9733;</span></div>
+                <span class="text-xs text-muted">(64)</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:0.5rem;margin-bottom:0.875rem">
+                <span style="font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:var(--forest)">&#8358;32,000</span>
+                <span class="compare-price">&#8358;38,000</span>
+              </div>
+              <p class="text-sm text-muted" style="margin-bottom:0.875rem">Protein-rich dry meal formulated for strong puppy development.</p>
+              <div class="card-footer">
+                <div class="card-seller">
+                  <div class="card-seller-avatar">PP</div>
+                  <div>Pet Pantry NG</div>
+                </div>
+                <button class="btn btn-primary btn-sm" data-add-cart data-id="201" data-type="product" data-name="Premium Puppy Growth Meal" data-price="32000" data-image="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=900&q=80" data-seller="Pet Pantry NG">Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card fade-in-up">
+            <div class="card-image-wrap">
+              <img src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=900&q=80" alt="Joint Support Vitamins">
+              <span class="card-badge badge-featured">Featured</span>
+              <button class="card-fav-btn" data-favorite-id="202" data-favorite-type="product" aria-label="Save product">&#9825;</button>
+            </div>
+            <div class="card-body">
+              <div style="font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem">PawLabs</div>
+              <h3 class="card-title">Joint Support Vitamins</h3>
+              <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem">
+                <div class="stars"><span class="star-filled">&#9733;</span><span class="star-filled">&#9733;</span><span class="star-filled">&#9733;</span><span class="star-filled">&#9733;</span><span class="star-empty">&#9733;</span></div>
+                <span class="text-xs text-muted">(22)</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:0.5rem;margin-bottom:0.875rem">
+                <span style="font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:var(--forest)">&#8358;18,500</span>
+              </div>
+              <p class="text-sm text-muted" style="margin-bottom:0.875rem">Daily soft chews for mobility, bone strength, and recovery support.</p>
+              <div class="card-footer">
+                <div class="card-seller">
+                  <div class="card-seller-avatar">VE</div>
+                  <div>Vet Essentials</div>
+                </div>
+                <button class="btn btn-primary btn-sm" data-add-cart data-id="202" data-type="product" data-name="Joint Support Vitamins" data-price="18500" data-image="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=900&q=80" data-seller="Vet Essentials">Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card fade-in-up">
+            <div class="card-image-wrap">
+              <img src="https://images.unsplash.com/photo-1518715308788-de9717d6b2b4?auto=format&fit=crop&w=900&q=80" alt="Heavy Duty Leather Collar">
+              <span class="product-discount">-17%</span>
+              <button class="card-fav-btn" data-favorite-id="203" data-favorite-type="product" aria-label="Save product">&#9825;</button>
+            </div>
+            <div class="card-body">
+              <div style="font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem">Trail Lead</div>
+              <h3 class="card-title">Heavy Duty Leather Collar</h3>
+              <div style="display:flex;align-items:baseline;gap:0.5rem;margin-bottom:0.875rem">
+                <span style="font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:var(--forest)">&#8358;14,500</span>
+                <span class="compare-price">&#8358;17,500</span>
+              </div>
+              <p class="text-sm text-muted" style="margin-bottom:0.875rem">Padded collar for medium and large breeds with reinforced buckle.</p>
+              <div class="card-footer">
+                <div class="card-seller">
+                  <div class="card-seller-avatar">UT</div>
+                  <div>Urban Tails Store</div>
+                </div>
+                <button class="btn btn-primary btn-sm" data-add-cart data-id="203" data-type="product" data-name="Heavy Duty Leather Collar" data-price="14500" data-image="https://images.unsplash.com/photo-1518715308788-de9717d6b2b4?auto=format&fit=crop&w=900&q=80" data-seller="Urban Tails Store">Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card fade-in-up">
+            <div class="card-image-wrap">
+              <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=900&q=80" alt="Orthopedic Dog Bed">
+              <span class="card-badge badge-featured">Featured</span>
+              <span class="product-discount">-13%</span>
+              <button class="card-fav-btn" data-favorite-id="207" data-favorite-type="product" aria-label="Save product">&#9825;</button>
+            </div>
+            <div class="card-body">
+              <div style="font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem">RestWell</div>
+              <h3 class="card-title">Orthopedic Dog Bed</h3>
+              <div style="display:flex;align-items:baseline;gap:0.5rem;margin-bottom:0.875rem">
+                <span style="font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:var(--forest)">&#8358;54,000</span>
+                <span class="compare-price">&#8358;62,000</span>
+              </div>
+              <p class="text-sm text-muted" style="margin-bottom:0.875rem">Supportive memory-foam bed built for large breeds and senior dogs.</p>
+              <div class="card-footer">
+                <div class="card-seller">
+                  <div class="card-seller-avatar">RK</div>
+                  <div>Rest Kennels</div>
+                </div>
+                <button class="btn btn-primary btn-sm" data-add-cart data-id="207" data-type="product" data-name="Orthopedic Dog Bed" data-price="54000" data-image="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=900&q=80" data-seller="Rest Kennels">Add to Cart</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="background:var(--warm-white)">
+      <div class="container">
+        <div class="section-header text-center">
+          <div class="section-eyebrow">Customer Feedback</div>
+          <h2 class="display-lg">What Our Customers Say</h2>
+        </div>
+
+        <div class="grid-3">
+          <article class="testimonial-card fade-in-up">
+            <p class="text-lg" style="margin-bottom:1rem">The new product and listing pages feel like a real store instead of fragments being stitched together on load.</p>
+            <div class="card-seller">
+              <div class="card-seller-avatar">MA</div>
+              <div>Miriam A. <span class="text-muted">from Lagos</span></div>
+            </div>
+          </article>
+          <article class="testimonial-card fade-in-up">
+            <p class="text-lg" style="margin-bottom:1rem">The shopping experience is much better now with the improved layout and faster loading times.</p>
+            <div class="card-seller">
+              <div class="card-seller-avatar">KO</div>
+              <div>Kelvin O. <span class="text-muted">from Port Harcourt</span></div>
+            </div>
+          </article>
+          <article class="testimonial-card fade-in-up">
+            <p class="text-lg" style="margin-bottom:1rem">Thanks to the vet services, my dog's health has improved significantly.</p>
+            <div class="card-seller">
+              <div class="card-seller-avatar">TS</div>
+              <div>Tolu S. <span class="text-muted">from Abuja</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta-section">
+          <div style="position:relative;z-index:1">
+            <div class="section-eyebrow" style="justify-content:center;color:var(--sage-light)"> Perfect Place For You</div>
+            <h2 class="display-lg" style="color:white;margin-bottom:1rem">We Are The Future of Dog Commerce</h2>
+            <p style="max-width:640px;margin:0 auto 2rem;color:rgba(255,255,255,0.82)">
+              Join Millions of sellers and buyers who have experienced the new NaijaPaws, Sell Your Dogs Faster!. Browse, shop, and connect with confidence on our fully revamped platform.
+            </p>
+            <div style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap">
+              <a href="register.html" class="btn btn-white btn-lg">Create Account</a>
+              <a href="dashboard.html" class="btn btn-outline btn-lg" style="border-color:white;color:white">Open Dashboard</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo-text">Naija<span>Paws</span></div>
+          <p class="footer-desc">
+            NaijaPaws now uses actual HTML pages for the storefront, products, services, auth, dashboard, and admin surfaces.
+          </p>
+        </div>
+        <div>
+          <div class="footer-col-title">Marketplace</div>
+          <ul class="footer-links">
+            <li><a href="marketplace.html">Dogs for Sale</a></li>
+            <li><a href="marketplace.html?category=adoption">Dog Adoption</a></li>
+            <li><a href="marketplace.html?category=mating">Dog Mating</a></li>
+            <li><a href="products.html">Dog Products</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Services</div>
+          <ul class="footer-links">
+            <li><a href="services.html">Vet Services</a></li>
+            <li><a href="seller-verification.html">Become a Seller</a></li>
+            <li><a href="register.html">Create Account</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Need Help?</div>
+          <ul class="footer-links">
+            <li><a href="services.html">How payments work</a></li>
+            <li><a href="services.html">What changed</a></li>
+            <li><a href="services.html">Safety reminders</a></li>
+            <li><a href="services.html">Frequently asked questions</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2026 NaijaPaws. Static frontend version.</div>
+        <div>WhatsApp admin: +2348012345678</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/site-data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/index.js"></script>
+  <script src="js/hero.js"></script>
+</body>
+</html>

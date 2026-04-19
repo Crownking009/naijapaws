@@ -1,0 +1,19 @@
+.page-home .hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(241, 179, 67, 0.16), transparent 28%),
+    radial-gradient(circle at 80% 70%, rgba(139, 185, 181, 0.18), transparent 30%);
+  pointer-events: none;
+}
+
+.page-home .categories-grid .category-card:nth-child(odd) {
+  transform: translateY(10px);
+}
+
+@media (max-width: 768px) {
+  .page-home .categories-grid .category-card:nth-child(odd) {
+    transform: none;
+  }
+}

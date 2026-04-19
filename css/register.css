@@ -1,0 +1,13 @@
+.page-register {
+  background:
+    radial-gradient(circle at top left, rgba(241, 179, 67, 0.18), transparent 20%),
+    var(--cream);
+}
+
+.page-register .verification-card {
+  box-shadow: var(--shadow-lg);
+}
+
+.page-register [data-password-match='false'] {
+  border-color: var(--danger);
+}

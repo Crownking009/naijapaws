@@ -1,0 +1,11 @@
+.page-dog [data-gallery-image] {
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.page-dog [data-gallery-image]:hover {
+  transform: translateY(-2px);
+}
+
+.page-dog .verification-card .font-semibold {
+  color: var(--dark-brown);
+}

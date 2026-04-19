@@ -1,0 +1,460 @@
+/* =============================================
+   HERO SECTION STYLES — hero.css
+   Import or <link> this in your <head>
+============================================= */
+
+/* ---- Google Fonts ---- */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap');
+
+/* ---- Root tokens (scoped to hero) ---- */
+.pup-hero {
+  --pup-yellow:   #F5A623;
+  --pup-cream:    #F5F0E8;
+  --pup-dark:     #1A1A1A;
+  --pup-white:    #FFFFFF;
+  --pup-blue:     #3A6B9F;
+  --pup-red:      #C94040;
+  --pup-teal:     #4A9B8E;
+  --pup-radius:   20px;
+  --pup-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --pup-transition: 0.35s var(--pup-ease);
+
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  min-height: 100vh;
+  font-family: 'DM Sans', sans-serif;
+  overflow: hidden;
+}
+
+/* =============================================
+   LEFT PANEL
+============================================= */
+.pup-hero__left {
+  position: relative;
+  background: var(--pup-yellow);
+  overflow: hidden;
+}
+
+.pup-hero__dog-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transform: scale(1.05);
+  animation: pupImgReveal 1.2s var(--pup-ease) forwards;
+}
+
+@keyframes pupImgReveal {
+  from { transform: scale(1.12); opacity: 0; }
+  to   { transform: scale(1.05); opacity: 1; }
+}
+
+/* Overlay text */
+.pup-hero__overlay-text {
+  position: absolute;
+  bottom: 140px;
+  left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  pointer-events: none;
+}
+
+.pup-hero__overlay-text span {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255,255,255,0.85);
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  opacity: 0;
+  transform: translateX(-30px);
+  animation: pupSlideIn 0.7s var(--pup-ease) forwards;
+}
+
+.pup-hero__overlay-text span:nth-child(1) { animation-delay: 0.4s; }
+.pup-hero__overlay-text span:nth-child(2) { animation-delay: 0.55s; }
+.pup-hero__overlay-text span:nth-child(3) { animation-delay: 0.7s; }
+
+@keyframes pupSlideIn {
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Sell pill */
+.pup-hero__sell-pill {
+  position: absolute;
+  bottom: 28px;
+  left: 16px;
+  right: 16px;
+  background: rgba(245, 240, 232, 0.92);
+  backdrop-filter: blur(8px);
+  border-radius: 50px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: pupFadeUp 0.6s var(--pup-ease) 1s forwards;
+}
+
+.pup-hero__sell-title {
+  font-weight: 900;
+  font-size: 1.15rem;
+  color: var(--pup-dark);
+  margin: 0 0 2px;
+  letter-spacing: 0.04em;
+}
+
+.pup-hero__sell-sub {
+  font-size: 1.25rem;
+  color: #555;
+  margin: 0;
+}
+
+/* =============================================
+   RIGHT PANEL
+============================================= */
+.pup-hero__right {
+  background: var(--pup-cream);
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  position: relative;
+}
+
+/* Badge */
+.pup-hero__badge {
+  position: absolute;
+  top: 2.5rem;
+  right: 2.5rem;
+  opacity: 0;
+  transform: rotate(-15deg) scale(0.6);
+  animation: pupBadgePop 0.7s cubic-bezier(0.34,1.56,0.64,1) 0.9s forwards;
+}
+
+@keyframes pupBadgePop {
+  to { opacity: 1; transform: rotate(0deg) scale(1); }
+}
+
+/* Headline */
+.pup-hero__headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+  font-weight: 900;
+  color: var(--pup-dark);
+  line-height: 1.1;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(24px);
+  animation: pupFadeUp 0.7s var(--pup-ease) 0.2s forwards;
+}
+
+/* Subtext */
+.pup-hero__subtext {
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.65;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: pupFadeUp 0.6s var(--pup-ease) 0.35s forwards;
+}
+
+@keyframes pupFadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Buttons */
+.pup-hero__btns {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: pupFadeUp 0.6s var(--pup-ease) 0.5s forwards;
+}
+
+.pup-hero__btn {
+  padding: 14px 28px;
+  border-radius: 50px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  letter-spacing: 0.02em;
+}
+
+.pup-hero__btn--primary {
+  background: var(--pup-yellow);
+  color: var(--pup-dark);
+  border-color: var(--pup-yellow);
+}
+
+.pup-hero__btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(245,166,35,0.45);
+}
+
+.pup-hero__btn--outline {
+  background: transparent;
+  color: var(--pup-dark);
+  border-color: var(--pup-dark);
+}
+
+.pup-hero__btn--outline:hover {
+  background: var(--pup-dark);
+  color: var(--pup-white);
+  transform: translateY(-2px);
+}
+
+.pup-hero__btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+/* =============================================
+   POPULAR PETS
+============================================= */
+.pup-hero__popular {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: pupFadeUp 0.7s var(--pup-ease) 0.65s forwards;
+}
+
+.pup-hero__popular-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.pup-hero__popular-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--pup-dark);
+  margin: 0;
+  line-height: 1.1;
+}
+
+.pup-hero__view-all {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #4f4f4f;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.pup-hero__view-all:hover { color: var(--pup-dark); }
+
+/* Cards row */
+.pup-hero__cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.pup-hero__card {
+  border-radius: 24px;
+  padding: 18px 18px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: transform var(--pup-transition), box-shadow var(--pup-transition), filter var(--pup-transition);
+  min-height: 360px;
+  box-shadow: 0 18px 40px rgba(22, 22, 22, 0.12);
+}
+
+.pup-hero__card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 46px rgba(0,0,0,0.18);
+  filter: saturate(1.04);
+}
+
+.pup-hero__card--blue  { background: linear-gradient(180deg, #4f80ab 0%, #3f6d99 100%); }
+.pup-hero__card--red   { background: linear-gradient(180deg, #f6324f 0%, #eb2447 100%); }
+.pup-hero__card--teal  { background: linear-gradient(180deg, #8fd4cf 0%, #7cc4be 100%); }
+
+.pup-hero__card-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--pup-white);
+  line-height: 1.12;
+  position: relative;
+  z-index: 2;
+  max-width: calc(100% - 3.5rem);
+  letter-spacing: -0.02em;
+}
+
+.pup-hero__card-arrow {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--pup-yellow);
+  border: none;
+  color: var(--pup-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 3;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 8px 18px rgba(245, 166, 35, 0.28);
+}
+
+.pup-hero__card:hover .pup-hero__card-arrow {
+  transform: rotate(45deg);
+  background: var(--pup-white);
+}
+
+.pup-hero__card-img {
+  width: calc(100% + 36px);
+  margin-left: -18px;
+  margin-right: -18px;
+  margin-top: auto;
+  height: 270px;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 0 0 24px 24px;
+  display: block;
+  flex-shrink: 0;
+  transition: transform var(--pup-transition);
+}
+
+.pup-hero__card--blue .pup-hero__card-img {
+  object-position: center 18%;
+}
+
+.pup-hero__card--red .pup-hero__card-img {
+  object-position: center 32%;
+}
+
+.pup-hero__card--teal .pup-hero__card-img {
+  object-position: center 18%;
+}
+
+.pup-hero__card:hover .pup-hero__card-img {
+  transform: scale(1.04);
+}
+
+/* Arrow btn (sell pill) */
+.pup-hero__arrow-btn {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 50%;
+  background: var(--pup-yellow);
+  border: none;
+  color: var(--pup-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.pup-hero__arrow-btn:hover { transform: rotate(45deg); }
+
+/* =============================================
+   RESPONSIVE — Tablet
+============================================= */
+@media (max-width: 900px) {
+  .pup-hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .pup-hero__left {
+    min-height: 55vw;
+    max-height: 420px;
+  }
+
+  .pup-hero__badge {
+    top: 1.5rem;
+    right: 1.5rem;
+  }
+
+  .pup-hero__cards {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+}
+
+/* =============================================
+   RESPONSIVE — Mobile
+============================================= */
+@media (max-width: 560px) {
+  .pup-hero__left {
+    min-height: 75vw;
+  }
+
+  .pup-hero__overlay-text span {
+    font-size: 2rem;
+  }
+
+  .pup-hero__right {
+    padding: 1.8rem 1.25rem 2rem;
+    gap: 1.2rem;
+  }
+
+  .pup-hero__btns {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .pup-hero__btn {
+    padding: 12px 20px;
+    font-size: 0.85rem;
+    flex: 1;
+    text-align: center;
+  }
+
+  .pup-hero__cards {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .pup-hero__card {
+    min-height: 220px;
+    padding: 12px 12px 0;
+    border-radius: 18px;
+  }
+
+  .pup-hero__card-name {
+    font-size: 0.8rem;
+    max-width: calc(100% - 2.8rem);
+  }
+
+  .pup-hero__card-arrow {
+    top: 12px;
+    right: 12px;
+    width: 30px;
+    height: 30px;
+  }
+
+  .pup-hero__card-img {
+    height: 150px;
+    width: calc(100% + 24px);
+    margin-left: -12px;
+    margin-right: -12px;
+    border-radius: 0 0 18px 18px;
+  }
+
+  .pup-hero__sell-pill {
+    padding: 10px 16px;
+  }
+}

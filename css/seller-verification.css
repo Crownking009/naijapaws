@@ -1,0 +1,7 @@
+.page-seller-verification #seller-form textarea {
+  resize: vertical;
+}
+
+.page-seller-verification .verification-step + .verification-step {
+  margin-top: 0.25rem;
+}

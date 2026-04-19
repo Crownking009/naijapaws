@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="./">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NaijaPaws registration page built with full HTML, CSS, and JavaScript.">
+  <meta name="theme-color" content="#38607f">
+  <title>NaijaPaws | Register</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/register.css">
+</head>
+<body class="page-register">
+  <div class="fraud-banner" role="alert">Pay through NaijaPaws-admin-managed channels only. Never pay sellers directly.</div>
+  <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <main>
+    <section class="section" style="padding-top:2rem">
+      <div class="container" style="max-width:760px">
+        <div class="verification-card" style="overflow:hidden;padding:0">
+          <div style="background:linear-gradient(135deg,var(--forest),var(--amber));padding:2rem 2.5rem;color:white">
+            <a href="index.html" style="color:rgba(255,255,255,0.75);font-size:0.875rem">Back to home</a>
+            <h1 style="font-family:var(--font-display);font-size:2rem;margin:0.75rem 0 0.35rem">Create your account</h1>
+            <p style="color:rgba(255,255,255,0.78)">This registration page is now written directly in HTML and uses JavaScript to store demo users locally.</p>
+          </div>
+
+          <div style="padding:2rem 2.5rem">
+            <form id="register-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="register-name">Full name</label>
+                  <input id="register-name" name="full_name" class="form-control" placeholder="Chukwuemeka Obi" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="register-phone">Phone</label>
+                  <input id="register-phone" type="tel" name="phone" class="form-control" placeholder="08012345678" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="register-email">Email</label>
+                <input id="register-email" name="email" type="email" class="form-control" placeholder="your@email.com" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="register-state">State</label>
+                <select id="register-state" name="state" class="form-control" required>
+                  <option value="">Select state</option>
+                  <option value="Lagos">Lagos</option>
+                  <option value="Abuja">Abuja</option>
+                  <option value="Enugu">Enugu</option>
+                  <option value="Rivers">Rivers</option>
+                  <option value="Ogun">Ogun</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="register-password">Password</label>
+                  <input id="register-password" name="password" type="password" class="form-control" placeholder="Minimum 8 characters" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="register-password2">Confirm password</label>
+                  <input id="register-password2" name="password2" type="password" class="form-control" placeholder="Repeat password" required>
+                </div>
+              </div>
+
+              <label class="checkbox-group" style="margin-bottom:1.25rem">
+                <input type="checkbox" name="agree_terms" value="1" required>
+                <label>I agree to the NaijaPaws demo terms and understand that payments should still be routed through admins.</label>
+              </label>
+
+              <button type="submit" class="btn btn-primary btn-block btn-lg">Create Account</button>
+            </form>
+
+            <div class="text-sm text-muted" style="text-align:center;margin-top:1.5rem">
+              Already registered? <a href="login.html" style="color:var(--forest);font-weight:600">Sign in</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/site-data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/register.js"></script>
+</body>
+</html>

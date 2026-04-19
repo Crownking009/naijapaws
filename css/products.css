@@ -1,0 +1,11 @@
+.page-products [data-product-card] {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.page-products #product-filter-form {
+  align-items: center;
+}
+
+.page-products .product-card .card-body {
+  min-height: 260px;
+}

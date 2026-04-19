@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="./">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NaijaPaws dashboard page built with full HTML, CSS, and JavaScript.">
+  <meta name="theme-color" content="#38607f">
+  <title>NaijaPaws | Dashboard</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body id="dashboard-page" class="page-dashboard">
+  <div class="fraud-banner" role="alert">Pay through NaijaPaws-admin-managed channels only. Never pay sellers directly.</div>
+
+  <nav class="navbar" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="nav-logo-text">Naija<span>Paws</span></span></a>
+      <ul class="nav-links">
+         <li><a href="index.html">Home</a></li>
+        <li><a href="marketplace.html">Shop Dogs</a></li>
+        <li><a href="products.html">Dog Accessories</a></li>
+        <li><a href="services.html">Vet Services</a></li>
+        
+        <li><a href="dashboard.html" class="nav-link-active">Dashboard</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button type="button" class="nav-cart-btn" data-open-cart>Cart <span class="cart-badge" style="display:none"></span></button>
+        <div data-auth-guest>
+          <a href="login.html" class="btn btn-secondary btn-sm">Login</a>
+          <a href="register.html" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+        <div data-auth-user style="display:none;align-items:center;gap:0.75rem">
+          <a href="dashboard.html" class="btn btn-secondary btn-sm" data-user-link>Dashboard</a>
+          <button type="button" class="btn btn-sm" style="color:var(--text-muted)" data-logout>Log Out</button>
+        </div>
+        <button type="button" class="nav-mobile-toggle"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="nav-mobile">
+    <div class="nav-mobile-drawer">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem">
+        <span class="nav-logo-text">Naija<span style="color:var(--forest)">Paws</span></span>
+        <button type="button" class="nav-mobile-close" style="font-size:1.5rem;color:var(--text-muted)">x</button>
+      </div>
+      <nav class="nav-mobile-links">
+        <a href="marketplace.html">Dogs</a>
+        <a href="products.html">Products</a>
+        <a href="services.html">Vet Services</a>
+        <a href="dashboard.html">Dashboard</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="cart-overlay">
+    <div class="cart-drawer">
+      <div class="cart-header">
+        <span class="display-sm">My Cart</span>
+        <button type="button" class="cart-close" style="font-size:1.5rem;color:var(--text-muted)">x</button>
+      </div>
+      <div class="cart-body"></div>
+      <div class="cart-footer" style="display:none"></div>
+    </div>
+  </div>
+
+  <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <main>
+    <section class="section" style="padding-top:2rem">
+      <div class="container">
+        <div id="dashboard-gate">
+          <div class="empty-state" style="background:var(--warm-white);border-radius:var(--radius-xl)">
+            <div class="empty-icon">Lock</div>
+            <div class="empty-title">Dashboard requires login</div>
+            <div class="empty-desc">Sign in first to see the full dashboard page and its JavaScript-powered local data.</div>
+            <a href="login.html" class="btn btn-primary">Go To Login</a>
+          </div>
+        </div>
+
+        <div id="dashboard-content" style="display:none">
+          <div class="dashboard-header">
+            <div>
+              <div class="section-eyebrow">Dashboard</div>
+              <h1 class="display-lg">Welcome, <span id="dashboard-user-name">User</span></h1>
+              <p class="text-muted">Role: <span id="dashboard-user-role">buyer</span></p>
+            </div>
+            <div style="display:flex;gap:0.75rem;flex-wrap:wrap">
+              <a href="seller-verification.html" class="btn btn-secondary">Seller Application</a>
+              <a href="admin/index.html" class="btn btn-secondary">Admin</a>
+              <button type="button" class="btn btn-primary" data-logout>Log Out</button>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card green"><div class="stat-icon green">1</div><div class="stat-num" id="dashboard-cart-count">0</div><div class="stat-label">Cart Items</div></div>
+            <div class="stat-card orange"><div class="stat-icon orange">2</div><div class="stat-num" id="dashboard-favorite-count">0</div><div class="stat-label">Favorites</div></div>
+            <div class="stat-card brown"><div class="stat-icon brown">3</div><div class="stat-num" id="dashboard-request-count">0</div><div class="stat-label">Vet Requests</div></div>
+            <div class="stat-card amber"><div class="stat-icon amber">4</div><div class="stat-num" id="dashboard-seller-count">0</div><div class="stat-label">Seller Activity</div></div>
+          </div>
+
+          <div class="grid-2">
+            <div class="verification-card">
+              <h2 style="font-family:var(--font-display);font-size:1.2rem;margin-bottom:1rem">Recent cart</h2>
+              <div id="dashboard-cart-list"></div>
+            </div>
+
+            <div class="verification-card">
+              <h2 style="font-family:var(--font-display);font-size:1.2rem;margin-bottom:1rem">Frontend conversion notes</h2>
+              <div class="verification-step"><div class="step-num">A</div><div><div class="font-semibold">Standalone dashboard markup</div><div class="text-sm text-muted">This page is no longer assembled by PHP or a client-side page renderer.</div></div></div>
+              <div class="verification-step"><div class="step-num">B</div><div><div class="font-semibold">Shared JavaScript interactions</div><div class="text-sm text-muted">Session state, cart, favorites, and request counts are managed in one script.</div></div></div>
+              <div class="verification-step"><div class="step-num">C</div><div><div class="font-semibold">Backend-ready structure</div><div class="text-sm text-muted">The layout is ready for API wiring later without rebuilding the page shell.</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo-text">Naija<span>Paws</span></div>
+          <p class="footer-desc">The dashboard is now a real HTML page with JavaScript-driven session and storage updates.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Account</div>
+          <ul class="footer-links">
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="seller-verification.html">Seller Verification</a></li>
+            <li><a href="login.html">Login</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Browse</div>
+          <ul class="footer-links">
+            <li><a href="marketplace.html">Marketplace</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="services.html">Services</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Admin</div>
+          <ul class="footer-links">
+            <li><a href="admin/index.html">Admin Dashboard</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2026 NaijaPaws.</div>
+        <div>Dashboard page in full HTML, CSS, and JS.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/site-data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

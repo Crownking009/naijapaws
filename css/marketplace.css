@@ -1,0 +1,11 @@
+.page-marketplace [data-market-card] {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.page-marketplace #marketplace-filter-form {
+  backdrop-filter: blur(10px);
+}
+
+.page-marketplace .card-title a {
+  display: inline-block;
+}

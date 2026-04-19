@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="./">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NaijaPaws login page built with full HTML, CSS, and JavaScript.">
+  <meta name="theme-color" content="#38607f">
+  <title>NaijaPaws | Login</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body class="page-login">
+  <div class="fraud-banner" role="alert">Pay through NaijaPaws-admin-managed channels only. Never pay sellers directly.</div>
+  <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <main>
+    <section class="section" style="padding-block:0">
+      <div class="auth-split">
+        <div class="auth-panel auth-panel-left">
+          <div class="auth-logo">Naija<span>Paws</span></div>
+          <p class="auth-tagline">
+            This page is now a full HTML login screen. JavaScript handles the sign-in flow using demo accounts and browser-stored users.
+          </p>
+          <div class="auth-trust">
+            <div class="auth-trust-item"><div class="auth-trust-num">HTML</div><div class="auth-trust-label">Full page code</div></div>
+            <div class="auth-trust-item"><div class="auth-trust-num">CSS</div><div class="auth-trust-label">Shared styling</div></div>
+            <div class="auth-trust-item"><div class="auth-trust-num">JS</div><div class="auth-trust-label">Form logic</div></div>
+          </div>
+          <div style="margin-top:2rem;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.15);border-radius:var(--radius-lg);padding:1rem;max-width:380px">
+            <div style="font-weight:700;margin-bottom:0.5rem;color:var(--amber-light)">Demo accounts</div>
+            <div class="text-sm">buyer@naijapaws.demo / Password1</div>
+            <div class="text-sm">seller@naijapaws.demo / Password1</div>
+            <div class="text-sm">admin@naijapaws.demo / Password1</div>
+          </div>
+        </div>
+
+        <div class="auth-panel auth-panel-right">
+          <div class="auth-form-wrap">
+            <a href="index.html" class="text-sm" style="color:var(--forest);font-weight:600">Back to home</a>
+            <h1 class="auth-heading" style="margin-top:1.25rem">Welcome back</h1>
+            <p class="auth-sub">Sign in to test the new standalone frontend pages.</p>
+
+            <form id="login-form">
+              <div class="form-group">
+                <label class="form-label" for="login-email">Email address</label>
+                <input id="login-email" name="email" type="email" class="form-control" placeholder="your@email.com" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="login-password">Password</label>
+                <input id="login-password" name="password" type="password" class="form-control" placeholder="Enter password" required>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block btn-lg">Sign In</button>
+            </form>
+
+            <div class="divider">or</div>
+            <div class="text-sm text-muted" style="text-align:center">
+              Need an account? <a href="register.html" style="color:var(--forest);font-weight:600">Create one here</a>
+            </div>
+            <div class="text-sm text-muted" style="text-align:center;margin-top:0.75rem">
+              Want to sell? <a href="seller-verification.html" style="color:var(--orange);font-weight:600">Apply as a seller</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/site-data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>

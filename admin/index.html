@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="../">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NaijaPaws admin page built with full HTML, CSS, and JavaScript.">
+  <meta name="theme-color" content="#38607f">
+  <title>NaijaPaws | Admin</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body id="admin-page" class="page-admin">
+  <div class="fraud-banner" role="alert">Pay through NaijaPaws-admin-managed channels only. Never pay sellers directly.</div>
+
+  <nav class="navbar" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="nav-logo-text">Naija<span>Paws</span></span></a>
+      <ul class="nav-links">
+        <li><a href="marketplace.html">Dogs</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="services.html">Vet Services</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button type="button" class="nav-cart-btn" data-open-cart>Cart <span class="cart-badge" style="display:none"></span></button>
+        <div data-auth-guest>
+          <a href="login.html" class="btn btn-secondary btn-sm">Login</a>
+          <a href="register.html" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+        <div data-auth-user style="display:none;align-items:center;gap:0.75rem">
+          <a href="dashboard.html" class="btn btn-secondary btn-sm" data-user-link>Dashboard</a>
+          <button type="button" class="btn btn-sm" style="color:var(--text-muted)" data-logout>Log Out</button>
+        </div>
+        <button type="button" class="nav-mobile-toggle"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="nav-mobile">
+    <div class="nav-mobile-drawer">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem">
+        <span class="nav-logo-text">Naija<span style="color:var(--forest)">Paws</span></span>
+        <button type="button" class="nav-mobile-close" style="font-size:1.5rem;color:var(--text-muted)">x</button>
+      </div>
+      <nav class="nav-mobile-links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="marketplace.html">Marketplace</a>
+        <a href="products.html">Products</a>
+        <a href="services.html">Vet Services</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="cart-overlay">
+    <div class="cart-drawer">
+      <div class="cart-header">
+        <span class="display-sm">My Cart</span>
+        <button type="button" class="cart-close" style="font-size:1.5rem;color:var(--text-muted)">x</button>
+      </div>
+      <div class="cart-body"></div>
+      <div class="cart-footer" style="display:none"></div>
+    </div>
+  </div>
+
+  <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <main>
+    <section class="section" style="padding-top:2rem">
+      <div class="container">
+        <div id="admin-gate">
+          <div class="empty-state" style="background:var(--warm-white);border-radius:var(--radius-xl)">
+            <div class="empty-icon">Admin</div>
+            <div class="empty-title">Admin access required</div>
+            <div class="empty-desc">Use the demo admin account to view this fully built HTML admin page.</div>
+            <a href="login.html" class="btn btn-primary">Go To Login</a>
+          </div>
+        </div>
+
+        <div id="admin-content" style="display:none">
+          <div class="dashboard-header">
+            <div>
+              <div class="section-eyebrow">Admin</div>
+              <h1 class="display-lg">Control center</h1>
+              <p class="text-muted">Static frontend overview for marketplace operations.</p>
+            </div>
+            <div style="display:flex;gap:0.75rem;flex-wrap:wrap">
+              <a href="dashboard.html" class="btn btn-secondary">User Dashboard</a>
+              <button type="button" class="btn btn-primary" data-logout>Log Out</button>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card green"><div class="stat-icon green">U</div><div class="stat-num" id="admin-user-count">0</div><div class="stat-label">Users In Browser</div></div>
+            <div class="stat-card orange"><div class="stat-icon orange">D</div><div class="stat-num" id="admin-dog-count">0</div><div class="stat-label">Dog Listings</div></div>
+            <div class="stat-card brown"><div class="stat-icon brown">V</div><div class="stat-num" id="admin-vet-count">0</div><div class="stat-label">Vet Requests</div></div>
+            <div class="stat-card amber"><div class="stat-icon amber">S</div><div class="stat-num" id="admin-seller-count">0</div><div class="stat-label">Seller Applications</div></div>
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <h2 style="font-family:var(--font-display);font-size:1.25rem;margin-bottom:1rem">Seller applications</h2>
+              <table class="data-table">
+                <thead>
+                  <tr><th>Name</th><th>State</th><th>Status</th></tr>
+                </thead>
+                <tbody id="admin-seller-table"></tbody>
+              </table>
+            </div>
+
+            <div>
+              <h2 style="font-family:var(--font-display);font-size:1.25rem;margin-bottom:1rem">Vet requests</h2>
+              <table class="data-table">
+                <thead>
+                  <tr><th>Name</th><th>State</th><th>Urgency</th></tr>
+                </thead>
+                <tbody id="admin-vet-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo-text">Naija<span>Paws</span></div>
+          <p class="footer-desc">The admin interface is now also a standalone HTML page that reads local frontend demo data.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Admin</div>
+          <ul class="footer-links">
+            <li><a href="admin/index.html">Admin Dashboard</a></li>
+            <li><a href="dashboard.html">User Dashboard</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Marketplace</div>
+          <ul class="footer-links">
+            <li><a href="marketplace.html">Marketplace</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="services.html">Services</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Account</div>
+          <ul class="footer-links">
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2026 NaijaPaws.</div>
+        <div>Admin page in full HTML, CSS, and JS.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/site-data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
