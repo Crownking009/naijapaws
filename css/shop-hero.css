@@ -2,8 +2,6 @@
    SHOP HERO SECTION STYLES — shop-hero.css
 ============================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;600;700&display=swap');
-
 /* ── Tokens ── */
 .shp-hero {
   --shp-yellow:     #D4960A;

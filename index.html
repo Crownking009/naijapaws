@@ -72,14 +72,12 @@
         <a href="contact.html">Contact Us</a>
 
         <div data-auth-guest>
-          <hr style="border-color:rgba(139,185,181,0.28);margin:0.75rem 0">
-          <a href="login.html">Login</a>
-          <a href="register.html">Register</a>
+          <a href="login.html" class="nav-mobile-auth-link">Login</a>
+          <a href="register.html" class="nav-mobile-auth-link nav-mobile-auth-link-primary">Sign Up</a>
         </div>
         <div data-auth-user style="display:none">
-          <hr style="border-color:rgba(139,185,181,0.28);margin:0.75rem 0">
-          <a href="dashboard.html" data-user-link>Dashboard</a>
-          <a href="index.html" data-logout>Log Out</a>
+          <a href="dashboard.html" class="nav-mobile-auth-link" data-user-link>Dashboard</a>
+          <a href="index.html" class="nav-mobile-auth-link" data-logout>Log Out</a>
         </div>
       </nav>
     </div>
@@ -111,15 +109,13 @@
 
     <img
   class="pup-hero__dog-img"
-  src="assets/images/hero1.png"
+  src="assets/images/hero1.webp"
   alt="Dog in blue hoodie"
+  fetchpriority="high"
+  decoding="async"
 />
 
-    <!-- <img
-      class="pup-hero__dog-img"
-      src="https://images.unsplash.com/photo-1517849845537-4d257902454a?w=600&q=80"
-      alt="Dog in blue hoodie"
-    /> -->
+
 
     <!-- Overlay text -->
     <div class="pup-hero__overlay-text" id="pupOverlayText">
@@ -189,8 +185,9 @@
 
           <img
   class="pup-hero__card-img"
-  src="assets/images/dogcardd.png"
+  src="assets/images/dogcardd.webp"
   alt="Husky with blue eyes"
+  decoding="async"
 />
           <!-- <img
             class="pup-hero__card-img"
@@ -208,8 +205,9 @@
           </button>
           <img
             class="pup-hero__card-img"
-  src="assets/images/bulldog.png"
+  src="assets/images/bulldog.webp"
   alt="bulldog with tongue out"
+  decoding="async"
           />
         </div>
 
@@ -222,8 +220,9 @@
           </button>
           <img
             class="pup-hero__card-img"
-  src="assets/images/golden.png"
+  src="assets/images/golden.webp"
   alt="Golden Retriever"
+  decoding="async"
           />
         </div>
 
@@ -289,7 +288,7 @@
           <article class="listing-card fade-in-up">
             <div class="card-image-wrap">
               <a href="dog.html">
-                <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1200&q=80" alt="Champion Bloodline German Shepherd">
+                <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1200&q=80" alt="Champion Bloodline German Shepherd" loading="lazy" decoding="async">
               </a>
               <span class="card-badge badge-sale">Dogs for Sale</span>
               <span class="card-badge badge-featured" style="left:auto;right:0.75rem;top:0.75rem">Featured</span>
@@ -322,7 +321,7 @@
           <article class="listing-card fade-in-up">
             <div class="card-image-wrap">
               <a href="marketplace.html?category=adoption">
-                <img src="https://images.unsplash.com/photo-1561037404-61cd46aa615b?auto=format&fit=crop&w=1200&q=80" alt="Rescued Indie Pup Ready For Adoption">
+                <img src="https://images.unsplash.com/photo-1561037404-61cd46aa615b?auto=format&fit=crop&w=1200&q=80" alt="Rescued Indie Pup Ready For Adoption" loading="lazy" decoding="async">
               </a>
               <span class="card-badge badge-adoption">Dog Adoption</span>
               <button class="card-fav-btn" data-favorite-id="104" data-favorite-type="dog" aria-label="Save listing">&#9825;</button>
@@ -353,7 +352,7 @@
           <article class="listing-card fade-in-up">
             <div class="card-image-wrap">
               <a href="marketplace.html?category=mating">
-                <img src="assets/images/frenchbull.jpg" alt="Compact French Bulldog Stud">
+                <img src="assets/images/frenchbull.jpg" alt="Compact French Bulldog Stud" loading="lazy" decoding="async">
               </a>
 
               <span class="card-badge badge-mating">Dog Mating</span>
@@ -426,7 +425,7 @@
         <div class="grid-4">
           <article class="product-card fade-in-up">
             <div class="card-image-wrap">
-              <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=900&q=80" alt="Premium Puppy Growth Meal">
+              <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=900&q=80" alt="Premium Puppy Growth Meal" loading="lazy" decoding="async">
               <span class="card-badge badge-featured">Featured</span>
               <span class="product-discount">-16%</span>
               <button class="card-fav-btn" data-favorite-id="201" data-favorite-type="product" aria-label="Save product">&#9825;</button>
@@ -455,7 +454,7 @@
 
           <article class="product-card fade-in-up">
             <div class="card-image-wrap">
-              <img src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=900&q=80" alt="Joint Support Vitamins">
+              <img src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=900&q=80" alt="Joint Support Vitamins" loading="lazy" decoding="async">
               <span class="card-badge badge-featured">Featured</span>
               <button class="card-fav-btn" data-favorite-id="202" data-favorite-type="product" aria-label="Save product">&#9825;</button>
             </div>
@@ -482,7 +481,7 @@
 
           <article class="product-card fade-in-up">
             <div class="card-image-wrap">
-              <img src="https://images.unsplash.com/photo-1518715308788-de9717d6b2b4?auto=format&fit=crop&w=900&q=80" alt="Heavy Duty Leather Collar">
+              <img src="https://images.unsplash.com/photo-1518715308788-de9717d6b2b4?auto=format&fit=crop&w=900&q=80" alt="Heavy Duty Leather Collar" loading="lazy" decoding="async">
               <span class="product-discount">-17%</span>
               <button class="card-fav-btn" data-favorite-id="203" data-favorite-type="product" aria-label="Save product">&#9825;</button>
             </div>
@@ -506,7 +505,7 @@
 
           <article class="product-card fade-in-up">
             <div class="card-image-wrap">
-              <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=900&q=80" alt="Orthopedic Dog Bed">
+              <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=900&q=80" alt="Orthopedic Dog Bed" loading="lazy" decoding="async">
               <span class="card-badge badge-featured">Featured</span>
               <span class="product-discount">-13%</span>
               <button class="card-fav-btn" data-favorite-id="207" data-favorite-type="product" aria-label="Save product">&#9825;</button>

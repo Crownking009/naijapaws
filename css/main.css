@@ -274,6 +274,25 @@ ul { list-style: none; }
   margin-bottom: 0.25rem;
 }
 .nav-mobile-links a:hover { background: var(--sand); }
+.nav-mobile-links [data-auth-guest],
+.nav-mobile-links [data-auth-user] {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(139, 185, 181, 0.28);
+}
+.nav-mobile-auth-link {
+  justify-content: center;
+  border: 1px solid rgba(139, 185, 181, 0.32);
+  background: var(--warm-white);
+  box-shadow: var(--shadow-xs);
+}
+.nav-mobile-auth-link-primary {
+  background: linear-gradient(135deg, var(--orange) 0%, #f15968 100%);
+  border-color: transparent;
+  color: white;
+}
 
 /* ---- FRAUD WARNING BANNER ---------------------------------- */
 .fraud-banner {
@@ -1545,6 +1564,8 @@ ul { list-style: none; }
 @media (max-width: 768px) {
   .nav-links { display: none; }
   .nav-mobile-toggle { display: flex; }
+  .nav-actions > [data-auth-guest],
+  .nav-actions > [data-auth-user] { display: none !important; }
   .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
   .grid-2 { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }

@@ -151,31 +151,77 @@
     });
   }
 
+  function ensureMobileAuthLinks() {
+    document.querySelectorAll('.nav-mobile-links').forEach((mobileLinks) => {
+      if (mobileLinks.querySelector('[data-auth-guest], [data-auth-user]')) return;
+
+      const guestBlock = document.createElement('div');
+      guestBlock.setAttribute('data-auth-guest', '');
+      guestBlock.innerHTML = `
+        <a href="login.html" class="nav-mobile-auth-link">Login</a>
+        <a href="register.html" class="nav-mobile-auth-link nav-mobile-auth-link-primary">Sign Up</a>
+      `;
+
+      const userBlock = document.createElement('div');
+      userBlock.setAttribute('data-auth-user', '');
+      userBlock.style.display = 'none';
+      userBlock.innerHTML = `
+        <a href="dashboard.html" class="nav-mobile-auth-link" data-user-link>Dashboard</a>
+        <a href="index.html" class="nav-mobile-auth-link" data-logout>Log Out</a>
+      `;
+
+      mobileLinks.append(guestBlock, userBlock);
+    });
+  }
+
   function initNavigation() {
     const mobileToggle = document.querySelector('.nav-mobile-toggle');
     const mobileNav = document.querySelector('.nav-mobile');
     const mobileClose = document.querySelector('.nav-mobile-close');
     const navbar = document.querySelector('.navbar');
 
+    ensureMobileAuthLinks();
+    syncNavState();
+    syncActiveNav();
+
+    const closeMobileNav = () => {
+      mobileNav?.classList.remove('open');
+      if (mobileToggle) {
+        mobileToggle.setAttribute('aria-expanded', 'false');
+      }
+      document.body.style.overflow = '';
+    };
+
+    const openMobileNav = () => {
+      mobileNav?.classList.add('open');
+      if (mobileToggle) {
+        mobileToggle.setAttribute('aria-expanded', 'true');
+      }
+      document.body.style.overflow = 'hidden';
+    };
+
     window.addEventListener('scroll', () => {
       navbar?.classList.toggle('scrolled', window.scrollY > 10);
     }, { passive: true });
 
     mobileToggle?.addEventListener('click', () => {
-      mobileNav?.classList.add('open');
-      document.body.style.overflow = 'hidden';
+      openMobileNav();
     });
 
     mobileClose?.addEventListener('click', () => {
-      mobileNav?.classList.remove('open');
-      document.body.style.overflow = '';
+      closeMobileNav();
     });
 
     mobileNav?.addEventListener('click', (event) => {
       if (event.target === mobileNav) {
-        mobileNav.classList.remove('open');
-        document.body.style.overflow = '';
+        closeMobileNav();
       }
+    });
+
+    mobileNav?.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        closeMobileNav();
+      });
     });
   }
 
