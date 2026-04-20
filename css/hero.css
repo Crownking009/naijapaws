@@ -98,6 +98,15 @@
   animation: pupFadeUp 0.6s var(--pup-ease) 1s forwards;
 }
 
+.pup-hero__sell-pill::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  pointer-events: none;
+}
+
 .pup-hero__sell-title {
   font-weight: 900;
   font-size: 1.15rem;
@@ -110,6 +119,17 @@
   font-size: 1.25rem;
   color: #555;
   margin: 0;
+}
+
+@keyframes pupMobileSellPulse {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 10px 24px rgba(245, 166, 35, 0.22);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 16px 30px rgba(245, 166, 35, 0.34);
+  }
 }
 
 /* =============================================
@@ -371,21 +391,51 @@
 
 /* Arrow btn (sell pill) */
 .pup-hero__arrow-btn {
-  width: 36px;
-  height: 36px;
   min-width: 36px;
-  border-radius: 50%;
+  height: 36px;
+  border-radius: 999px;
   background: var(--pup-yellow);
   border: none;
   color: var(--pup-dark);
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.45rem;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  text-decoration: none;
+  padding: 0 12px 0 14px;
+  box-shadow: 0 10px 24px rgba(245, 166, 35, 0.22);
 }
 
-.pup-hero__arrow-btn:hover { transform: rotate(45deg); }
+.pup-hero__arrow-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(245, 166, 35, 0.34);
+}
+
+.pup-hero__arrow-btn-label {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.pup-hero__arrow-btn-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.pup-hero__arrow-btn:hover .pup-hero__arrow-btn-icon {
+  transform: rotate(45deg);
+  background: rgba(255, 255, 255, 0.7);
+}
 
 /* =============================================
    RESPONSIVE — Tablet
@@ -511,15 +561,55 @@
   }
 
   .pup-hero__sell-pill {
-    padding: 10px 16px;
-    border-radius: 22px;
-    gap: 0.75rem;
+    padding: 12px 12px 12px 14px;
+    border-radius: 24px;
+    gap: 0.9rem;
+    align-items: center;
+    background:
+      linear-gradient(135deg, rgba(255, 250, 241, 0.96), rgba(245, 240, 232, 0.92));
+    box-shadow: 0 18px 35px rgba(17, 17, 17, 0.16);
+  }
+
+  .pup-hero__sell-title {
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.22rem;
+  }
+
+  .pup-hero__sell-sub {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 600;
+  }
+
+  .pup-hero__arrow-btn {
+    min-width: 118px;
+    height: 42px;
+    padding: 0 8px 0 12px;
+    flex-shrink: 0;
+    animation: pupMobileSellPulse 2.8s ease-in-out infinite;
+    animation-delay: 1.3s;
+  }
+
+  .pup-hero__arrow-btn-label {
+    font-size: 0.66rem;
+  }
+
+  .pup-hero__arrow-btn-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .pup-hero__arrow-btn-icon svg {
+    width: 12px;
+    height: 12px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .pup-hero__card.is-revealed,
-  .pup-hero__card.is-revealed .pup-hero__card-img {
+  .pup-hero__card.is-revealed .pup-hero__card-img,
+  .pup-hero__arrow-btn {
     animation: none !important;
   }
 }

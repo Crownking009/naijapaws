@@ -272,6 +272,7 @@ CREATE TABLE vet_requests (
     address TEXT DEFAULT NULL,
     dog_issue TEXT NOT NULL,
     urgency ENUM('normal','urgent','emergency') DEFAULT 'normal',
+    pet_image VARCHAR(255) DEFAULT NULL,
     status ENUM('pending','assigned','resolved') DEFAULT 'pending',
     assigned_vet VARCHAR(150) DEFAULT NULL,
     admin_note TEXT DEFAULT NULL,

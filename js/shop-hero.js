@@ -47,7 +47,11 @@
           const card = entry.target;
           const idx = Array.from(cards).indexOf(card);
           card.style.animationDelay = `${0.1 + idx * 0.15}s`;
+          card.style.setProperty('--shp-card-delay', `${idx * 0.12}s`);
           card.classList.add('shp-card-visible');
+          window.setTimeout(() => {
+            card.classList.add('shp-card-float');
+          }, 420 + (idx * 120));
           cardObs.unobserve(card);
         }
       });
@@ -62,7 +66,11 @@
       const rect = card.getBoundingClientRect();
       if (rect.top < window.innerHeight && !card.classList.contains('shp-card-visible')) {
         card.style.animationDelay = `${0.1 + idx * 0.15}s`;
+        card.style.setProperty('--shp-card-delay', `${idx * 0.12}s`);
         card.classList.add('shp-card-visible');
+        window.setTimeout(() => {
+          card.classList.add('shp-card-float');
+        }, 420 + (idx * 120));
       }
     });
   }, 700);

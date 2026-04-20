@@ -5,6 +5,7 @@
   const STORAGE = {
     users: 'np_registered_users',
     user: 'np_session_user',
+    removedUsers: 'np_removed_users',
     cart: 'np_cart',
     favorites: 'np_favorites',
     vetRequests: 'np_vet_requests',
@@ -95,11 +96,12 @@
   }
 
   function currentUsers() {
-    const savedUsers = getJson(STORAGE.users, []);
+    const removedEmails = new Set(getRemovedUsers());
+    const savedUsers = getJson(STORAGE.users, []).filter((user) => !removedEmails.has(user.email));
     const existingEmails = new Set(savedUsers.map((user) => user.email));
     const merged = [...savedUsers];
     (DATA.demoUsers || []).forEach((user) => {
-      if (!existingEmails.has(user.email)) {
+      if (!existingEmails.has(user.email) && !removedEmails.has(user.email)) {
         merged.push(user);
       }
     });
@@ -113,6 +115,115 @@
 
   function setFavorites(favorites) {
     setJson(STORAGE.favorites, favorites);
+  }
+
+  function getRemovedUsers() {
+    return getJson(STORAGE.removedUsers, []);
+  }
+
+  function removeRemovedEmail(email) {
+    if (!email) return;
+    const nextRemoved = getRemovedUsers().filter((entry) => entry !== email);
+    setJson(STORAGE.removedUsers, nextRemoved);
+  }
+
+  function getStoredUsers() {
+    return getJson(STORAGE.users, []);
+  }
+
+  function getSellerApplication(email) {
+    if (!email) return null;
+    return getJson(STORAGE.sellerApps, []).find((entry) => entry.email === email) || null;
+  }
+
+  function getSellerVerificationStatus(email) {
+    if (!email) return 'unverified';
+
+    const application = getSellerApplication(email);
+    const normalizedStatus = String(application?.status || '').toLowerCase();
+    if (normalizedStatus === 'verified' || normalizedStatus === 'approved') {
+      return 'verified';
+    }
+    if (normalizedStatus === 'pending' || normalizedStatus === 'rejected') {
+      return normalizedStatus;
+    }
+
+    const storedUser = getStoredUsers().find((user) => user.email === email);
+    if (storedUser?.role === 'seller' && storedUser.approved) {
+      return 'verified';
+    }
+
+    return 'unverified';
+  }
+
+  function isUserBlocked(email) {
+    if (!email) return false;
+    return Boolean(getStoredUsers().find((user) => user.email === email)?.blocked);
+  }
+
+  function syncSellerVerificationStatus(email, status) {
+    if (!email) return;
+
+    const normalizedStatus = status === 'verified' ? 'verified' : 'pending';
+    const apps = getJson(STORAGE.sellerApps, []).map((entry) => (
+      entry.email === email
+        ? {
+            ...entry,
+            status: normalizedStatus,
+            verifiedAt: normalizedStatus === 'verified' ? new Date().toISOString() : entry.verifiedAt || '',
+          }
+        : entry
+    ));
+    setJson(STORAGE.sellerApps, apps);
+
+    const users = currentUsers().map((user) => (
+      user.email === email
+        ? { ...user, approved: normalizedStatus === 'verified' }
+        : user
+    ));
+    setJson(STORAGE.users, users);
+
+    const products = getJson(STORAGE.sellerProducts, []).map((item) => (
+      item.sellerEmail === email
+        ? {
+            ...item,
+            sellerVerified: normalizedStatus === 'verified',
+            sellerVerificationStatus: normalizedStatus,
+          }
+        : item
+    ));
+    setJson(STORAGE.sellerProducts, products);
+  }
+
+  function setUserBlockedState(email, blocked) {
+    if (!email) return;
+
+    const users = currentUsers().map((user) => (
+      user.email === email
+        ? { ...user, blocked: Boolean(blocked) }
+        : user
+    ));
+    setJson(STORAGE.users, users);
+
+    if (state.user?.email === email && blocked) {
+      saveSession(null);
+    }
+  }
+
+  function removeAccountByEmail(email) {
+    if (!email) return;
+
+    const removed = Array.from(new Set([...getRemovedUsers(), email]));
+    setJson(STORAGE.removedUsers, removed);
+    setJson(STORAGE.users, getStoredUsers().filter((user) => user.email !== email));
+    setJson(STORAGE.sellerApps, getJson(STORAGE.sellerApps, []).filter((entry) => entry.email !== email));
+    setJson(STORAGE.sellerDogs, getJson(STORAGE.sellerDogs, []).filter((item) => item.sellerEmail !== email));
+    setJson(STORAGE.sellerProducts, getJson(STORAGE.sellerProducts, []).filter((item) => item.sellerEmail !== email));
+    setJson(STORAGE.vetRequests, getJson(STORAGE.vetRequests, []).filter((entry) => entry.email !== email));
+
+    if (state.user?.email === email) {
+      saveSession(null);
+    }
   }
 
   function getProductImageArray(item) {
@@ -700,6 +811,11 @@
         return;
       }
 
+      if (user.blocked) {
+        showToast('This account has been blocked by admin.', 'error');
+        return;
+      }
+
       saveSession({
         id: user.id,
         fullName: user.fullName,
@@ -707,6 +823,7 @@
         phone: user.phone,
         role: user.role,
         approved: Boolean(user.approved),
+        blocked: Boolean(user.blocked),
       });
 
       showToast('Signed in successfully.', 'success');
@@ -800,7 +917,7 @@
           password: values.password,
           role,
           state: values.state,
-          approved: true,
+          approved: role === 'seller' ? false : true,
           storeName: role === 'seller' ? values.store_name : '',
           sellerSpecialty: role === 'seller' ? values.seller_specialty : '',
           businessCity: role === 'seller' ? values.business_city : '',
@@ -808,6 +925,7 @@
         };
 
         users.push(newUser);
+        removeRemovedEmail(newUser.email);
         setJson(STORAGE.users, users);
         saveSession({
           id: newUser.id,
@@ -816,12 +934,13 @@
           phone: newUser.phone,
           role: newUser.role,
           approved: Boolean(newUser.approved),
+          blocked: Boolean(newUser.blocked),
           storeName: newUser.storeName,
         });
 
         showToast(
           newUser.role === 'seller'
-            ? 'Seller account created. Your seller hub is ready.'
+            ? 'Seller account created. Complete verification to earn the verified seller badge.'
             : 'Buyer account created successfully.',
           'success'
         );
@@ -881,11 +1000,15 @@
     if (existing) {
       const statusBox = document.getElementById('seller-existing-status');
       if (statusBox) {
+        const isVerified = getSellerVerificationStatus(state.user.email) === 'verified';
+        const accentColor = isVerified ? 'var(--success)' : 'var(--warning)';
+        const accentBg = isVerified ? 'var(--success-bg)' : 'var(--warning-bg)';
+        const borderColor = isVerified ? 'rgba(22,101,52,0.2)' : 'rgba(180,83,9,0.2)';
         statusBox.style.display = '';
         statusBox.innerHTML = `
-          <div class="verification-card" style="background:var(--success-bg);border-color:rgba(22,101,52,0.2)">
-            <h3 style="font-family:var(--font-display);margin-bottom:0.5rem;color:var(--success)">Application already saved</h3>
-            <p class="text-sm" style="color:var(--success)">Current status: ${escapeHtml(existing.status)}</p>
+          <div class="verification-card" style="background:${accentBg};border-color:${borderColor}">
+            <h3 style="font-family:var(--font-display);margin-bottom:0.5rem;color:${accentColor}">Application already saved</h3>
+            <p class="text-sm" style="color:${accentColor}">Current status: ${escapeHtml(getSellerVerificationStatus(state.user.email))}</p>
           </div>
         `;
       }
@@ -910,16 +1033,16 @@
       apps.push({
         ...values,
         email: state.user.email,
-        status: 'approved',
+        status: 'pending',
         createdAt: new Date().toISOString(),
       });
       setJson(STORAGE.sellerApps, apps);
       updateStoredUser({
         role: 'seller',
-        approved: true,
+        approved: false,
         storeName: values.full_name,
       });
-      showToast('Seller profile submitted. Redirecting to your seller hub.', 'success');
+      showToast('Seller application submitted. Await admin verification.', 'success');
       window.setTimeout(() => navigateTo('seller-portal.html'), 500);
     });
   }
@@ -1179,6 +1302,7 @@
         }
 
         const products = getJson(STORAGE.sellerProducts, []);
+        const sellerVerificationStatus = getSellerVerificationStatus(state.user.email);
         products.unshift({
           id: Date.now(),
           sellerEmail: state.user.email,
@@ -1195,6 +1319,8 @@
           images: storedImages,
           description: values.description,
           isFeatured: values.is_featured === '1',
+          sellerVerified: sellerVerificationStatus === 'verified',
+          sellerVerificationStatus,
           search: [
             values.name,
             values.brand,
@@ -1293,15 +1419,17 @@
     if (gate) gate.style.display = 'none';
     if (content) content.style.display = '';
 
+    const users = currentUsers();
     const vetRequests = getJson(STORAGE.vetRequests, []);
     const sellerApps = getJson(STORAGE.sellerApps, []);
     const sellerDogs = getJson(STORAGE.sellerDogs, []);
+    const blockedUsers = users.filter((user) => user.blocked);
 
     const map = {
-      'admin-user-count': String(currentUsers().length),
+      'admin-user-count': String(users.length),
       'admin-dog-count': String((DATA.dogs || []).length + sellerDogs.length),
       'admin-vet-count': String(vetRequests.length),
-      'admin-seller-count': String(sellerApps.length),
+      'admin-blocked-count': String(blockedUsers.length),
     };
 
     Object.entries(map).forEach(([id, value]) => {
@@ -1309,15 +1437,90 @@
       if (element) element.textContent = value;
     });
 
+    const userTable = document.getElementById('admin-user-table');
+    if (userTable) {
+      userTable.innerHTML = users.length ? users.map((user) => {
+        const isSelf = user.email === state.user.email;
+        const status = user.blocked ? 'blocked' : 'active';
+        const badgeClass = user.blocked ? 'badge-rejected' : 'badge-approved';
+        return `
+          <tr>
+            <td>${escapeHtml(user.fullName)}</td>
+            <td>${escapeHtml(user.email)}</td>
+            <td>${escapeHtml(user.role)}</td>
+            <td><span class="status-badge ${badgeClass}">${escapeHtml(status)}</span></td>
+            <td>
+              <div class="admin-action-stack">
+                ${isSelf
+                  ? '<button type="button" class="btn btn-secondary btn-sm" disabled>Your Account</button>'
+                  : user.blocked
+                    ? `<button type="button" class="btn btn-secondary btn-sm" data-admin-unblock="${escapeHtml(user.email)}">Unblock</button>`
+                    : `<button type="button" class="btn btn-secondary btn-sm" data-admin-block="${escapeHtml(user.email)}">Block</button>`}
+                ${isSelf
+                  ? ''
+                  : `<button type="button" class="btn btn-danger btn-sm" data-admin-remove="${escapeHtml(user.email)}">Remove</button>`}
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('') : '<tr><td colspan="5" class="text-muted">No user accounts available.</td></tr>';
+
+      userTable.querySelectorAll('[data-admin-block]').forEach((button) => {
+        if (button.dataset.blockBound === '1') return;
+        button.dataset.blockBound = '1';
+        button.addEventListener('click', () => {
+          setUserBlockedState(button.dataset.adminBlock, true);
+          showToast('Account blocked successfully.', 'success');
+          syncAdmin();
+        });
+      });
+
+      userTable.querySelectorAll('[data-admin-unblock]').forEach((button) => {
+        if (button.dataset.unblockBound === '1') return;
+        button.dataset.unblockBound = '1';
+        button.addEventListener('click', () => {
+          setUserBlockedState(button.dataset.adminUnblock, false);
+          showToast('Account unblocked successfully.', 'success');
+          syncAdmin();
+        });
+      });
+
+      userTable.querySelectorAll('[data-admin-remove]').forEach((button) => {
+        if (button.dataset.removeBound === '1') return;
+        button.dataset.removeBound = '1';
+        button.addEventListener('click', () => {
+          removeAccountByEmail(button.dataset.adminRemove);
+          showToast('Account removed successfully.', 'success');
+          syncAdmin();
+        });
+      });
+    }
+
     const sellerTable = document.getElementById('admin-seller-table');
     if (sellerTable) {
       sellerTable.innerHTML = sellerApps.length ? sellerApps.map((app) => `
         <tr>
           <td>${escapeHtml(app.full_name)}</td>
           <td>${escapeHtml(app.state)}</td>
-          <td><span class="status-badge badge-pending">${escapeHtml(app.status)}</span></td>
+          <td><span class="status-badge ${getSellerVerificationStatus(app.email) === 'verified' ? 'badge-approved' : getSellerVerificationStatus(app.email) === 'pending' ? 'badge-pending' : 'badge-rejected'}">${escapeHtml(getSellerVerificationStatus(app.email))}</span></td>
+          <td>
+            ${getSellerVerificationStatus(app.email) === 'verified'
+              ? '<button type="button" class="btn btn-secondary btn-sm" disabled>Verified</button>'
+              : `<button type="button" class="btn btn-primary btn-sm" data-verify-seller="${escapeHtml(app.email)}">Verify</button>`}
+          </td>
         </tr>
-      `).join('') : '<tr><td colspan="3" class="text-muted">No seller applications yet.</td></tr>';
+      `).join('') : '<tr><td colspan="4" class="text-muted">No seller applications yet.</td></tr>';
+
+      sellerTable.querySelectorAll('[data-verify-seller]').forEach((button) => {
+        if (button.dataset.verifyBound === '1') return;
+        button.dataset.verifyBound = '1';
+        button.addEventListener('click', () => {
+          const email = button.dataset.verifySeller;
+          syncSellerVerificationStatus(email, 'verified');
+          showToast('Seller marked as verified.', 'success');
+          syncAdmin();
+        });
+      });
     }
 
     const requestTable = document.getElementById('admin-vet-table');
@@ -1387,9 +1590,24 @@
   }
 
   function init() {
-    currentUsers();
+    const users = currentUsers();
     state.user = getJson(STORAGE.user, null);
     state.cart = getJson(STORAGE.cart, []);
+
+    if (state.user) {
+      const activeUser = users.find((user) => user.email === state.user.email);
+      if (!activeUser || activeUser.blocked) {
+        saveSession(null);
+      } else {
+        state.user = {
+          ...state.user,
+          role: activeUser.role,
+          approved: Boolean(activeUser.approved),
+          blocked: Boolean(activeUser.blocked),
+        };
+        setJson(STORAGE.user, state.user);
+      }
+    }
 
     syncNavState();
     syncActiveNav();
@@ -1419,6 +1637,7 @@
     formatMoney,
     formatAge,
     showToast,
+    getSellerVerificationStatus,
     refreshInteractiveContent() {
       initAddToCartButtons();
       initFavorites();
@@ -1426,8 +1645,31 @@
       applyProductFilters();
       initScrollAnimations();
       updateCartBadge();
+
+      // Initialize back-to-top button
+      initBackToTop();
     },
   };
+
+  function initBackToTop() {
+    const backToTopBtn = document.querySelector('.back-to-top');
+    if (!backToTopBtn) return;
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) {
+        backToTopBtn.classList.add('show');
+      } else {
+        backToTopBtn.classList.remove('show');
+      }
+    });
+
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
 
   document.addEventListener('DOMContentLoaded', init);
  }());

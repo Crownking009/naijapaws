@@ -211,12 +211,14 @@
 /* Wrapper that gives overflow room for dog images */
 .shp-hero__cards-wrapper {
   padding: 80px clamp(1.5rem, 5vw, 4rem) clamp(2rem, 4vw, 3rem);
+  overflow: visible;
 }
 
 .shp-hero__cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+  overflow: visible;
 }
 
 /* Each card */
@@ -235,10 +237,18 @@
   transition: transform 0.3s var(--shp-ease), box-shadow 0.3s var(--shp-ease);
   opacity: 0;
   transform: translateY(30px);
+  text-decoration: none;
 }
 
 .shp-hero__card.shp-card-visible {
+  opacity: 1;
+  transform: translateY(0);
   animation: shpFadeUp 0.6s var(--shp-ease) forwards;
+}
+
+.shp-hero__card.shp-card-float {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .shp-hero__card:hover {
@@ -321,6 +331,26 @@
   transform: translateY(-10px) scale(1.04);
 }
 
+@keyframes shpMobileCardFloat {
+  0%, 100% {
+    transform: translateY(0);
+    box-shadow: 0 16px 28px rgba(0, 0, 0, 0.08);
+  }
+  50% {
+    transform: translateY(-7px);
+    box-shadow: 0 22px 34px rgba(0, 0, 0, 0.14);
+  }
+}
+
+@keyframes shpMobileImageBob {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-6px) scale(1.04);
+  }
+}
+
 /* =============================================
    KEYFRAMES
 ============================================= */
@@ -373,23 +403,77 @@
   }
 
   .shp-hero__cards {
-    grid-template-columns: 1fr;
-    gap: 56px;           /* vertical gap accounts for overflow */
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    padding-top: 3.4rem;
+    overflow: visible;
   }
 
-  .shp-hero__cards-wrapper { padding-top: 50px; }
+  .shp-hero__cards-wrapper {
+    padding: 50px 1rem 1.6rem;
+    overflow: visible;
+  }
 
   .shp-hero__card {
-    min-height: 160px;
-    overflow: hidden;
+    min-height: 122px;
+    padding: 3.75rem 0.6rem 0.65rem;
+    border-radius: 18px;
+    justify-content: flex-end;
+    overflow: visible;
+    transform-origin: center bottom;
   }
 
   .shp-hero__card-img {
-    height: calc(100% + 50px);
-    max-width: 48%;
+    left: 50%;
+    right: auto;
+    top: -2.75rem;
+    bottom: auto;
+    height: 92px;
+    max-width: none;
+    width: 118%;
+    object-position: center bottom;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.2));
   }
 
   .shp-hero__card-text {
-    max-width: 60%;
+    max-width: 100%;
+    gap: 0.6rem;
+    align-items: center;
+    text-align: center;
+  }
+
+  .shp-hero__card-badge {
+    font-size: 0.66rem;
+    margin-bottom: 0.3rem;
+    text-align: center;
+  }
+
+  .shp-hero__card-title {
+    font-size: 0.72rem;
+    line-height: 1.2;
+  }
+
+  .shp-hero__shop-btn {
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 0.68rem;
+  }
+
+  .shp-hero__card.shp-card-float {
+    animation: shpMobileCardFloat 3.8s ease-in-out infinite;
+    animation-delay: calc(var(--shp-card-delay, 0s) + 0.4s);
+  }
+
+  .shp-hero__card.shp-card-float .shp-hero__card-img {
+    animation: shpMobileImageBob 3.8s ease-in-out infinite;
+    animation-delay: calc(var(--shp-card-delay, 0s) + 0.5s);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shp-hero__card.shp-card-float,
+  .shp-hero__card.shp-card-float .shp-hero__card-img {
+    animation: none !important;
   }
 }

@@ -34,7 +34,6 @@
 
       <div class="nav-actions">
         <button type="button" class="nav-cart-btn" data-open-cart aria-label="Open cart">
-          Cart
           <span class="cart-badge" style="display:none"></span>
         </button>
 
@@ -96,6 +95,13 @@
 
   <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
 
+  <!-- Floating Buttons -->
+  <a href="https://wa.me/09048239391?text=Hello%20NaijaPaws%20team%21%20I%20would%20like%20to%20chat%20with%20you." target="_blank" rel="noopener noreferrer" class="floating-chat-btn" aria-label="Chat with us on WhatsApp" title="Chat with us on WhatsApp">
+    💬
+    <div class="tooltip">Chat with us now!</div>
+  </a>
+  <button type="button" class="back-to-top" aria-label="Back to top" title="Back to top">↑</button>
+
   <main>
    <!-- =============================================
      HERO SECTION — paste inside your <body>
@@ -130,13 +136,14 @@
         <p class="pup-hero__sell-title">POST YOUR DOGS FOR SALE</p>
         <p class="pup-hero__sell-sub">Fast and Reliable</p>
       </div>
-      <a href="register.html">
-  <button class="pup-hero__arrow-btn" aria-label="Sell dogs">
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-      <path d="M3 13L13 3M13 3H6M13 3V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-    </svg>
-  </button>
-</a>
+      <a href="register.html" class="pup-hero__arrow-btn" aria-label="Post your dogs for sale">
+        <span class="pup-hero__arrow-btn-label">Post now</span>
+        <span class="pup-hero__arrow-btn-icon" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 13L13 3M13 3H6M13 3V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+      </a>
 
     </div>
   </div>

@@ -5,3 +5,9 @@
 .page-admin .dashboard-header {
   margin-bottom: 1.5rem;
 }
+
+.page-admin .admin-action-stack {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}

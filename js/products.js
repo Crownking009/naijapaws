@@ -24,6 +24,19 @@ document.addEventListener('DOMContentLoaded', () => {
     return item?.image ? [item.image] : [];
   };
 
+  const getSellerStatus = (item) => {
+    const resolved = window.NaijaPaws?.getSellerVerificationStatus?.(item?.sellerEmail);
+    if (resolved) return resolved;
+    if (item?.sellerVerified) return 'verified';
+    return item?.sellerVerificationStatus || 'unverified';
+  };
+
+  const getSellerBadgeMarkup = (item) => {
+    const status = getSellerStatus(item);
+    const isVerified = status === 'verified';
+    return `<span class="verified-badge ${isVerified ? 'verified-badge--verified' : 'verified-badge--unverified'}">${isVerified ? 'Verified Seller' : 'Unverified Seller'}</span>`;
+  };
+
   if (grid) {
     const sellerProducts = getJson('np_seller_product_listings', []);
     if (sellerProducts.length) {
@@ -31,7 +44,10 @@ document.addEventListener('DOMContentLoaded', () => {
         <article class="product-card fade-in-up" data-product-card data-category="${escapeHtml(item.category)}" data-search="${escapeHtml(item.search || '')}">
           <div class="card-image-wrap">
             <img src="${escapeHtml(getProductImages(item)[0] || '')}" alt="${escapeHtml(item.name)}" loading="lazy" decoding="async">
-            ${item.isFeatured ? '<span class="card-badge badge-featured">Featured</span>' : ''}
+            ${getSellerStatus(item) === 'verified'
+              ? '<span class="card-badge badge-verified" style="top:0.75rem;left:0.75rem">Verified Seller</span>'
+              : '<span class="card-badge badge-unverified" style="top:0.75rem;left:0.75rem">Unverified Seller</span>'}
+            ${item.isFeatured ? '<span class="card-badge badge-featured" style="top:2.85rem;left:0.75rem">Featured</span>' : ''}
             ${item.comparePrice > item.price ? `<span class="product-discount">-${Math.max(1, Math.round(((item.comparePrice - item.price) / item.comparePrice) * 100))}%</span>` : ''}
             <button class="card-fav-btn" data-favorite-id="${item.id}" data-favorite-type="product">&#9825;</button>
           </div>
@@ -44,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <p class="text-sm text-muted" style="margin-bottom:0.875rem">${escapeHtml(item.description)}</p>
             <div class="card-footer">
-              <div class="card-seller"><div class="card-seller-avatar">${escapeHtml(item.sellerInitials || 'NP')}</div><div>${escapeHtml(item.seller)}</div></div>
+              <div class="card-seller"><div class="card-seller-avatar">${escapeHtml(item.sellerInitials || 'NP')}</div><div>${escapeHtml(item.seller)} ${getSellerBadgeMarkup(item)}</div></div>
               <button class="btn btn-primary btn-sm" data-add-cart data-id="${item.id}" data-type="product" data-name="${escapeHtml(item.name)}" data-price="${item.price}" data-image="${escapeHtml(getProductImages(item)[0] || '')}" data-seller="${escapeHtml(item.seller)}">Add to Cart</button>
             </div>
           </div>

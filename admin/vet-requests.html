@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="../">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NaijaPaws Admin - Vet Requests Management">
+  <meta name="theme-color" content="#38607f">
+  <title>NaijaPaws | Vet Requests</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body id="admin-page" class="page-admin">
+  <div class="fraud-banner" role="alert">Admin Control Center - Vet Service Requests</div>
+
+  <nav class="navbar" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="admin/index.html" class="nav-logo"><span class="nav-logo-text">Naija<span>Paws</span></span></a>
+      <ul class="nav-links">
+        <li><a href="admin/index.html">Dashboard</a></li>
+      </ul>
+      <div class="nav-actions">
+        <div data-auth-admin style="display:none;align-items:center;gap:0.75rem">
+          <a href="dashboard.html" class="btn btn-secondary btn-sm">User Dashboard</a>
+          <button type="button" class="btn btn-sm" style="color:var(--text-muted)" data-logout>Log Out</button>
+        </div>
+        <button type="button" class="nav-mobile-toggle"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Floating Buttons -->
+  <a href="https://wa.me/09048239391?text=Hello%20NaijaPaws%20team%21%20I%20would%20like%20to%20chat%20with%20you." target="_blank" rel="noopener noreferrer" class="floating-chat-btn" aria-label="Chat with us on WhatsApp" title="Chat with us on WhatsApp">
+    💬
+    <div class="tooltip">Chat with us now!</div>
+  </a>
+  <button type="button" class="back-to-top" aria-label="Back to top" title="Back to top">↑</button>
+
+  <main>
+    <section class="section" style="padding-top:2rem">
+      <div class="container">
+        <div id="admin-gate">
+          <div class="empty-state" style="background:var(--warm-white);border-radius:var(--radius-xl)">
+            <div class="empty-icon">Admin</div>
+            <div class="empty-title">Admin access required</div>
+            <div class="empty-desc">Sign in with an admin account to access vet requests.</div>
+            <a href="login.html" class="btn btn-primary">Go To Login</a>
+          </div>
+        </div>
+
+        <div id="admin-content" style="display:none">
+          <div class="dashboard-header">
+            <div>
+              <div class="section-eyebrow">Admin</div>
+              <h1 class="display-lg">Vet Service Requests</h1>
+              <p class="text-muted">Manage veterinary service requests and follow-ups.</p>
+            </div>
+            <div style="display:flex;gap:0.75rem;flex-wrap:wrap">
+              <a href="admin/index.html" class="btn btn-secondary">Back to Dashboard</a>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card"><div class="stat-icon">📋</div><div class="stat-num" id="stat-total">0</div><div class="stat-label">Total Requests</div></div>
+            <div class="stat-card"><div class="stat-icon">⏳</div><div class="stat-num" id="stat-pending">0</div><div class="stat-label">Pending</div></div>
+            <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-num" id="stat-assigned">0</div><div class="stat-label">Assigned</div></div>
+            <div class="stat-card"><div class="stat-icon">✔️</div><div class="stat-num" id="stat-resolved">0</div><div class="stat-label">Resolved</div></div>
+          </div>
+
+          <div style="background:var(--warm-white);border-radius:var(--radius-xl);padding:1.5rem;margin-bottom:2rem">
+            <div style="display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap">
+              <button class="btn btn-sm btn-secondary filter-btn active" data-filter="all">All</button>
+              <button class="btn btn-sm btn-secondary filter-btn" data-filter="pending">Pending</button>
+              <button class="btn btn-sm btn-secondary filter-btn" data-filter="assigned">Assigned</button>
+              <button class="btn btn-sm btn-secondary filter-btn" data-filter="resolved">Resolved</button>
+            </div>
+          </div>
+
+          <div style="background:white;border-radius:var(--radius-xl);overflow:hidden;box-shadow:var(--shadow-sm)">
+            <div style="overflow-x:auto">
+              <table class="data-table" style="margin:0">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Client Name</th>
+                    <th>Phone</th>
+                    <th>Location</th>
+                    <th>Urgency</th>
+                    <th>Status</th>
+                    <th>Image</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="vet-requests-table">
+                  <tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--text-muted)">Loading...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <div style="display:flex;justify-content:center;gap:0.5rem;margin-top:2rem" id="pagination"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Request Detail Modal -->
+  <div id="request-modal" class="modal-overlay" style="display:none">
+    <div class="modal-content" style="max-width:600px">
+      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:1.5rem">
+        <h2 style="font-family:var(--font-display);margin:0">Request Details</h2>
+        <button type="button" class="modal-close" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-muted)">×</button>
+      </div>
+
+      <div style="background:var(--warm-white);padding:1rem;border-radius:var(--radius-md);margin-bottom:1.5rem;display:grid;gap:1rem">
+        <div>
+          <div class="text-muted" style="font-size:0.85rem">Request ID</div>
+          <div style="font-weight:500" id="modal-request-id">-</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div>
+            <div class="text-muted" style="font-size:0.85rem">Client Name</div>
+            <div style="font-weight:500" id="modal-client-name">-</div>
+          </div>
+          <div>
+            <div class="text-muted" style="font-size:0.85rem">Phone</div>
+            <div style="font-weight:500" id="modal-phone">-</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div>
+            <div class="text-muted" style="font-size:0.85rem">WhatsApp</div>
+            <div style="font-weight:500">
+              <a id="modal-whatsapp-link" href="#" style="color:var(--forest);text-decoration:none">-</a>
+            </div>
+          </div>
+          <div>
+            <div class="text-muted" style="font-size:0.85rem">Location</div>
+            <div style="font-weight:500" id="modal-location">-</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--sand);padding:1rem;border-radius:var(--radius-md);margin-bottom:1.5rem">
+        <div class="text-muted" style="font-size:0.85rem;margin-bottom:0.5rem">Dog Issue</div>
+        <div style="line-height:1.6" id="modal-dog-issue">-</div>
+      </div>
+
+      <div id="modal-image-section" style="margin-bottom:1.5rem;display:none">
+        <div class="text-muted" style="font-size:0.85rem;margin-bottom:0.5rem">Pet Image</div>
+        <div style="background:var(--warm-white);padding:1rem;border-radius:var(--radius-md);text-align:center">
+          <img id="modal-pet-image" src="" alt="Pet" style="max-width:100%;max-height:300px;border-radius:var(--radius-md)">
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem">
+        <div>
+          <div class="text-muted" style="font-size:0.85rem;margin-bottom:0.5rem">Urgency</div>
+          <div style="display:inline-block;padding:0.5rem 0.75rem;background:var(--warm-white);border-radius:var(--radius-sm);font-weight:500" id="modal-urgency">-</div>
+        </div>
+        <div>
+          <div class="text-muted" style="font-size:0.85rem;margin-bottom:0.5rem">Status</div>
+          <select id="modal-status" class="form-control" style="max-width:100%">
+            <option value="pending">Pending</option>
+            <option value="assigned">Assigned</option>
+            <option value="resolved">Resolved</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="margin-bottom:1.5rem">
+        <label class="form-label" for="modal-assigned-vet">Assigned Vet (optional)</label>
+        <input id="modal-assigned-vet" type="text" class="form-control" placeholder="Vet name">
+      </div>
+
+      <div style="margin-bottom:1.5rem">
+        <label class="form-label" for="modal-admin-note">Admin Note (optional)</label>
+        <textarea id="modal-admin-note" rows="3" class="form-control" placeholder="Internal notes..."></textarea>
+      </div>
+
+      <div style="display:flex;gap:1rem">
+        <button type="button" class="btn btn-primary btn-block modal-save">Save Changes</button>
+        <button type="button" class="btn btn-secondary btn-block modal-close">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      padding: 1rem;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: var(--radius-xl);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      padding: 2rem;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .filter-btn.active {
+      background-color: var(--forest);
+      color: white;
+    }
+
+    .urgency-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .urgency-normal { background: var(--sage-light); color: var(--forest); }
+    .urgency-urgent { background: #fed7aa; color: #b45309; }
+    .urgency-emergency { background: #fecaca; color: #dc2626; }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .status-pending { background: #e5e7eb; color: #374151; }
+    .status-assigned { background: #bfdbfe; color: #1e40af; }
+    .status-resolved { background: #d1fae5; color: #065f46; }
+  </style>
+
+  <script src="js/site-data.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // Admin Vet Requests Management
+    let currentFilter = 'all';
+    let currentPage = 1;
+    let currentRequestId = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeAdmin();
+      loadVetRequests();
+      setupEventListeners();
+    });
+
+    function initializeAdmin() {
+      const user = JSON.parse(localStorage.getItem('np_session_user') || 'null');
+      const adminGate = document.getElementById('admin-gate');
+      const adminContent = document.getElementById('admin-content');
+
+      if (user && user.role === 'admin') {
+        adminGate.style.display = 'none';
+        adminContent.style.display = 'block';
+      } else {
+        adminGate.style.display = 'flex';
+        adminContent.style.display = 'none';
+      }
+    }
+
+    function setupEventListeners() {
+      // Filter buttons
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentFilter = btn.dataset.filter;
+          currentPage = 1;
+          loadVetRequests();
+        });
+      });
+
+      // Modal close
+      document.querySelectorAll('.modal-close').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.getElementById('request-modal').style.display = 'none';
+        });
+      });
+
+      // Modal save
+      document.querySelector('.modal-save').addEventListener('click', saveRequest);
+
+      // Click outside modal to close
+      document.getElementById('request-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'request-modal') {
+          e.target.style.display = 'none';
+        }
+      });
+    }
+
+    async function loadVetRequests() {
+      try {
+        const response = await fetch(`php/admin-vet-requests-api.php?action=list&status=${currentFilter}&page=${currentPage}`);
+        if (!response.ok) throw new Error('Failed to load requests');
+
+        const data = await response.json();
+        if (!data.success) throw new Error(data.message);
+
+        displayRequests(data.requests);
+        updateStats(data.stats);
+        updatePagination(data.page, data.limit);
+      } catch (error) {
+        console.error('Load error:', error);
+        showToast('Failed to load vet requests', 'error');
+      }
+    }
+
+    function displayRequests(requests) {
+      const tbody = document.getElementById('vet-requests-table');
+
+      if (requests.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--text-muted)">No requests found</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = requests.map(req => `
+        <tr>
+          <td><strong>#VET-${req.id}</strong></td>
+          <td>${req.full_name}</td>
+          <td><a href="tel:${req.phone}" style="color:var(--forest);text-decoration:none">${req.phone}</a></td>
+          <td>${req.state}${req.city ? ', ' + req.city : ''}</td>
+          <td><span class="urgency-badge urgency-${req.urgency}">${req.urgency.toUpperCase()}</span></td>
+          <td><span class="status-badge status-${req.status}">${req.status.toUpperCase()}</span></td>
+          <td>${req.pet_image ? '📷' : '-'}</td>
+          <td><small>${new Date(req.created_at).toLocaleDateString()}</small></td>
+          <td><button type="button" class="btn btn-sm btn-secondary" onclick="viewRequest(${req.id})">View</button></td>
+        </tr>
+      `).join('');
+    }
+
+    function updateStats(stats) {
+      document.getElementById('stat-total').textContent = stats.all || 0;
+      document.getElementById('stat-pending').textContent = stats.pending || 0;
+      document.getElementById('stat-assigned').textContent = stats.assigned || 0;
+      document.getElementById('stat-resolved').textContent = stats.resolved || 0;
+    }
+
+    function updatePagination(page, limit) {
+      const pagination = document.getElementById('pagination');
+      pagination.innerHTML = `<small style="align-self:center">Page ${page}</small>`;
+    }
+
+    async function viewRequest(requestId) {
+      try {
+        const response = await fetch(`php/admin-vet-requests-api.php?action=detail&id=${requestId}`);
+        if (!response.ok) throw new Error('Failed to load request');
+
+        const data = await response.json();
+        if (!data.success) throw new Error(data.message);
+
+        const req = data.request;
+        currentRequestId = req.id;
+
+        // Populate modal
+        document.getElementById('modal-request-id').textContent = `#VET-${req.id}`;
+        document.getElementById('modal-client-name').textContent = req.full_name;
+        document.getElementById('modal-phone').textContent = req.phone;
+        document.getElementById('modal-whatsapp-link').href = `https://wa.me/${req.whatsapp_number}`;
+        document.getElementById('modal-whatsapp-link').textContent = req.whatsapp_number;
+        document.getElementById('modal-location').textContent = `${req.state}${req.city ? ', ' + req.city : ''}`;
+        document.getElementById('modal-dog-issue').textContent = req.dog_issue;
+        document.getElementById('modal-urgency').textContent = req.urgency.toUpperCase();
+        document.getElementById('modal-status').value = req.status;
+        document.getElementById('modal-assigned-vet').value = req.assigned_vet || '';
+        document.getElementById('modal-admin-note').value = req.admin_note || '';
+
+        // Show/hide image
+        if (req.pet_image) {
+          document.getElementById('modal-image-section').style.display = 'block';
+          document.getElementById('modal-pet-image').src = req.pet_image;
+        } else {
+          document.getElementById('modal-image-section').style.display = 'none';
+        }
+
+        document.getElementById('request-modal').style.display = 'flex';
+      } catch (error) {
+        console.error('View error:', error);
+        showToast('Failed to load request details', 'error');
+      }
+    }
+
+    async function saveRequest() {
+      try {
+        const formData = new FormData();
+        formData.append('id', currentRequestId);
+        formData.append('status', document.getElementById('modal-status').value);
+        formData.append('assigned_vet', document.getElementById('modal-assigned-vet').value);
+        formData.append('admin_note', document.getElementById('modal-admin-note').value);
+
+        const response = await fetch('php/admin-vet-requests-api.php?action=update', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!response.ok) throw new Error('Failed to save');
+
+        const data = await response.json();
+        if (!data.success) throw new Error(data.message);
+
+        showToast('Request updated successfully', 'success');
+        document.getElementById('request-modal').style.display = 'none';
+        loadVetRequests();
+      } catch (error) {
+        console.error('Save error:', error);
+        showToast('Failed to save changes', 'error');
+      }
+    }
+
+    function showToast(message, type = 'info') {
+      const container = document.querySelector('.toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      toast.textContent = message;
+      toast.style.cssText = `
+        padding: 1rem;
+        margin: 0.5rem 0;
+        background: white;
+        border-left: 4px solid ${type === 'error' ? '#ef4444' : '#22c55e'};
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        animation: slideInRight 0.3s ease-out;
+      `;
+
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+  </script>
+</body>
+</html>

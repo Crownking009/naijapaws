@@ -31,6 +31,7 @@ define('UPLOAD_PATH', ROOT_PATH . '/uploads/');
 define('DOG_UPLOAD_PATH', UPLOAD_PATH . 'dogs/');
 define('PRODUCT_UPLOAD_PATH', UPLOAD_PATH . 'products/');
 define('ID_UPLOAD_PATH', UPLOAD_PATH . 'ids/');
+define('VET_REQUEST_UPLOAD_PATH', UPLOAD_PATH . 'vet_requests/');
 
 // ============================================================
 // SECURITY
