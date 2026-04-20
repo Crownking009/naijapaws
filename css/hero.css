@@ -399,6 +399,10 @@
     min-height: 75vw;
   }
 
+  .pup-hero__subtext br {
+    display: none;
+  }
+
   .pup-hero__overlay-text span {
     font-size: 2rem;
   }
@@ -408,25 +412,22 @@
     gap: 1.2rem;
   }
 
-  .pup-hero__btns {
-    flex-direction: row;
-    gap: 10px;
-  }
+  .pup-hero__btns { gap: 10px; }
 
   .pup-hero__btn {
     padding: 12px 20px;
     font-size: 0.85rem;
-    flex: 1;
+    width: 100%;
     text-align: center;
   }
 
   .pup-hero__cards {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    grid-template-columns: 1fr;
+    gap: 14px;
   }
 
   .pup-hero__card {
-    min-height: 220px;
+    min-height: 260px;
     padding: 12px 12px 0;
     border-radius: 18px;
   }
@@ -444,7 +445,7 @@
   }
 
   .pup-hero__card-img {
-    height: 150px;
+    height: 180px;
     width: calc(100% + 24px);
     margin-left: -12px;
     margin-right: -12px;
@@ -453,5 +454,7 @@
 
   .pup-hero__sell-pill {
     padding: 10px 16px;
+    border-radius: 22px;
+    gap: 0.75rem;
   }
 }

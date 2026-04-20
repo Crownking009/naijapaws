@@ -225,6 +225,20 @@
 
 /* ── Mobile ── */
 @media (max-width: 600px) {
+  .page-products #product-filter-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .page-products #product-filter-form > * {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .page-products .product-card .card-body {
+    min-height: 0;
+  }
+
   .vet-cta-btn {
     padding: 16px 22px 16px 16px;
     gap: 11px;

@@ -232,6 +232,18 @@
 
 /* ── Mobile ── */
 @media (max-width: 600px) {
+  .page-marketplace .js-responsive-split {
+    gap: 1.25rem;
+  }
+
+  .page-marketplace #marketplace-filter-form {
+    padding: 1.25rem !important;
+  }
+
+  .page-marketplace .btn {
+    width: 100%;
+  }
+
   .vet-cta-btn {
     padding: 16px 22px 16px 16px;
     gap: 11px;

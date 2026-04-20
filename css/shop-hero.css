@@ -364,6 +364,14 @@
    RESPONSIVE — Mobile
 ============================================= */
 @media (max-width: 600px) {
+  .shp-hero__top {
+    padding-inline: 1rem;
+  }
+
+  .shp-hero__subtext br {
+    display: none;
+  }
+
   .shp-hero__cards {
     grid-template-columns: 1fr;
     gap: 56px;           /* vertical gap accounts for overflow */
@@ -373,6 +381,7 @@
 
   .shp-hero__card {
     min-height: 160px;
+    overflow: hidden;
   }
 
   .shp-hero__card-img {
