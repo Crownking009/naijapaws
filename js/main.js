@@ -9,6 +9,8 @@
     favorites: 'np_favorites',
     vetRequests: 'np_vet_requests',
     sellerApps: 'np_seller_applications',
+    sellerDogs: 'np_seller_dog_listings',
+    sellerProducts: 'np_seller_product_listings',
   };
 
   const state = {
@@ -56,6 +58,35 @@
     const years = Math.floor(value / 12);
     const remainder = value % 12;
     return `${years}yr${years > 1 ? 's' : ''}${remainder ? ` ${remainder}mo` : ''}`;
+  }
+
+  function initialsFromName(value) {
+    return String(value || 'NP')
+      .trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((part) => part.charAt(0).toUpperCase())
+      .join('') || 'NP';
+  }
+
+  function getDestinationForUser(user) {
+    if (!user) return 'login.html';
+    if (user.role === 'admin') return 'admin/index.html';
+    if (user.role === 'seller') return 'seller-portal.html';
+    return 'dashboard.html';
+  }
+
+  function updateStoredUser(partial) {
+    if (!state.user) return null;
+
+    const nextUser = { ...state.user, ...partial };
+    const users = currentUsers().map((user) => (
+      user.email === state.user.email ? { ...user, ...partial } : user
+    ));
+
+    setJson(STORAGE.users, users);
+    saveSession(nextUser);
+    return nextUser;
   }
 
   function currentUsers() {
@@ -132,8 +163,18 @@
 
     userLinks.forEach((element) => {
       if (!state.user) return;
-      element.setAttribute('href', state.user.role === 'admin' ? 'admin/index.html' : 'dashboard.html');
-      element.textContent = state.user.role === 'admin' ? 'Admin' : 'Dashboard';
+      if (state.user.role === 'admin') {
+        element.setAttribute('href', 'admin/index.html');
+        element.textContent = 'Admin';
+        return;
+      }
+      if (state.user.role === 'seller') {
+        element.setAttribute('href', 'seller-portal.html');
+        element.textContent = 'Seller Hub';
+        return;
+      }
+      element.setAttribute('href', 'dashboard.html');
+      element.textContent = 'Dashboard';
     });
 
     userLabels.forEach((element) => {
@@ -389,6 +430,8 @@
 
   function initAddToCartButtons() {
     document.querySelectorAll('[data-add-cart]').forEach((button) => {
+      if (button.dataset.cartBound === '1') return;
+      button.dataset.cartBound = '1';
       button.addEventListener('click', () => addToCartFromButton(button));
     });
   }
@@ -402,6 +445,8 @@
       button.classList.toggle('active', exists);
       button.innerHTML = exists ? '&#10084;' : '&#9825;';
 
+      if (button.dataset.favoriteBound === '1') return;
+      button.dataset.favoriteBound = '1';
       button.addEventListener('click', (event) => {
         event.preventDefault();
         if (!requireUser()) return;
@@ -574,7 +619,7 @@
     if (!form) return;
 
     if (state.user) {
-      navigateTo(state.user.role === 'admin' ? 'admin/index.html' : 'dashboard.html');
+      navigateTo(getDestinationForUser(state.user));
       return;
     }
 
@@ -602,53 +647,122 @@
 
       showToast('Signed in successfully.', 'success');
       window.setTimeout(() => {
-        navigateTo(state.user.role === 'admin' ? 'admin/index.html' : 'dashboard.html');
+        navigateTo(getDestinationForUser(state.user));
       }, 400);
     });
   }
 
   function initRegisterForm() {
-    const form = document.getElementById('register-form');
-    if (!form) return;
+    const forms = Array.from(document.querySelectorAll('[data-register-form]'));
+    if (!forms.length) return;
 
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const values = Object.fromEntries(new FormData(form).entries());
-      if (!values.full_name || !values.email || !values.phone || !values.password || !values.state) {
-        showToast('Please complete all required fields.', 'warning');
-        return;
-      }
-      if (values.password.length < 8) {
-        showToast('Password must be at least 8 characters.', 'warning');
-        return;
-      }
-      if (values.password !== values.password2) {
-        showToast('Passwords do not match.', 'warning');
-        return;
-      }
-      if (!values.agree_terms) {
-        showToast('Please accept the terms first.', 'warning');
-        return;
-      }
+    const tabs = Array.from(document.querySelectorAll('[data-register-tab-target]'));
+    const panels = Array.from(document.querySelectorAll('[data-register-panel]'));
 
-      const users = currentUsers();
-      if (users.some((user) => user.email.toLowerCase() === String(values.email).toLowerCase())) {
-        showToast('That email is already registered.', 'error');
-        return;
-      }
-
-      users.push({
-        id: Date.now(),
-        fullName: values.full_name,
-        email: values.email.toLowerCase(),
-        phone: values.phone,
-        password: values.password,
-        role: 'buyer',
-        state: values.state,
+    const setRegisterMode = (mode) => {
+      tabs.forEach((button) => {
+        const active = button.dataset.registerTabTarget === mode;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-selected', active ? 'true' : 'false');
       });
-      setJson(STORAGE.users, users);
-      showToast('Account created successfully.', 'success');
-      window.setTimeout(() => navigateTo('login.html'), 500);
+
+      panels.forEach((panel) => {
+        panel.classList.toggle('active', panel.dataset.registerPanel === mode);
+      });
+
+      if (window.location.hash !== `#${mode}`) {
+        history.replaceState({}, '', `${window.location.pathname}${window.location.search}#${mode}`);
+      }
+    };
+
+    const initialMode = window.location.hash === '#seller' ? 'seller' : 'buyer';
+    setRegisterMode(initialMode);
+
+    tabs.forEach((button) => {
+      button.addEventListener('click', () => {
+        setRegisterMode(button.dataset.registerTabTarget || 'buyer');
+      });
+    });
+
+    window.addEventListener('hashchange', () => {
+      setRegisterMode(window.location.hash === '#seller' ? 'seller' : 'buyer');
+    });
+
+    forms.forEach((form) => {
+      if (form.dataset.registerBound === '1') return;
+      form.dataset.registerBound = '1';
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const role = form.dataset.registerRole || 'buyer';
+        const values = Object.fromEntries(new FormData(form).entries());
+        if (!values.full_name || !values.email || !values.phone || !values.password || !values.state) {
+          showToast('Please complete all required fields.', 'warning');
+          return;
+        }
+        if (values.password.length < 8) {
+          showToast('Password must be at least 8 characters.', 'warning');
+          return;
+        }
+        if (values.password !== values.password2) {
+          showToast('Passwords do not match.', 'warning');
+          return;
+        }
+        if (!values.agree_terms) {
+          showToast('Please accept the terms first.', 'warning');
+          return;
+        }
+
+        if (
+          role === 'seller' &&
+          (!values.store_name || !values.seller_specialty || !values.business_city || !values.business_address)
+        ) {
+          showToast('Please complete all seller business details.', 'warning');
+          return;
+        }
+
+        const users = currentUsers();
+        if (users.some((user) => user.email.toLowerCase() === String(values.email).toLowerCase())) {
+          showToast('That email is already registered.', 'error');
+          return;
+        }
+
+        const newUser = {
+          id: Date.now(),
+          fullName: values.full_name,
+          email: values.email.toLowerCase(),
+          phone: values.phone,
+          password: values.password,
+          role,
+          state: values.state,
+          approved: true,
+          storeName: role === 'seller' ? values.store_name : '',
+          sellerSpecialty: role === 'seller' ? values.seller_specialty : '',
+          businessCity: role === 'seller' ? values.business_city : '',
+          businessAddress: role === 'seller' ? values.business_address : '',
+        };
+
+        users.push(newUser);
+        setJson(STORAGE.users, users);
+        saveSession({
+          id: newUser.id,
+          fullName: newUser.fullName,
+          email: newUser.email,
+          phone: newUser.phone,
+          role: newUser.role,
+          approved: Boolean(newUser.approved),
+          storeName: newUser.storeName,
+        });
+
+        showToast(
+          newUser.role === 'seller'
+            ? 'Seller account created. Your seller hub is ready.'
+            : 'Buyer account created successfully.',
+          'success'
+        );
+        window.setTimeout(() => navigateTo(getDestinationForUser(state.user)), 500);
+      });
     });
   }
 
@@ -732,13 +846,215 @@
       apps.push({
         ...values,
         email: state.user.email,
-        status: 'pending',
+        status: 'approved',
         createdAt: new Date().toISOString(),
       });
       setJson(STORAGE.sellerApps, apps);
-      showToast('Seller application submitted.', 'success');
-      window.setTimeout(() => window.location.reload(), 500);
+      updateStoredUser({
+        role: 'seller',
+        approved: true,
+        storeName: values.full_name,
+      });
+      showToast('Seller profile submitted. Redirecting to your seller hub.', 'success');
+      window.setTimeout(() => navigateTo('seller-portal.html'), 500);
     });
+  }
+
+  function initSellerPortal() {
+    const page = document.getElementById('seller-portal-page');
+    if (!page) return;
+
+    const gate = document.getElementById('seller-portal-gate');
+    const content = document.getElementById('seller-portal-content');
+    const upgrade = document.getElementById('seller-portal-upgrade');
+
+    if (!state.user) {
+      if (gate) gate.style.display = '';
+      if (content) content.style.display = 'none';
+      if (upgrade) upgrade.style.display = 'none';
+      return;
+    }
+
+    if (state.user.role !== 'seller') {
+      if (gate) gate.style.display = 'none';
+      if (content) content.style.display = 'none';
+      if (upgrade) upgrade.style.display = '';
+      return;
+    }
+
+    if (gate) gate.style.display = 'none';
+    if (content) content.style.display = '';
+    if (upgrade) upgrade.style.display = 'none';
+
+    const dogForm = document.getElementById('seller-dog-form');
+    const productForm = document.getElementById('seller-product-form');
+    const dogList = document.getElementById('seller-dog-list');
+    const productList = document.getElementById('seller-product-list');
+
+    const renderPortal = () => {
+      const dogs = getJson(STORAGE.sellerDogs, []).filter((item) => item.sellerEmail === state.user.email);
+      const products = getJson(STORAGE.sellerProducts, []).filter((item) => item.sellerEmail === state.user.email);
+
+      const summaryMap = {
+        'seller-store-name': state.user.storeName || state.user.fullName,
+        'seller-dog-count': String(dogs.length),
+        'seller-product-count': String(products.length),
+        'seller-live-count': String(dogs.length + products.length),
+      };
+
+      Object.entries(summaryMap).forEach(([id, value]) => {
+        const element = document.getElementById(id);
+        if (element) element.textContent = value;
+      });
+
+      if (dogList) {
+        dogList.innerHTML = dogs.length ? dogs.map((item) => `
+          <div class="verification-step">
+            <div class="step-num">${escapeHtml(initialsFromName(item.breed))}</div>
+            <div style="flex:1;min-width:0">
+              <div class="font-semibold">${escapeHtml(item.title)}</div>
+              <div class="text-sm text-muted">${escapeHtml(item.categoryLabel)} • ${escapeHtml(item.state)} • ${escapeHtml(formatAge(item.ageMonths))}</div>
+              <div class="text-sm text-muted">NGN ${formatMoney(item.price)}</div>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" data-delete-seller-item="dog" data-delete-id="${item.id}">Delete</button>
+          </div>
+        `).join('') : '<p class="text-sm text-muted">No dog listings yet. Use the form above to publish your first listing.</p>';
+      }
+
+      if (productList) {
+        productList.innerHTML = products.length ? products.map((item) => `
+          <div class="verification-step">
+            <div class="step-num">${escapeHtml(initialsFromName(item.brand || item.name))}</div>
+            <div style="flex:1;min-width:0">
+              <div class="font-semibold">${escapeHtml(item.name)}</div>
+              <div class="text-sm text-muted">${escapeHtml(item.categoryLabel)} • Stock ${escapeHtml(item.stock)}</div>
+              <div class="text-sm text-muted">NGN ${formatMoney(item.price)}</div>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" data-delete-seller-item="product" data-delete-id="${item.id}">Delete</button>
+          </div>
+        `).join('') : '<p class="text-sm text-muted">No product listings yet. Add accessories, food, or supplies with the form above.</p>';
+      }
+
+      page.querySelectorAll('[data-delete-seller-item]').forEach((button) => {
+        if (button.dataset.deleteBound === '1') return;
+        button.dataset.deleteBound = '1';
+        button.addEventListener('click', () => {
+          const type = button.dataset.deleteSellerItem;
+          const id = Number(button.dataset.deleteId);
+          const key = type === 'dog' ? STORAGE.sellerDogs : STORAGE.sellerProducts;
+          const items = getJson(key, []).filter((item) => Number(item.id) !== id);
+          setJson(key, items);
+          renderPortal();
+          showToast('Listing removed from seller hub.', 'info');
+        });
+      });
+    };
+
+    if (dogForm && dogForm.dataset.bound !== '1') {
+      dogForm.dataset.bound = '1';
+      dogForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const values = Object.fromEntries(new FormData(dogForm).entries());
+        if (
+          !values.title || !values.category || !values.breed || !values.gender ||
+          !values.age_months || !values.state || !values.city || !values.temperament ||
+          !values.health_status || !values.image || !values.description
+        ) {
+          showToast('Please complete all dog listing fields.', 'warning');
+          return;
+        }
+
+        if (values.category !== 'adoption' && (!values.price || Number(values.price) <= 0)) {
+          showToast('Please enter a valid dog listing price.', 'warning');
+          return;
+        }
+
+        const dogs = getJson(STORAGE.sellerDogs, []);
+        dogs.unshift({
+          id: Date.now(),
+          sellerEmail: state.user.email,
+          seller: state.user.storeName || state.user.fullName,
+          sellerInitials: initialsFromName(state.user.storeName || state.user.fullName),
+          title: values.title,
+          category: values.category,
+          categoryLabel: values.category === 'sale' ? 'Dogs for Sale' : values.category === 'mating' ? 'Mating' : 'Adoption',
+          breed: values.breed,
+          gender: values.gender,
+          ageMonths: Number(values.age_months),
+          state: values.state,
+          city: values.city,
+          price: values.category === 'adoption' ? 0 : Number(values.price),
+          temperament: values.temperament,
+          healthStatus: values.health_status,
+          isVaccinated: values.is_vaccinated === 'yes',
+          isPedigree: values.is_pedigree === 'yes',
+          description: values.description,
+          image: values.image,
+          search: [
+            values.title,
+            values.breed,
+            values.state,
+            state.user.storeName || state.user.fullName,
+          ].join(' ').toLowerCase(),
+          createdAt: new Date().toISOString(),
+        });
+        setJson(STORAGE.sellerDogs, dogs);
+        dogForm.reset();
+        renderPortal();
+        showToast('Dog listing published to your seller hub.', 'success');
+      });
+    }
+
+    if (productForm && productForm.dataset.bound !== '1') {
+      productForm.dataset.bound = '1';
+      productForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const values = Object.fromEntries(new FormData(productForm).entries());
+        if (
+          !values.name || !values.category || !values.brand ||
+          !values.stock || !values.price || !values.image || !values.description
+        ) {
+          showToast('Please complete all product listing fields.', 'warning');
+          return;
+        }
+
+        if (Number(values.price) <= 0 || Number(values.stock) < 0) {
+          showToast('Enter a valid product price and stock quantity.', 'warning');
+          return;
+        }
+
+        const products = getJson(STORAGE.sellerProducts, []);
+        products.unshift({
+          id: Date.now(),
+          sellerEmail: state.user.email,
+          seller: state.user.storeName || state.user.fullName,
+          sellerInitials: initialsFromName(state.user.storeName || state.user.fullName),
+          name: values.name,
+          category: values.category,
+          categoryLabel: values.category.replaceAll('_', ' '),
+          brand: values.brand,
+          stock: Number(values.stock),
+          price: Number(values.price),
+          comparePrice: Number(values.compare_price || 0),
+          image: values.image,
+          description: values.description,
+          isFeatured: values.is_featured === '1',
+          search: [
+            values.name,
+            values.brand,
+            values.category,
+            state.user.storeName || state.user.fullName,
+          ].join(' ').toLowerCase(),
+          createdAt: new Date().toISOString(),
+        });
+        setJson(STORAGE.sellerProducts, products);
+        productForm.reset();
+        renderPortal();
+        showToast('Product listing saved to your seller hub.', 'success');
+      });
+    }
+
+    renderPortal();
   }
 
   function syncDashboard() {
@@ -759,6 +1075,8 @@
     const favorites = getFavorites();
     const requests = getJson(STORAGE.vetRequests, []).filter((entry) => entry.email === state.user.email);
     const sellerApps = getJson(STORAGE.sellerApps, []).filter((entry) => entry.email === state.user.email);
+    const sellerDogs = getJson(STORAGE.sellerDogs, []).filter((entry) => entry.sellerEmail === state.user.email);
+    const sellerProducts = getJson(STORAGE.sellerProducts, []).filter((entry) => entry.sellerEmail === state.user.email);
 
     const map = {
       'dashboard-user-name': state.user.fullName,
@@ -766,7 +1084,7 @@
       'dashboard-cart-count': String(state.cart.reduce((sum, item) => sum + item.qty, 0)),
       'dashboard-favorite-count': String(favorites.length),
       'dashboard-request-count': String(requests.length),
-      'dashboard-seller-count': String(sellerApps.length),
+      'dashboard-seller-count': String(sellerApps.length + sellerDogs.length + sellerProducts.length),
     };
 
     Object.entries(map).forEach(([id, value]) => {
@@ -805,10 +1123,11 @@
 
     const vetRequests = getJson(STORAGE.vetRequests, []);
     const sellerApps = getJson(STORAGE.sellerApps, []);
+    const sellerDogs = getJson(STORAGE.sellerDogs, []);
 
     const map = {
       'admin-user-count': String(currentUsers().length),
-      'admin-dog-count': String((DATA.dogs || []).length),
+      'admin-dog-count': String((DATA.dogs || []).length + sellerDogs.length),
       'admin-vet-count': String(vetRequests.length),
       'admin-seller-count': String(sellerApps.length),
     };
@@ -915,6 +1234,7 @@
     initRegisterForm();
     initVetForm();
     initSellerForm();
+    initSellerPortal();
     syncDashboard();
     syncAdmin();
     initLogout();
@@ -927,6 +1247,14 @@
     formatMoney,
     formatAge,
     showToast,
+    refreshInteractiveContent() {
+      initAddToCartButtons();
+      initFavorites();
+      applyMarketplaceFilters();
+      applyProductFilters();
+      initScrollAnimations();
+      updateCartBadge();
+    },
   };
 
   document.addEventListener('DOMContentLoaded', init);

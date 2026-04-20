@@ -11,3 +11,112 @@
 .page-register [data-password-match='false'] {
   border-color: var(--danger);
 }
+
+.register-paths {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.register-path {
+  display: grid;
+  gap: 0.45rem;
+  text-align: left;
+  padding: 1.15rem 1.2rem;
+  border-radius: var(--radius-xl);
+  border: 1.5px solid rgba(139, 185, 181, 0.24);
+  background: var(--warm-white);
+  color: var(--text-main);
+  box-shadow: var(--shadow-xs);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.register-path strong {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.register-path span:last-child {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.register-path-kicker {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.register-path.active {
+  border-color: rgba(56, 96, 127, 0.34);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.register-path-seller {
+  background: linear-gradient(135deg, rgba(232, 44, 65, 0.08), rgba(241, 179, 67, 0.14));
+}
+
+.register-panel {
+  display: none;
+}
+
+.register-panel.active {
+  display: block;
+}
+
+.register-panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.register-panel-head p {
+  max-width: 320px;
+}
+
+.register-seller-banner {
+  display: grid;
+  gap: 0.4rem;
+  padding: 1rem 1.1rem;
+  margin-bottom: 1.25rem;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, rgba(232, 44, 65, 0.1), rgba(241, 179, 67, 0.16));
+  border: 1px solid rgba(232, 44, 65, 0.18);
+}
+
+.register-seller-banner strong {
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  color: var(--orange);
+}
+
+.register-seller-banner span {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.register-seller-card {
+  background: var(--cream);
+  margin-bottom: 1.25rem;
+}
+
+@media (max-width: 768px) {
+  .register-paths {
+    grid-template-columns: 1fr;
+  }
+
+  .register-panel-head {
+    flex-direction: column;
+  }
+
+  .register-panel-head p {
+    max-width: none;
+  }
+}

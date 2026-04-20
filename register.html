@@ -21,60 +21,180 @@
           <div style="background:linear-gradient(135deg,var(--forest),var(--amber));padding:2rem 2.5rem;color:white">
             <a href="index.html" style="color:rgba(255,255,255,0.75);font-size:0.875rem">Back to home</a>
             <h1 style="font-family:var(--font-display);font-size:2rem;margin:0.75rem 0 0.35rem">Create your account</h1>
-            <p style="color:rgba(255,255,255,0.78)">This registration page is now written directly in HTML and uses JavaScript to store demo users locally.</p>
+            <p style="color:rgba(255,255,255,0.78)">Choose the path that fits you best. Buyers can shop right away, while sellers can open a store and start publishing listings immediately.</p>
           </div>
 
           <div style="padding:2rem 2.5rem">
-            <form id="register-form">
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label" for="register-name">Full name</label>
-                  <input id="register-name" name="full_name" class="form-control" placeholder="Chukwuemeka Obi" required>
+            <div class="register-paths" role="tablist" aria-label="Choose registration type">
+              <button type="button" class="register-path active" data-register-tab-target="buyer" aria-selected="true">
+                <span class="register-path-kicker">Buyer</span>
+                <strong>Create a buyer account</strong>
+                <span>Browse dogs, accessories, and vet services with one account.</span>
+              </button>
+              <button type="button" class="register-path register-path-seller" data-register-tab-target="seller" aria-selected="false">
+                <span class="register-path-kicker">Seller</span>
+                <strong>START SELLING TODAY AND EARN MORE</strong>
+                <span>Open your store, publish dog listings, and sell food or accessories.</span>
+              </button>
+            </div>
+
+            <section class="register-panel active" data-register-panel="buyer">
+              <div class="register-panel-head">
+                <div>
+                  <div class="section-eyebrow">Buyer Signup</div>
+                  <h2 style="font-family:var(--font-display);font-size:1.5rem">Join as a buyer</h2>
                 </div>
-                <div class="form-group">
-                  <label class="form-label" for="register-phone">Phone</label>
-                  <input id="register-phone" type="tel" name="phone" class="form-control" placeholder="08012345678" required>
-                </div>
+                <p class="text-sm text-muted">Best for people who want to browse, shop, save favorites, and request vet help.</p>
               </div>
 
-              <div class="form-group">
-                <label class="form-label" for="register-email">Email</label>
-                <input id="register-email" name="email" type="email" class="form-control" placeholder="your@email.com" required>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label" for="register-state">State</label>
-                <select id="register-state" name="state" class="form-control" required>
-                  <option value="">Select state</option>
-                  <option value="Lagos">Lagos</option>
-                  <option value="Abuja">Abuja</option>
-                  <option value="Enugu">Enugu</option>
-                  <option value="Rivers">Rivers</option>
-                  <option value="Ogun">Ogun</option>
-                </select>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label" for="register-password">Password</label>
-                  <input id="register-password" name="password" type="password" class="form-control" placeholder="Minimum 8 characters" required>
+              <form data-register-form data-register-role="buyer">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="buyer-register-name">Full name</label>
+                    <input id="buyer-register-name" name="full_name" class="form-control" placeholder="Chukwuemeka Obi" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="buyer-register-phone">Phone</label>
+                    <input id="buyer-register-phone" type="tel" name="phone" class="form-control" placeholder="08012345678" required>
+                  </div>
                 </div>
+
                 <div class="form-group">
-                  <label class="form-label" for="register-password2">Confirm password</label>
-                  <input id="register-password2" name="password2" type="password" class="form-control" placeholder="Repeat password" required>
+                  <label class="form-label" for="buyer-register-email">Email</label>
+                  <input id="buyer-register-email" name="email" type="email" class="form-control" placeholder="your@email.com" required>
                 </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="buyer-register-state">State</label>
+                  <select id="buyer-register-state" name="state" class="form-control" required>
+                    <option value="">Select state</option>
+                    <option value="Lagos">Lagos</option>
+                    <option value="Abuja">Abuja</option>
+                    <option value="Enugu">Enugu</option>
+                    <option value="Rivers">Rivers</option>
+                    <option value="Ogun">Ogun</option>
+                  </select>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="buyer-register-password">Password</label>
+                    <input id="buyer-register-password" name="password" type="password" class="form-control" placeholder="Minimum 8 characters" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="buyer-register-password2">Confirm password</label>
+                    <input id="buyer-register-password2" name="password2" type="password" class="form-control" placeholder="Repeat password" required>
+                  </div>
+                </div>
+
+                <label class="checkbox-group" style="margin-bottom:1.25rem">
+                  <input type="checkbox" name="agree_terms" value="1" required>
+                  <label>I agree to the NaijaPaws demo terms and understand that payments should still be routed through admins.</label>
+                </label>
+
+                <button type="submit" class="btn btn-primary btn-block btn-lg">Create Buyer Account</button>
+              </form>
+            </section>
+
+            <section class="register-panel" data-register-panel="seller">
+              <div class="register-panel-head">
+                <div>
+                  <div class="section-eyebrow">Seller Signup</div>
+                  <h2 style="font-family:var(--font-display);font-size:1.5rem">Open your seller account</h2>
+                </div>
+                <p class="text-sm text-muted">Built for breeders, pet stores, and sellers who want to list dogs, food, and accessories professionally.</p>
               </div>
 
-              <label class="checkbox-group" style="margin-bottom:1.25rem">
-                <input type="checkbox" name="agree_terms" value="1" required>
-                <label>I agree to the NaijaPaws demo terms and understand that payments should still be routed through admins.</label>
-              </label>
+              <div class="register-seller-banner">
+                <strong>START SELLING TODAY AND EARN MORE</strong>
+                <span>Set up your storefront now and begin publishing listings as soon as your account is created.</span>
+              </div>
 
-              <button type="submit" class="btn btn-primary btn-block btn-lg">Create Account</button>
-            </form>
+              <form data-register-form data-register-role="seller">
+                <div class="verification-card register-seller-card">
+                  <h3 style="font-family:var(--font-display);font-size:1.15rem;margin-bottom:1rem">Business details</h3>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="seller-register-store-name">Store name</label>
+                      <input id="seller-register-store-name" name="store_name" class="form-control" placeholder="Adeniyi Kennels" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="seller-register-specialty">What will you sell?</label>
+                      <select id="seller-register-specialty" name="seller_specialty" class="form-control" required>
+                        <option value="">Choose one</option>
+                        <option value="dogs">Dogs only</option>
+                        <option value="products">Accessories and food</option>
+                        <option value="both">Dogs and products</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="seller-register-state">State</label>
+                      <select id="seller-register-state" name="state" class="form-control" required>
+                        <option value="">Select state</option>
+                        <option value="Lagos">Lagos</option>
+                        <option value="Abuja">Abuja</option>
+                        <option value="Enugu">Enugu</option>
+                        <option value="Rivers">Rivers</option>
+                        <option value="Ogun">Ogun</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="seller-register-business-city">Business city</label>
+                      <input id="seller-register-business-city" name="business_city" class="form-control" placeholder="Lekki" required>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="seller-register-business-address">Business address</label>
+                    <textarea id="seller-register-business-address" name="business_address" rows="3" class="form-control" placeholder="Street, area, city" required></textarea>
+                  </div>
+                </div>
+
+                <div class="verification-card register-seller-card">
+                  <h3 style="font-family:var(--font-display);font-size:1.15rem;margin-bottom:1rem">Contact details</h3>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="seller-register-name">Contact person</label>
+                      <input id="seller-register-name" name="full_name" class="form-control" placeholder="Chukwuemeka Obi" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="seller-register-phone">Business phone</label>
+                      <input id="seller-register-phone" type="tel" name="phone" class="form-control" placeholder="08012345678" required>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="seller-register-email">Business email</label>
+                    <input id="seller-register-email" name="email" type="email" class="form-control" placeholder="store@email.com" required>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="seller-register-password">Password</label>
+                      <input id="seller-register-password" name="password" type="password" class="form-control" placeholder="Minimum 8 characters" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="seller-register-password2">Confirm password</label>
+                      <input id="seller-register-password2" name="password2" type="password" class="form-control" placeholder="Repeat password" required>
+                    </div>
+                  </div>
+                </div>
+
+                <label class="checkbox-group" style="margin-bottom:1.25rem">
+                  <input type="checkbox" name="agree_terms" value="1" required>
+                  <label>I agree to the NaijaPaws seller terms, platform commission policy, and admin-managed payment rules.</label>
+                </label>
+
+                <button type="submit" class="btn btn-primary btn-block btn-lg">Create Seller Account</button>
+              </form>
+            </section>
 
             <div class="text-sm text-muted" style="text-align:center;margin-top:1.5rem">
               Already registered? <a href="login.html" style="color:var(--forest);font-weight:600">Sign in</a>
+            </div>
+            <div class="text-sm text-muted" style="text-align:center;margin-top:0.75rem">
+              Want to verify an existing account instead? <a href="seller-verification.html" style="color:var(--orange);font-weight:600">Open seller verification</a>
             </div>
           </div>
         </div>

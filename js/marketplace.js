@@ -1,10 +1,71 @@
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('marketplace-filter-form');
-  if (!form) return;
+  const grid = document.querySelector('.page-marketplace .grid-3');
 
-  ['category', 'breed', 'state', 'gender', 'sort'].forEach((name) => {
-    form.elements[name]?.addEventListener('change', () => form.requestSubmit());
-  });
+  const escapeHtml = (value) => String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+
+  const getJson = (key, fallback) => {
+    try {
+      return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback));
+    } catch (error) {
+      return fallback;
+    }
+  };
+
+  const categoryBadgeClass = {
+    sale: 'badge-sale',
+    adoption: 'badge-adoption',
+    mating: 'badge-mating',
+  };
+
+  if (grid) {
+    const sellerDogs = getJson('np_seller_dog_listings', []);
+    if (sellerDogs.length) {
+      grid.insertAdjacentHTML('beforeend', sellerDogs.map((item) => `
+        <article class="listing-card fade-in-up" data-market-card data-category="${escapeHtml(item.category)}" data-breed="${escapeHtml(item.breed)}" data-state="${escapeHtml(item.state)}" data-gender="${escapeHtml(item.gender)}" data-pedigree="${item.isPedigree ? '1' : '0'}" data-search="${escapeHtml(item.search || '')}">
+          <div class="card-image-wrap">
+            <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" loading="lazy" decoding="async">
+            <span class="card-badge ${categoryBadgeClass[item.category] || 'badge-sale'}">${escapeHtml(item.categoryLabel || item.category)}</span>
+            <span class="card-badge badge-featured" style="left:auto;right:0.75rem;top:0.75rem">Seller</span>
+            <button class="card-fav-btn" data-favorite-id="${item.id}" data-favorite-type="dog">&#9825;</button>
+          </div>
+          <div class="card-body">
+            <div class="card-tags">
+              <span class="tag">${escapeHtml(item.breed)}</span>
+              <span class="tag tag-green">${escapeHtml(item.gender)}</span>
+              ${item.isPedigree ? '<span class="tag tag-orange">Pedigree</span>' : ''}
+            </div>
+            <h3 class="card-title">${escapeHtml(item.title)}</h3>
+            <div class="card-meta">
+              <span class="card-meta-item">${escapeHtml(item.state)}</span>
+              <span class="card-meta-item">${escapeHtml(window.NaijaPaws?.formatAge ? window.NaijaPaws.formatAge(item.ageMonths) : `${item.ageMonths} months`)}</span>
+              <span class="card-meta-item">${escapeHtml(item.temperament)}</span>
+            </div>
+            <div class="card-price ${item.category === 'adoption' ? 'free' : ''}">${item.category === 'adoption' ? 'Free Adoption' : `&#8358;${window.NaijaPaws?.formatMoney ? window.NaijaPaws.formatMoney(item.price) : item.price}`}</div>
+            <div class="card-footer">
+              <div class="card-seller"><div class="card-seller-avatar">${escapeHtml(item.sellerInitials || 'NP')}</div><div>${escapeHtml(item.seller)}</div></div>
+              ${item.category === 'adoption'
+                ? '<a href="services.html" class="btn btn-primary btn-sm">Get Advice</a>'
+                : `<button class="btn btn-primary btn-sm" data-add-cart data-id="${item.id}" data-type="dog" data-name="${escapeHtml(item.title)}" data-price="${item.price}" data-image="${escapeHtml(item.image)}" data-seller="${escapeHtml(item.seller)}">Add to Cart</button>`}
+            </div>
+          </div>
+        </article>
+      `).join(''));
+    }
+  }
+
+  window.NaijaPaws?.refreshInteractiveContent?.();
+  if (form) {
+    ['category', 'breed', 'state', 'gender', 'sort'].forEach((name) => {
+      form.elements[name]?.addEventListener('change', () => form.requestSubmit());
+    });
+    form.requestSubmit();
+  }
 
 
   /* ================================================

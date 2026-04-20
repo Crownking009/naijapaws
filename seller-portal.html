@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="./">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NaijaPaws seller hub for managing dog listings and product inventory.">
+  <meta name="theme-color" content="#38607f">
+  <title>NaijaPaws | Seller Hub</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/seller-portal.css">
+</head>
+<body id="seller-portal-page" class="page-seller-portal">
+  <div class="fraud-banner" role="alert">Pay through NaijaPaws-admin-managed channels only. Never pay sellers directly.</div>
+
+  <nav class="navbar" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="nav-logo-text">Naija<span>Paws</span></span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="marketplace.html">Shop Dogs</a></li>
+        <li><a href="products.html">Dog Accessories</a></li>
+        <li><a href="services.html">Vet Services</a></li>
+        <li><a href="seller-portal.html" class="nav-link-active">Seller Hub</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button type="button" class="nav-cart-btn" data-open-cart>Cart <span class="cart-badge" style="display:none"></span></button>
+        <div data-auth-guest>
+          <a href="login.html" class="btn btn-secondary btn-sm">Login</a>
+          <a href="register.html" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+        <div data-auth-user style="display:none;align-items:center;gap:0.75rem">
+          <a href="seller-portal.html" class="btn btn-secondary btn-sm" data-user-link>Seller Hub</a>
+          <button type="button" class="btn btn-sm" style="color:var(--text-muted)" data-logout>Log Out</button>
+        </div>
+        <button type="button" class="nav-mobile-toggle" aria-label="Open menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="nav-mobile" aria-label="Mobile navigation">
+    <div class="nav-mobile-drawer">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem">
+        <span class="nav-logo-text">Naija<span style="color:var(--forest)">Paws</span></span>
+        <button type="button" class="nav-mobile-close" style="font-size:1.5rem;color:var(--text-muted)">x</button>
+      </div>
+      <nav class="nav-mobile-links">
+        <a href="index.html">Home</a>
+        <a href="marketplace.html">Shop Dogs</a>
+        <a href="products.html">Dog Accessories</a>
+        <a href="services.html">Vet Services</a>
+        <a href="seller-portal.html" class="nav-link-active">Seller Hub</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="cart-overlay" aria-label="Shopping cart">
+    <div class="cart-drawer">
+      <div class="cart-header">
+        <span class="display-sm">My Cart</span>
+        <button type="button" class="cart-close" style="font-size:1.5rem;color:var(--text-muted)">x</button>
+      </div>
+      <div class="cart-body"></div>
+      <div class="cart-footer" style="display:none"></div>
+    </div>
+  </div>
+
+  <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <main>
+    <section class="section seller-portal-hero">
+      <div class="container">
+        <div class="section-eyebrow" style="color:var(--sage-light)">Seller Workspace</div>
+        <h1 class="display-lg" style="color:white;margin-bottom:1rem">Manage your dogs, food, and accessories in one place</h1>
+        <p class="seller-portal-intro">
+          Use this hub to publish dog listings, add dog food and accessories, and keep your storefront inventory organized.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div id="seller-portal-gate">
+          <div class="empty-state seller-gate-card">
+            <div class="empty-icon">Lock</div>
+            <div class="empty-title">Login required</div>
+            <div class="empty-desc">Sign in with a seller account to manage listings and inventory.</div>
+            <a href="login.html" class="btn btn-primary">Go To Login</a>
+          </div>
+        </div>
+
+        <div id="seller-portal-upgrade" style="display:none">
+          <div class="empty-state seller-gate-card">
+            <div class="empty-icon">Store</div>
+            <div class="empty-title">Seller account required</div>
+            <div class="empty-desc">This workspace is for sellers. Create a seller account or complete seller verification to start listing dogs and products.</div>
+            <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+              <a href="register.html#seller" class="btn btn-primary">Create Seller Account</a>
+              <a href="seller-verification.html" class="btn btn-secondary">Seller Verification</a>
+            </div>
+          </div>
+        </div>
+
+        <div id="seller-portal-content" style="display:none">
+          <div class="dashboard-header">
+            <div>
+              <div class="section-eyebrow">Store Control</div>
+              <h2 class="display-lg"><span id="seller-store-name">Seller Store</span></h2>
+              <p class="text-muted">Add new listings, manage active inventory, and keep your public storefront fresh.</p>
+            </div>
+            <div style="display:flex;gap:0.75rem;flex-wrap:wrap">
+              <a href="marketplace.html" class="btn btn-secondary">View Dog Marketplace</a>
+              <a href="products.html" class="btn btn-secondary">View Product Store</a>
+              <a href="seller-verification.html" class="btn btn-primary">Seller Profile</a>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card green"><div class="stat-icon green">D</div><div class="stat-num" id="seller-dog-count">0</div><div class="stat-label">Dog Listings</div></div>
+            <div class="stat-card orange"><div class="stat-icon orange">P</div><div class="stat-num" id="seller-product-count">0</div><div class="stat-label">Product Listings</div></div>
+            <div class="stat-card amber"><div class="stat-icon amber">L</div><div class="stat-num" id="seller-live-count">0</div><div class="stat-label">Live Listings</div></div>
+          </div>
+
+          <div class="seller-portal-grid">
+            <div class="seller-form-stack">
+              <article class="verification-card seller-card">
+                <div class="seller-card-head">
+                  <div>
+                    <div class="section-eyebrow">Dogs</div>
+                    <h3 class="display-sm">Publish a dog listing</h3>
+                  </div>
+                  <span class="seller-chip">Sale, adoption, mating</span>
+                </div>
+                <form id="seller-dog-form">
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="seller-dog-title">Listing title</label>
+                      <input id="seller-dog-title" name="title" class="form-control" placeholder="Champion Bloodline Boerboel" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="seller-dog-category">Listing type</label>
+                      <select id="seller-dog-category" name="category" class="form-control" required>
+                        <option value="">Choose one</option>
+                        <option value="sale">Dogs for Sale</option>
+                        <option value="adoption">Adoption</option>
+                        <option value="mating">Mating</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="seller-dog-breed">Breed</label>
+                      <input id="seller-dog-breed" name="breed" class="form-control" placeholder="German Shepherd" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="seller-dog-gender">Gender</label>
+                      <select id="seller-dog-gender" name="gender" class="form-control" required>
+                        <option value="">Choose one</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="seller-dog-age">Age in months</label>
+                      <input id="seller-dog-age" name="age_months" type="number" min="1" class="form-control" placeholder="12" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="seller-dog-price">Price (NGN)</label>
+                      <input id="seller-dog-price" name="price" type="number" min="0" class="form-control" placeholder="350000">
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="seller-dog-state">State</label>
+                      <select id="seller-dog-state" name="state" class="form-control" required>
+                        <option value="">Select state</option>
+                        <option value="Lagos">Lagos</option>
+                        <option value="Abuja">Abuja</option>
+                        <option value="Ogun">Ogun</option>
+                        <option value="Enugu">Enugu</option>
+                        <option value="Rivers">Rivers</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="seller-dog-city">City</label>
+                      <input id="seller-dog-city" name="city" class="form-control" placeholder="Lekki" required>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="seller-dog-temperament">Temperament</label>
+                      <select id="seller-dog-temperament" name="temperament" class="form-control" required>
+                        <option value="">Choose one</option>
+                        <option value="friendly">Friendly</option>
+                        <option value="moderate">Moderate</option>
+                        <option value="alert">Alert</option>
+                        <option value="protective">Protective</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="seller-dog-health">Health status</label>
+                      <input id="seller-dog-health" name="health_status" class="form-control" placeholder="Vaccinated and vet checked" required>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="seller-dog-vaccinated">Vaccinated?</label>
+                      <select id="seller-dog-vaccinated" name="is_vaccinated" class="form-control" required>
+                        <option value="">Choose one</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="seller-dog-pedigree">Pedigree?</label>
+                      <select id="seller-dog-pedigree" name="is_pedigree" class="form-control" required>
+                        <option value="">Choose one</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="seller-dog-image">Cover image URL</label>
+                    <input id="seller-dog-image" name="image" type="url" class="form-control" placeholder="https://images.unsplash.com/..." required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="seller-dog-description">Listing description</label>
+                    <textarea id="seller-dog-description" name="description" rows="4" class="form-control" placeholder="Describe the dog's age, health, behavior, and selling value." required></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block">Publish Dog Listing</button>
+                </form>
+              </article>
+
+              <article class="verification-card seller-card">
+                <div class="seller-card-head">
+                  <div>
+                    <div class="section-eyebrow">Store Products</div>
+                    <h3 class="display-sm">Add food or accessories</h3>
+                  </div>
+                  <span class="seller-chip">Food, supplies, accessories</span>
+                </div>
+                <form id="seller-product-form">
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="seller-product-name">Product name</label>
+                      <input id="seller-product-name" name="name" class="form-control" placeholder="Premium Puppy Starter Meal" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="seller-product-brand">Brand</label>
+                      <input id="seller-product-brand" name="brand" class="form-control" placeholder="Canis Gold" required>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="seller-product-category">Category</label>
+                      <select id="seller-product-category" name="category" class="form-control" required>
+                        <option value="">Choose one</option>
+                        <option value="food">Dog Food</option>
+                        <option value="vitamins">Vitamins</option>
+                        <option value="leash_collars">Leash and Collars</option>
+                        <option value="tick_flea">Tick and Flea</option>
+                        <option value="grooming">Grooming</option>
+                        <option value="beds_cages">Beds and Cages</option>
+                        <option value="medical_cards">Medical Cards</option>
+                        <option value="bowls_feeders">Bowls and Feeders</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="seller-product-stock">Stock quantity</label>
+                      <input id="seller-product-stock" name="stock" type="number" min="0" class="form-control" placeholder="20" required>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="seller-product-price">Selling price (NGN)</label>
+                      <input id="seller-product-price" name="price" type="number" min="1" class="form-control" placeholder="32000" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="seller-product-compare-price">Compare price (optional)</label>
+                      <input id="seller-product-compare-price" name="compare_price" type="number" min="0" class="form-control" placeholder="38000">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="seller-product-image">Product image URL</label>
+                    <input id="seller-product-image" name="image" type="url" class="form-control" placeholder="https://images.unsplash.com/..." required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="seller-product-description">Product description</label>
+                    <textarea id="seller-product-description" name="description" rows="4" class="form-control" placeholder="Describe the product, ingredients, breed suitability, or usage instructions." required></textarea>
+                  </div>
+                  <label class="checkbox-group" style="margin-bottom:1.25rem">
+                    <input type="checkbox" name="is_featured" value="1">
+                    <label>Mark this product as featured</label>
+                  </label>
+                  <button type="submit" class="btn btn-primary btn-block">Save Product Listing</button>
+                </form>
+              </article>
+            </div>
+
+            <aside class="seller-side-stack">
+              <article class="verification-card seller-card">
+                <div class="seller-card-head">
+                  <div>
+                    <div class="section-eyebrow">Active Inventory</div>
+                    <h3 class="display-sm">Your dog listings</h3>
+                  </div>
+                </div>
+                <div id="seller-dog-list" class="seller-inventory-list"></div>
+              </article>
+
+              <article class="verification-card seller-card">
+                <div class="seller-card-head">
+                  <div>
+                    <div class="section-eyebrow">Store Inventory</div>
+                    <h3 class="display-sm">Your product listings</h3>
+                  </div>
+                </div>
+                <div id="seller-product-list" class="seller-inventory-list"></div>
+              </article>
+
+              <article class="verification-card seller-card">
+                <div class="seller-card-head">
+                  <div>
+                    <div class="section-eyebrow">Best Practice</div>
+                    <h3 class="display-sm">What strong listings include</h3>
+                  </div>
+                </div>
+                <div class="verification-step"><div class="step-num">1</div><div><div class="font-semibold">Clear pricing</div><div class="text-sm text-muted">Use realistic prices and mention if adoption is free.</div></div></div>
+                <div class="verification-step"><div class="step-num">2</div><div><div class="font-semibold">Strong photos</div><div class="text-sm text-muted">Use a direct cover image URL for a clean storefront card.</div></div></div>
+                <div class="verification-step"><div class="step-num">3</div><div><div class="font-semibold">Health details</div><div class="text-sm text-muted">Mention vaccines, pedigree, temperament, and stock availability.</div></div></div>
+              </article>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo-text">Naija<span>Paws</span></div>
+          <p class="footer-desc">Seller Hub gives approved and self-registered sellers one place to manage dogs, dog food, and accessories.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Seller Tools</div>
+          <ul class="footer-links">
+            <li><a href="seller-portal.html">Seller Hub</a></li>
+            <li><a href="seller-verification.html">Seller Verification</a></li>
+            <li><a href="dashboard.html">Buyer Dashboard</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Storefront</div>
+          <ul class="footer-links">
+            <li><a href="marketplace.html">Dog Marketplace</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="services.html">Vet Services</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Account</div>
+          <ul class="footer-links">
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2026 NaijaPaws.</div>
+        <div>Seller Hub page in full HTML, CSS, and JS.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/site-data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/seller-portal.js"></script>
+</body>
+</html>
