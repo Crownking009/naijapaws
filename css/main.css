@@ -1939,7 +1939,7 @@ main, section, footer { max-width: 100%; }
 }
 
 .auth-panel-left {
-  background: linear-gradient(160deg, var(--forest) 0%, var(--sage) 58%, var(--amber) 100%);
+  background-color: var(--forest);
   color: white;
   position: relative;
   overflow: hidden;
