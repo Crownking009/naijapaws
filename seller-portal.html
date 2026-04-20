@@ -284,8 +284,10 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="form-label" for="seller-product-image">Product image URL</label>
-                    <input id="seller-product-image" name="image" type="url" class="form-control" placeholder="https://images.unsplash.com/..." required>
+                    <label class="form-label" for="seller-product-images">Product images</label>
+                    <input id="seller-product-images" name="images" type="file" class="form-control" accept="image/*" multiple required>
+                    <div class="seller-upload-help">Choose at least 2 images from your phone or computer. The first image becomes the cover photo.</div>
+                    <div id="seller-product-image-preview" class="seller-upload-preview" aria-live="polite"></div>
                   </div>
                   <div class="form-group">
                     <label class="form-label" for="seller-product-description">Product description</label>
@@ -329,7 +331,7 @@
                   </div>
                 </div>
                 <div class="verification-step"><div class="step-num">1</div><div><div class="font-semibold">Clear pricing</div><div class="text-sm text-muted">Use realistic prices and mention if adoption is free.</div></div></div>
-                <div class="verification-step"><div class="step-num">2</div><div><div class="font-semibold">Strong photos</div><div class="text-sm text-muted">Use a direct cover image URL for a clean storefront card.</div></div></div>
+                <div class="verification-step"><div class="step-num">2</div><div><div class="font-semibold">Strong photos</div><div class="text-sm text-muted">Upload at least 2 clear product photos from your device so buyers can trust what they see.</div></div></div>
                 <div class="verification-step"><div class="step-num">3</div><div><div class="font-semibold">Health details</div><div class="text-sm text-muted">Mention vaccines, pedigree, temperament, and stock availability.</div></div></div>
               </article>
             </aside>
@@ -372,7 +374,7 @@
       </div>
       <div class="footer-bottom">
         <div>&copy; 2026 NaijaPaws.</div>
-        <div>Seller Hub page in full HTML, CSS, and JS.</div>
+        <div>Seller tools and inventory management</div>
       </div>
     </div>
   </footer>

@@ -1,6 +1,6 @@
 window.NaijaPawsData = {
   admin: {
-    whatsapp: "2348012345678",
+    whatsapp: "2349048239391",
     email: "hello@naijapaws.com",
   },
   demoUsers: [
@@ -435,15 +435,15 @@ window.NaijaPawsData = {
   faq: [
     {
       question: "How do payments work?",
-      answer: "The frontend keeps the original safety policy: buyers should pay through NaijaPaws-admin-managed channels, not directly to sellers.",
+      answer: "Buyers should pay through NaijaPaws-admin-managed channels, not directly to sellers.",
     },
     {
-      question: "Can I still use the backend later?",
-      answer: "Yes. This frontend is now standalone HTML, CSS, and JavaScript, so API wiring can be added later without changing the page structure again.",
+      question: "How do sellers manage listings?",
+      answer: "Sellers can manage dogs, products, and store activity from the Seller Hub after verification.",
     },
     {
-      question: "Are seller applications live?",
-      answer: "In this frontend conversion they are stored locally in the browser to preserve the interaction flow until a backend endpoint is connected.",
+      question: "What happens after seller verification?",
+      answer: "Once approved, sellers can move into the Seller Hub to publish listings and manage inventory.",
     },
   ],
 };

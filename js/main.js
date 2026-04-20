@@ -18,6 +18,11 @@
     cart: [],
   };
 
+  const SELLER_PRODUCT_MIN_IMAGES = 2;
+  const SELLER_PRODUCT_MAX_IMAGES = 6;
+  const SELLER_IMAGE_MAX_DIMENSION = 1280;
+  const SELLER_IMAGE_QUALITY = 0.82;
+
   function getJson(key, fallback) {
     try {
       return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback));
@@ -108,6 +113,65 @@
 
   function setFavorites(favorites) {
     setJson(STORAGE.favorites, favorites);
+  }
+
+  function getProductImageArray(item) {
+    if (Array.isArray(item?.images) && item.images.length) {
+      return item.images.filter(Boolean);
+    }
+    return item?.image ? [item.image] : [];
+  }
+
+  function readFileAsDataUrl(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result || ''));
+      reader.onerror = () => reject(new Error(`Could not read ${file?.name || 'image file'}.`));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function loadImage(source) {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.onload = () => resolve(image);
+      image.onerror = () => reject(new Error('Could not load selected image.'));
+      image.src = source;
+    });
+  }
+
+  async function compressImageFile(file) {
+    if (!file || !String(file.type || '').startsWith('image/')) {
+      throw new Error('Only image files can be uploaded.');
+    }
+
+    const source = await readFileAsDataUrl(file);
+    const image = await loadImage(source);
+    const width = image.naturalWidth || image.width || 1;
+    const height = image.naturalHeight || image.height || 1;
+    const scale = Math.min(1, SELLER_IMAGE_MAX_DIMENSION / Math.max(width, height));
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.max(1, Math.round(width * scale));
+    canvas.height = Math.max(1, Math.round(height * scale));
+
+    const context = canvas.getContext('2d');
+    if (!context) {
+      return source;
+    }
+
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+    let output = canvas.toDataURL('image/webp', SELLER_IMAGE_QUALITY);
+    if (!output.startsWith('data:image/webp')) {
+      output = canvas.toDataURL('image/jpeg', SELLER_IMAGE_QUALITY);
+    }
+
+    return output;
+  }
+
+  async function prepareProductImages(files) {
+    const images = await Promise.all(Array.from(files || []).map((file) => compressImageFile(file)));
+    return images.filter(Boolean);
   }
 
   function showToast(message, type = 'info') {
@@ -890,6 +954,47 @@
     const productForm = document.getElementById('seller-product-form');
     const dogList = document.getElementById('seller-dog-list');
     const productList = document.getElementById('seller-product-list');
+    const productImageInput = document.getElementById('seller-product-images');
+    const productImagePreview = document.getElementById('seller-product-image-preview');
+    let productPreviewUrls = [];
+
+    const clearProductPreviewUrls = () => {
+      productPreviewUrls.forEach((url) => URL.revokeObjectURL(url));
+      productPreviewUrls = [];
+    };
+
+    const renderProductImagePreview = (files) => {
+      if (!productImagePreview) return;
+
+      clearProductPreviewUrls();
+
+      const selectedFiles = Array.from(files || []);
+      if (!selectedFiles.length) {
+        productImagePreview.classList.add('is-empty');
+        productImagePreview.innerHTML = `
+          <div class="seller-upload-preview-empty">
+            No product images selected yet. Add at least ${SELLER_PRODUCT_MIN_IMAGES} clear photos.
+          </div>
+        `;
+        return;
+      }
+
+      productPreviewUrls = selectedFiles.map((file) => URL.createObjectURL(file));
+      productImagePreview.classList.remove('is-empty');
+      productImagePreview.innerHTML = productPreviewUrls.map((url, index) => `
+        <div class="seller-upload-preview-card">
+          <img src="${url}" alt="Selected product image ${index + 1}">
+          <span class="seller-upload-preview-badge">${index === 0 ? 'Cover' : `Image ${index + 1}`}</span>
+        </div>
+      `).join('');
+
+      productImagePreview.querySelectorAll('img').forEach((image, index) => {
+        image.addEventListener('load', () => {
+          const url = productPreviewUrls[index];
+          if (url) URL.revokeObjectURL(url);
+        }, { once: true });
+      });
+    };
 
     const renderPortal = () => {
       const dogs = getJson(STORAGE.sellerDogs, []).filter((item) => item.sellerEmail === state.user.email);
@@ -927,7 +1032,7 @@
             <div class="step-num">${escapeHtml(initialsFromName(item.brand || item.name))}</div>
             <div style="flex:1;min-width:0">
               <div class="font-semibold">${escapeHtml(item.name)}</div>
-              <div class="text-sm text-muted">${escapeHtml(item.categoryLabel)} • Stock ${escapeHtml(item.stock)}</div>
+              <div class="text-sm text-muted">${escapeHtml(item.categoryLabel)} • Stock ${escapeHtml(item.stock)} • ${getProductImageArray(item).length} image${getProductImageArray(item).length === 1 ? '' : 's'}</div>
               <div class="text-sm text-muted">NGN ${formatMoney(item.price)}</div>
             </div>
             <button type="button" class="btn btn-secondary btn-sm" data-delete-seller-item="product" data-delete-id="${item.id}">Delete</button>
@@ -949,6 +1054,14 @@
         });
       });
     };
+
+    if (productImageInput && productImageInput.dataset.bound !== '1') {
+      productImageInput.dataset.bound = '1';
+      renderProductImagePreview(productImageInput.files);
+      productImageInput.addEventListener('change', () => {
+        renderProductImagePreview(productImageInput.files);
+      });
+    }
 
     if (dogForm && dogForm.dataset.bound !== '1') {
       dogForm.dataset.bound = '1';
@@ -1007,12 +1120,14 @@
 
     if (productForm && productForm.dataset.bound !== '1') {
       productForm.dataset.bound = '1';
-      productForm.addEventListener('submit', (event) => {
+      productForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         const values = Object.fromEntries(new FormData(productForm).entries());
+        const imageFiles = Array.from(productImageInput?.files || []);
+        const submitButton = productForm.querySelector('button[type="submit"]');
         if (
           !values.name || !values.category || !values.brand ||
-          !values.stock || !values.price || !values.image || !values.description
+          !values.stock || !values.price || !values.description
         ) {
           showToast('Please complete all product listing fields.', 'warning');
           return;
@@ -1020,6 +1135,46 @@
 
         if (Number(values.price) <= 0 || Number(values.stock) < 0) {
           showToast('Enter a valid product price and stock quantity.', 'warning');
+          return;
+        }
+
+        if (imageFiles.length < SELLER_PRODUCT_MIN_IMAGES) {
+          showToast(`Add at least ${SELLER_PRODUCT_MIN_IMAGES} product images from your device.`, 'warning');
+          return;
+        }
+
+        if (imageFiles.length > SELLER_PRODUCT_MAX_IMAGES) {
+          showToast(`You can upload up to ${SELLER_PRODUCT_MAX_IMAGES} product images per listing.`, 'warning');
+          return;
+        }
+
+        if (imageFiles.some((file) => !String(file.type || '').startsWith('image/'))) {
+          showToast('Only image files are allowed for product uploads.', 'warning');
+          return;
+        }
+
+        const originalButtonText = submitButton?.textContent || '';
+        submitButton?.setAttribute('disabled', 'disabled');
+        if (submitButton) submitButton.textContent = 'Processing Images...';
+
+        let storedImages = [];
+        try {
+          storedImages = await prepareProductImages(imageFiles);
+        } catch (error) {
+          if (submitButton) {
+            submitButton.textContent = originalButtonText;
+            submitButton.removeAttribute('disabled');
+          }
+          showToast(error?.message || 'Could not process the selected images.', 'error');
+          return;
+        }
+
+        if (storedImages.length < SELLER_PRODUCT_MIN_IMAGES) {
+          if (submitButton) {
+            submitButton.textContent = originalButtonText;
+            submitButton.removeAttribute('disabled');
+          }
+          showToast(`At least ${SELLER_PRODUCT_MIN_IMAGES} valid product images are required.`, 'warning');
           return;
         }
 
@@ -1036,7 +1191,8 @@
           stock: Number(values.stock),
           price: Number(values.price),
           comparePrice: Number(values.compare_price || 0),
-          image: values.image,
+          image: storedImages[0],
+          images: storedImages,
           description: values.description,
           isFeatured: values.is_featured === '1',
           search: [
@@ -1047,10 +1203,26 @@
           ].join(' ').toLowerCase(),
           createdAt: new Date().toISOString(),
         });
-        setJson(STORAGE.sellerProducts, products);
+
+        try {
+          setJson(STORAGE.sellerProducts, products);
+        } catch (error) {
+          if (submitButton) {
+            submitButton.textContent = originalButtonText;
+            submitButton.removeAttribute('disabled');
+          }
+          showToast('These images are too large to save right now. Try fewer or smaller photos.', 'error');
+          return;
+        }
+
         productForm.reset();
+        renderProductImagePreview([]);
+        if (submitButton) {
+          submitButton.textContent = originalButtonText;
+          submitButton.removeAttribute('disabled');
+        }
         renderPortal();
-        showToast('Product listing saved to your seller hub.', 'success');
+        showToast('Product listing saved with local device images.', 'success');
       });
     }
 
@@ -1181,7 +1353,7 @@
         <div class="font-semibold" style="font-size:0.9rem">${escapeHtml(request.full_name)} • ${escapeHtml(request.state)}</div>
         <div class="text-xs text-muted" style="margin-top:0.25rem">${escapeHtml(request.urgency)} priority</div>
       </div>
-    `).join('') : '<p class="text-sm text-muted">No vet requests submitted on this browser yet.</p>';
+    `).join('') : '<p class="text-sm text-muted">No vet requests submitted yet.</p>';
   }
 
   function initPhoneSanitizer() {

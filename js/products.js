@@ -17,13 +17,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  const getProductImages = (item) => {
+    if (Array.isArray(item?.images) && item.images.length) {
+      return item.images.filter(Boolean);
+    }
+    return item?.image ? [item.image] : [];
+  };
+
   if (grid) {
     const sellerProducts = getJson('np_seller_product_listings', []);
     if (sellerProducts.length) {
       grid.insertAdjacentHTML('beforeend', sellerProducts.map((item) => `
         <article class="product-card fade-in-up" data-product-card data-category="${escapeHtml(item.category)}" data-search="${escapeHtml(item.search || '')}">
           <div class="card-image-wrap">
-            <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.name)}" loading="lazy" decoding="async">
+            <img src="${escapeHtml(getProductImages(item)[0] || '')}" alt="${escapeHtml(item.name)}" loading="lazy" decoding="async">
             ${item.isFeatured ? '<span class="card-badge badge-featured">Featured</span>' : ''}
             ${item.comparePrice > item.price ? `<span class="product-discount">-${Math.max(1, Math.round(((item.comparePrice - item.price) / item.comparePrice) * 100))}%</span>` : ''}
             <button class="card-fav-btn" data-favorite-id="${item.id}" data-favorite-type="product">&#9825;</button>
@@ -38,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <p class="text-sm text-muted" style="margin-bottom:0.875rem">${escapeHtml(item.description)}</p>
             <div class="card-footer">
               <div class="card-seller"><div class="card-seller-avatar">${escapeHtml(item.sellerInitials || 'NP')}</div><div>${escapeHtml(item.seller)}</div></div>
-              <button class="btn btn-primary btn-sm" data-add-cart data-id="${item.id}" data-type="product" data-name="${escapeHtml(item.name)}" data-price="${item.price}" data-image="${escapeHtml(item.image)}" data-seller="${escapeHtml(item.seller)}">Add to Cart</button>
+              <button class="btn btn-primary btn-sm" data-add-cart data-id="${item.id}" data-type="product" data-name="${escapeHtml(item.name)}" data-price="${item.price}" data-image="${escapeHtml(getProductImages(item)[0] || '')}" data-seller="${escapeHtml(item.seller)}">Add to Cart</button>
             </div>
           </div>
         </article>

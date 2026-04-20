@@ -257,6 +257,7 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 18px;
   align-items: stretch;
+  overflow: visible;
 }
 
 .pup-hero__card {
@@ -348,6 +349,26 @@
   transform: scale(1.04);
 }
 
+@keyframes pupMobileCardFloat {
+  0%, 100% {
+    transform: translateY(0);
+    box-shadow: 0 18px 34px rgba(22, 22, 22, 0.14);
+  }
+  50% {
+    transform: translateY(-8px);
+    box-shadow: 0 24px 40px rgba(22, 22, 22, 0.2);
+  }
+}
+
+@keyframes pupMobileImageBob {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-6px) scale(1.04);
+  }
+}
+
 /* Arrow btn (sell pill) */
 .pup-hero__arrow-btn {
   width: 36px;
@@ -421,40 +442,84 @@
     text-align: center;
   }
 
+  .pup-hero__popular {
+    overflow: visible;
+  }
+
+  .pup-hero__popular-header {
+    margin-bottom: 0.85rem;
+  }
+
   .pup-hero__cards {
-    grid-template-columns: 1fr;
-    gap: 14px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    padding-top: 3.5rem;
+    overflow: visible;
   }
 
   .pup-hero__card {
-    min-height: 260px;
-    padding: 12px 12px 0;
+    min-height: 102px;
+    padding: 3.7rem 0.55rem 0.48rem;
     border-radius: 18px;
+    justify-content: flex-end;
+    overflow: visible;
+    transform-origin: center bottom;
   }
 
   .pup-hero__card-name {
-    font-size: 0.8rem;
-    max-width: calc(100% - 2.8rem);
+    font-size: 0.72rem;
+    line-height: 1.15;
+    max-width: 100%;
+    text-align: center;
   }
 
   .pup-hero__card-arrow {
-    top: 12px;
-    right: 12px;
-    width: 30px;
-    height: 30px;
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .pup-hero__card-arrow svg {
+    width: 11px;
+    height: 11px;
   }
 
   .pup-hero__card-img {
-    height: 180px;
-    width: calc(100% + 24px);
-    margin-left: -12px;
-    margin-right: -12px;
-    border-radius: 0 0 18px 18px;
+    position: absolute;
+    top: -2.9rem;
+    left: 50%;
+    width: 118%;
+    height: 98px;
+    margin: 0;
+    border-radius: 0;
+    object-fit: contain;
+    object-position: center bottom;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.22));
+    pointer-events: none;
+  }
+
+  .pup-hero__card.is-revealed {
+    animation: pupMobileCardFloat 3.8s ease-in-out infinite;
+    animation-delay: calc(var(--pup-card-delay, 0s) + 0.45s);
+  }
+
+  .pup-hero__card.is-revealed .pup-hero__card-img {
+    animation: pupMobileImageBob 3.8s ease-in-out infinite;
+    animation-delay: calc(var(--pup-card-delay, 0s) + 0.55s);
   }
 
   .pup-hero__sell-pill {
     padding: 10px 16px;
     border-radius: 22px;
     gap: 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pup-hero__card.is-revealed,
+  .pup-hero__card.is-revealed .pup-hero__card-img {
+    animation: none !important;
   }
 }

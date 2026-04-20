@@ -35,8 +35,13 @@
   const cards = document.querySelectorAll('.pup-hero__card');
 
   function revealCard(card) {
+    if (card.dataset.revealed === 'true') return;
+    card.dataset.revealed = 'true';
     card.style.opacity = '1';
     card.style.transform = 'translateY(0)';
+    window.setTimeout(() => {
+      card.classList.add('is-revealed');
+    }, 420);
   }
 
   const cardObserver = 'IntersectionObserver' in window
@@ -53,10 +58,12 @@
       )
     : null;
 
-  cards.forEach((card) => {
+  cards.forEach((card, index) => {
     card.style.opacity = '0';
     card.style.transform = 'translateY(30px)';
-    card.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+    card.style.transition = 'opacity 0.55s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1)';
+    card.style.transitionDelay = `${index * 0.12}s`;
+    card.style.setProperty('--pup-card-delay', `${index * 0.12}s`);
     if (cardObserver) {
       cardObserver.observe(card);
     } else {

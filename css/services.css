@@ -1,5 +1,5 @@
 .page-services #recent-vet-requests:empty::before {
-  content: 'No vet requests submitted on this browser yet.';
+  content: 'No vet requests submitted yet.';
   color: var(--text-muted);
   font-size: 0.875rem;
 }
